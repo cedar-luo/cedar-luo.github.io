@@ -152,6 +152,217 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-gcc编译器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/17/gcc编译器/">gcc编译器/c</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/17/gcc编译器/" class="archive-article-date">
+  	<time datetime="2019-07-17T01:43:46.647Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="gcc编译器的编译过程"><a href="#gcc编译器的编译过程" class="headerlink" title="gcc编译器的编译过程"></a>gcc编译器的编译过程</h1><p>  嵌入式开发四步骤：</p>
+<blockquote>
+<p>编写工程<br>编译工程<br>移植工程<br>测试工程</p>
+</blockquote>
+<h2 id="1-编写工程"><a href="#1-编写工程" class="headerlink" title="1.编写工程"></a>1.编写工程</h2><h3 id="编写软件-vi-gedit-notepad"><a href="#编写软件-vi-gedit-notepad" class="headerlink" title="编写软件 vi gedit notepad++"></a>编写软件 vi gedit notepad++</h3><h3 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h3><pre><code>新建文件
+右击新文件----》另存为------&gt;共享文件
+编写代码
+   #include &lt;stdio.h&gt;
+
+   int main(int argc,char *argv[])
+   {
+       printf(&quot;helloworld!&quot;);
+       return 0;
+   }</code></pre><h2 id="2-编译工程"><a href="#2-编译工程" class="headerlink" title="2.编译工程"></a>2.编译工程</h2><p>  gcc编译器很多的参数<br>  预处理           -E      .c只工作到预处理极端<br>  编译             -S<br>  汇编             -c<br>  指定输出二进制    -o</p>
+<h3 id="源文件：-hello-c-目标文件（二进制）-hello"><a href="#源文件：-hello-c-目标文件（二进制）-hello" class="headerlink" title="源文件：  hello.c  目标文件（二进制） hello"></a>源文件：  hello.c  目标文件（二进制） hello</h3><h4 id="1-预处理—》处理头文件、宏定义展开、屏蔽注释"><a href="#1-预处理—》处理头文件、宏定义展开、屏蔽注释" class="headerlink" title="1.预处理—》处理头文件、宏定义展开、屏蔽注释"></a>1.预处理—》处理头文件、宏定义展开、屏蔽注释</h4><pre><code>gcc  -E hello.c -o hello.i</code></pre><h4 id="2-编译—》程序C语言-c转化为二进制文件-s"><a href="#2-编译—》程序C语言-c转化为二进制文件-s" class="headerlink" title="2.编译—》程序C语言.c转化为二进制文件.s"></a>2.编译—》程序C语言.c转化为二进制文件.s</h4><pre><code>gcc  -S hello.i -o hello.s</code></pre><h4 id="3-汇编—》把地址按照规律重新排列"><a href="#3-汇编—》把地址按照规律重新排列" class="headerlink" title="3.汇编—》把地址按照规律重新排列"></a>3.汇编—》把地址按照规律重新排列</h4><pre><code>gcc  -c hello.s -o hello.o</code></pre><h4 id="4-链接—》链接到我们的库文件"><a href="#4-链接—》链接到我们的库文件" class="headerlink" title="4.链接—》链接到我们的库文件"></a>4.链接—》链接到我们的库文件</h4><pre><code>gcc   hello.o -o hello</code></pre><h4 id="5-本地测试"><a href="#5-本地测试" class="headerlink" title="5.本地测试"></a>5.本地测试</h4><pre><code>&gt; ./hello   .当前目录
+直接将原文件.c编译成目标文件
+&gt; 1.gcc hello.c   生成可执行文件hello
+
+&gt; 2.gcc hello.c -o hello 生成可执行文件 hello
+
+&gt; 3.gcc -o hello hello.c 生成可执行文件 hello</code></pre><hr>
+<h1 id="C语言介绍"><a href="#C语言介绍" class="headerlink" title="C语言介绍"></a>C语言介绍</h1><h1 id="Linux标准c"><a href="#Linux标准c" class="headerlink" title="Linux标准c"></a>Linux标准c</h1><h2 id="1-Linux系统是多任务的操作系统，需要知道各任务执行的返回结果，所以需要返回值！"><a href="#1-Linux系统是多任务的操作系统，需要知道各任务执行的返回结果，所以需要返回值！" class="headerlink" title="1.Linux系统是多任务的操作系统，需要知道各任务执行的返回结果，所以需要返回值！"></a>1.Linux系统是多任务的操作系统，需要知道各任务执行的返回结果，所以需要返回值！</h2><pre><code>#include &lt;stdio.h&gt;
+
+    int main(int argc,char *argv[])---》int返回值的类型
+    {
+        //输出语句helloworld
+        printf(&quot;helloworld!\n&quot;);
+        return 0; ----》返回值 返回结果
+                  ----》成功执行 返回值为0
+                        执行失败 返回值为负数
+    }</code></pre><hr>
+<p> C语言主函数参数，main可以带形参，可以传递参数<br>        main()<br>        main(void)<br>        int main()<br>        int main(void)<br>        int main(int argc,char *<em>argv)<br>        int main(int argc,const char *</em>argv)<br>        int main(int argc,char *argv[])<br>        argc: 指示你当前命令行传入参数的个数  count<br>        argv: 指示你当前命令行传入参数的内容  value<br>              并且argv[0]是你的执行文件对象</p>
+<hr>
+<p>程序中所包含的库函数均要声明或者自己定义—》需要包含对应的头文件</p>
+<pre><code>    printf(&quot;helloworld!\n&quot;);
+    查询printf
+    #include &lt;stdio.h&gt;//标准输入输出头文件
+    函数原型：
+    int printf(const char *format, ...);//变参函数
+    参数：const char *format  输出字符串，提示语句
+            ...               输出对象
+学习任何函数，只要知道其函数原型以及参数还有头文件就可以了</code></pre><h2 id="2-注释-适当的注释有利于之后回来翻看代码"><a href="#2-注释-适当的注释有利于之后回来翻看代码" class="headerlink" title="2.注释 适当的注释有利于之后回来翻看代码"></a>2.注释 适当的注释有利于之后回来翻看代码</h2><pre><code>行注释   //
+
+区域注释 /* ... */</code></pre><h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><hr>
+<p>程序=数据结构+算法</p>
+<p>  数据结构：数据的封装–》数据类型—》量程—》定义数据存储空间<br>  算法    ：数据之间的逻辑关系</p>
+<h2 id="变量在数据里面的存储空间—》内存"><a href="#变量在数据里面的存储空间—》内存" class="headerlink" title="变量在数据里面的存储空间—》内存"></a>变量在数据里面的存储空间—》内存</h2><p>  内存理解：</p>
+<blockquote>
+<p>程序在执行的时候一定是在内存中<br>程序在分配内存时，一定是连续分配<br>程序在分配空间的时候不确定位置</p>
+</blockquote>
+<h2 id="变量的类型"><a href="#变量的类型" class="headerlink" title="变量的类型"></a>变量的类型</h2><table>
+<thead>
+<tr>
+<th align="center">变量类型</th>
+<th align="center">具体类型</th>
+<th align="center">变量表示</th>
+<th align="center">字节大小</th>
+<th align="center">打印格式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">整形</td>
+<td align="center">短整型</td>
+<td align="center">short</td>
+<td align="center">2</td>
+<td align="center">%d</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">整型</td>
+<td align="center">int</td>
+<td align="center">4</td>
+<td align="center">%d</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">长整型</td>
+<td align="center">long</td>
+<td align="center">4</td>
+<td align="center">%ld</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">长长整型</td>
+<td align="center">long long</td>
+<td align="center">8</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">字符型</td>
+<td align="center"></td>
+<td align="center">char</td>
+<td align="center">1</td>
+<td align="center">%c/%s</td>
+</tr>
+<tr>
+<td align="center">浮点型</td>
+<td align="center">单精度</td>
+<td align="center">float</td>
+<td align="center">4</td>
+<td align="center">%f</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">双精度</td>
+<td align="center">double</td>
+<td align="center">8</td>
+<td align="center">%lf</td>
+</tr>
+</tbody></table>
+<pre><code>使用函数sizeof计算空间大小    </code></pre><h3 id="打印格式："><a href="#打印格式：" class="headerlink" title="打印格式："></a>打印格式：</h3><pre><code>整型     %d
+字符型   %c
+字符串型 %s     
+浮点型   单精度 %f
+         双精度 %lf
+长整型   %ld         </code></pre><h2 id="变量的定义"><a href="#变量的定义" class="headerlink" title="变量的定义"></a>变量的定义</h2><p>定义标准：数据类型   变量名   —》申请该类型对应的空间 由当前变量直接访问<br>变量名：  变量名由数字、子母、下划线组成，而且开头由字母和下划线；</p>
+<p>比如：int A；—》申请int类型的数据空间4字节，由当前变量A直接访问该存储空间的数据</p>
+<h2 id="变量的赋值"><a href="#变量的赋值" class="headerlink" title="变量的赋值"></a>变量的赋值</h2><h3 id="1-左值和右值的数据类型一定要匹配"><a href="#1-左值和右值的数据类型一定要匹配" class="headerlink" title="1.左值和右值的数据类型一定要匹配"></a>1.左值和右值的数据类型一定要匹配</h3><h3 id="2-将右值赋值给左值-区分"><a href="#2-将右值赋值给左值-区分" class="headerlink" title="2.将右值赋值给左值 区分 =  =="></a>2.将右值赋值给左值 区分 =  ==</h3><pre><code>int a  = 100;
+   左值  右值
+    a == 100；  a是否等于100？</code></pre><h2 id="变量的生命周期和作用域"><a href="#变量的生命周期和作用域" class="headerlink" title="变量的生命周期和作用域"></a>变量的生命周期和作用域</h2><pre><code>定义位置----》决定了生命周期</code></pre><h3 id="局部变量"><a href="#局部变量" class="headerlink" title="局部变量"></a>局部变量</h3><pre><code>定义    ：在函数内部定义的变量
+生命周期：运行的时候才分配空间
+作用域  ：只能在函数内部使用
+赋值    ：如果局部变量一开未赋值，编译的时候会随机产生一个数赋值---》未知</code></pre><h3 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h3><pre><code>定义    ：在所有函数之外定义的变量
+生命周期：gcc编译的时候就已经分配空间
+作用域  ：所有的函数都可以访问
+赋值    ：如果全局变量一开始为赋值，自动赋值为0；</code></pre><ul>
+<li>关于局部变量和全局变量，你还需要知道？<ul>
+<li>1.如果全局变量和局部变量同名，那么全局变量的作用域无效。</li>
+<li>2.主函数和其他函数之间的平行关系。</li>
+<li>3.在不同的函数中能够使用相同的变量名。</li>
+<li>4.全局变量的作用域是只能往下不能往上，<br>如果你全局变量是先使用在定义,gcc编译就出现错误<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">test.c: In function ‘main’:</span><br><span class="line">      test.c:8:21: error: ‘a’ undeclared (first use in this function)</span><br><span class="line">      test.c:8:21: note: each undeclared identifier is reported only once for each function it appears in</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h1><hr>
+<h2 id="算术运算符-–"><a href="#算术运算符-–" class="headerlink" title="算术运算符  + - * / %    ++ –"></a>算术运算符  + - * / %    ++ –</h2><ul>
+<li><p>双目运算(两个操作数)：+ - * / %<br>比如： a+b </p>
+</li>
+<li><p>单目运算(一个操作数)：++ –<br>比如： a++  ++a</p>
+</li>
+</ul>
+<h2 id="关系运算符-gt-lt-gt-lt"><a href="#关系运算符-gt-lt-gt-lt" class="headerlink" title="关系运算符  &gt; &lt; &gt;= &lt;= == !="></a>关系运算符  &gt; &lt; &gt;= &lt;= == !=</h2><pre><code>主要是和判断语句使用</code></pre><h2 id="逻辑运算符-amp-amp"><a href="#逻辑运算符-amp-amp" class="headerlink" title="逻辑运算符 &amp;&amp; || !"></a>逻辑运算符 &amp;&amp; || !</h2><pre><code>主要是和判断语句使用
+
+&amp;&amp; 逻辑与：两个条件都要成立
+
+|| 逻辑或：其中一个条件成立就可以使用
+
+！ 非     </code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/17/gcc编译器/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-嵌入式Linux环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
