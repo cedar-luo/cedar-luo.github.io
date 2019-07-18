@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019/7 | 爱京京</title>
+  <title>c | 爱京京</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="爱京京">
-<meta property="og:url" content="http://yoursite.com/archives/2019/07/index.html">
+  <meta name="description" content="表达式=========================    形式： 表达式;    每个表达式作用：作为语句的终止。 1.赋值语句int A=100;//直接定义并初始化  int A; A=100;//先定义然后初始化2.自身运算然后在赋值A += 100;=====&amp;gt;A=A+100; A++; ===&amp;gt;A+1  A++    先运算，然后自增1 ++A    先自增1，然后参与">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c">
+<meta property="og:url" content="http://yoursite.com/2019/07/18/表达式/index.html">
 <meta property="og:site_name" content="爱京京">
+<meta property="og:description" content="表达式=========================    形式： 表达式;    每个表达式作用：作为语句的终止。 1.赋值语句int A=100;//直接定义并初始化  int A; A=100;//先定义然后初始化2.自身运算然后在赋值A += 100;=====&amp;gt;A=A+100; A++; ===&amp;gt;A+1  A++    先运算，然后自增1 ++A    先自增1，然后参与">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-18T11:15:51.784Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="爱京京">
+<meta name="twitter:title" content="c">
+<meta name="twitter:description" content="表达式=========================    形式： 表达式;    每个表达式作用：作为语句的终止。 1.赋值语句int A=100;//直接定义并初始化  int A; A=100;//先定义然后初始化2.自身运算然后在赋值A += 100;=====&amp;gt;A=A+100; A++; ===&amp;gt;A+1  A++    先运算，然后自增1 ++A    先自增1，然后参与">
   
     <link rel="alternative" href="/atom.xml" title="爱京京" type="application/atom+xml">
   
@@ -150,157 +154,232 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-表达式" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      c
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/18/表达式/" class="archive-article-date">
+
+        
+        <a href="/2019/07/18/表达式/" class="archive-article-date">
   	<time datetime="2019-07-18T11:06:27.445Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/18/表达式/">c</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="表达式"><a href="#表达式" class="headerlink" title="表达式"></a>表达式</h1><p>=========================<br>    形式： 表达式;<br>    每个表达式作用：作为语句的终止。</p>
+<h3 id="1-赋值语句"><a href="#1-赋值语句" class="headerlink" title="1.赋值语句"></a>1.赋值语句</h3><pre><code>int A=100;//直接定义并初始化
 
-        <div class="article-info info-on-right">
-          
-          
+int A;
+A=100;//先定义然后初始化</code></pre><h3 id="2-自身运算然后在赋值"><a href="#2-自身运算然后在赋值" class="headerlink" title="2.自身运算然后在赋值"></a>2.自身运算然后在赋值</h3><pre><code>A += 100;=====&gt;A=A+100;
+A++; ===&gt;A+1
 
+A++    先运算，然后自增1
+++A    先自增1，然后参与运算
+A--    先运算，然后自减1
+--A    先自减1，然后参与运算</code></pre><h3 id="3-算术运算语句，计算结果不会保留"><a href="#3-算术运算语句，计算结果不会保留" class="headerlink" title="3.算术运算语句，计算结果不会保留"></a>3.算术运算语句，计算结果不会保留</h3><h3 id="4-逗号表达式"><a href="#4-逗号表达式" class="headerlink" title="4.逗号表达式"></a>4.逗号表达式</h3><pre><code>int a=1,b=2,c=3;</code></pre><h1 id="输入语句"><a href="#输入语句" class="headerlink" title="输入语句"></a>输入语句</h1><p>====================================<br>    scanf—-》man 3 scanf<br>    #include &lt;stdio.h&gt;  头文件<br>    函数原型<br>    int scanf(const char *format, …);//变参函数<br>    参数：const char *format  输入类型格式<br>          …                  输入的变量<br><br>    printf()—-》输出内容到屏幕上<br>    scanf()—–》用键盘输入内容—-》以不同的形式存放到变量之中<br><br>    把一个值放置到变量空间的内存当中，需要将变量地址输入<br><br>    变量地址====》&amp;变量</p>
+<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><ul>
+<li>顺序结构</li>
+<li>选择结构</li>
+<li>循环结构   </li>
+</ul>
+<h2 id="gt-控制流：-选择分支-循环"><a href="#gt-控制流：-选择分支-循环" class="headerlink" title="&gt; 控制流： 选择分支  循环"></a>&gt; 控制流： 选择分支  循环</h2><h2 id="选择分支"><a href="#选择分支" class="headerlink" title="选择分支"></a>选择分支</h2><h3 id="1-单选-if判断语句"><a href="#1-单选-if判断语句" class="headerlink" title="1.单选 if判断语句"></a>1.单选 if判断语句</h3><p>   定义 if(判断条件)—-》判断条件为真，那么执行复合语句体<br>        {<br>            复合语句体;<br>        }</p>
+<pre><code>...；----》判断条件为假，那么执行该项语句，调过复合语句体
+
+if(判断条件)
+...;    ----》判断条件为真，执行该行语句
+...;    ----》不管条件是否成立，永远执  行该项语句，
+                因为该项语句不在if的影响范围</code></pre><h3 id="2-双选-if判断语句-else字句"><a href="#2-双选-if判断语句-else字句" class="headerlink" title="2.双选   if判断语句 else字句"></a>2.双选   if判断语句 else字句</h3><pre><code>定义   if(判断条件)   ---》判断条件为真，执行复合语句1
+       {
+           复合语句1;
+       }
+       else          ---》不满足判断条件的所有情况都执行复合语句2
+       {
+           复合语句2;
+       }
+  else原则：一定要有个最近的if与之匹配</code></pre><h3 id="3-多选-if-else-if-else"><a href="#3-多选-if-else-if-else" class="headerlink" title="3.多选    if  else if   else"></a>3.多选    if  else if   else</h3><pre><code>if(判断条件)   ---》判断条件为真，执行复合语句1
+ {
+     复合语句1;
+ }
+ else if（判断条件）         ---》不满足判断条件的所有情况都执行复合语句2
+ {
+   复合语句2;
+ }
+ else if（判断条件）         ---》不满足判断条件的所有情况都执行复合语句3
+ {
+   复合语句3;
+ }
+ ...
+ else 
+ {
+     最终语句;
+ }</code></pre><h3 id="4-多分支-switch"><a href="#4-多分支-switch" class="headerlink" title="4.多分支  switch"></a>4.多分支  switch</h3><pre><code>定义 switch(触发条件)判断值---》整型、字符型、枚举
+      {
+      case x：  -----》当触发条件==x的时候，执行该项语句；
+          ...;
+          break;--》跳出switch语句,如果没有break，就继续执行
+      case y：
+          ...;
+          break;
+      default:
+          ...;
+          break;
+      }
+
+
+    //进行判断选择
+    switch(num)
+    {
+      case 90 ... 100:------&gt;响应范围
+              printf(&quot;优秀\n&quot;);break;
+      case 80 ... 89:
+              printf(&quot;良好\n&quot;);break;
+      case 70 ... 79:
+              printf(&quot;中等\n&quot;);break;
+      case 60 ... 69:
+              printf(&quot;及格\n&quot;);break;
+      case 0 ... 59:
+              printf(&quot;不及格\n&quot;);break;
+      default:printf(&quot;闹啥呢\n&quot;);break;
+    }        
+
+注意：1.每个case后面记住加break，否则导致多个分支重叠
+      2.不要忘记在最后default，即使你不用，也要加上</code></pre>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/18/表达式/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/18/c语言/" class="archive-article-date">
-  	<time datetime="2019-07-18T01:32:55.208Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/07/18/c语言/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">c</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/18/c语言/">c</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/17/gcc编译器/" class="archive-article-date">
-  	<time datetime="2019-07-17T01:43:46.647Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/17/gcc编译器/">gcc编译器/c</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/16/嵌入式Linux环境/" class="archive-article-date">
-  	<time datetime="2019-07-16T01:17:57.475Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/16/嵌入式Linux环境/">嵌入式Linux环境</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/05/我的第一篇博客文章/" class="archive-article-date">
-  	<time datetime="2019-07-05T10:09:22.624Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/05/我的第一篇博客文章/">爱京京</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -323,8 +402,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
