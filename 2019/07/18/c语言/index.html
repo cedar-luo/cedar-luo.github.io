@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="爱京京">
 <meta property="og:description" content="表达式=========================    形式： 表达式;    每个表达式作用：作为语句的终止。 1.赋值语句int A=100;//直接定义并初始化  int A; A=100;//先定义然后初始化2.自身运算然后在赋值A += 100;=====&amp;gt;A=A+100; A++; ===&amp;gt;A+1  A++    先运算，然后自增1 ++A    先自增1，然后参与">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-18T11:01:20.903Z">
+<meta property="og:updated_time" content="2019-07-18T11:15:51.784Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="c">
 <meta name="twitter:description" content="表达式=========================    形式： 表达式;    每个表达式作用：作为语句的终止。 1.赋值语句int A=100;//直接定义并初始化  int A; A=100;//先定义然后初始化2.自身运算然后在赋值A += 100;=====&amp;gt;A=A+100; A++; ===&amp;gt;A+1  A++    先运算，然后自增1 ++A    先自增1，然后参与">
@@ -167,7 +167,7 @@
 
         
         <a href="/2019/07/18/c语言/" class="archive-article-date">
-  	<time datetime="2019-07-18T01:32:55.208Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
+  	<time datetime="2019-07-18T11:06:27.445Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
 </a>
         
       </header>
@@ -185,26 +185,18 @@ A++    先运算，然后自增1
 ++A    先自增1，然后参与运算
 A--    先运算，然后自减1
 --A    先自减1，然后参与运算</code></pre><h3 id="3-算术运算语句，计算结果不会保留"><a href="#3-算术运算语句，计算结果不会保留" class="headerlink" title="3.算术运算语句，计算结果不会保留"></a>3.算术运算语句，计算结果不会保留</h3><h3 id="4-逗号表达式"><a href="#4-逗号表达式" class="headerlink" title="4.逗号表达式"></a>4.逗号表达式</h3><pre><code>int a=1,b=2,c=3;</code></pre><h1 id="输入语句"><a href="#输入语句" class="headerlink" title="输入语句"></a>输入语句</h1><p>====================================<br>    scanf—-》man 3 scanf<br>    #include &lt;stdio.h&gt;  头文件<br>    函数原型<br>    int scanf(const char *format, …);//变参函数<br>    参数：const char *format  输入类型格式<br>          …                  输入的变量<br><br>    printf()—-》输出内容到屏幕上<br>    scanf()—–》用键盘输入内容—-》以不同的形式存放到变量之中<br><br>    把一个值放置到变量空间的内存当中，需要将变量地址输入<br><br>    变量地址====》&amp;变量</p>
-<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><p>============================================</p>
-<ul>
-<li><p>顺序结构</p>
-</li>
-<li><p>选择结构</p>
-</li>
-<li><h1 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构   "></a>循环结构   </h1><h1 id="控制流：-选择分支-循环"><a href="#控制流：-选择分支-循环" class="headerlink" title="控制流： 选择分支  循环"></a>控制流： 选择分支  循环</h1><p>===================选择分支=================    </p>
-<h2 id="1-单选-if判断语句"><a href="#1-单选-if判断语句" class="headerlink" title="1.单选 if判断语句"></a>1.单选 if判断语句</h2><p>定义 if(判断条件)—-》判断条件为真，那么执行复合语句体</p>
-<pre><code>{
-   复合语句体;
-}
-
-...；----》判断条件为假，那么执行该项语句，调过复合语句体
+<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><ul>
+<li>顺序结构</li>
+<li>选择结构</li>
+<li>循环结构   </li>
+</ul>
+<h2 id="gt-控制流：-选择分支-循环"><a href="#gt-控制流：-选择分支-循环" class="headerlink" title="&gt; 控制流： 选择分支  循环"></a>&gt; 控制流： 选择分支  循环</h2><h2 id="选择分支"><a href="#选择分支" class="headerlink" title="选择分支"></a>选择分支</h2><h3 id="1-单选-if判断语句"><a href="#1-单选-if判断语句" class="headerlink" title="1.单选 if判断语句"></a>1.单选 if判断语句</h3><p>   定义 if(判断条件)—-》判断条件为真，那么执行复合语句体<br>        {<br>            复合语句体;<br>        }</p>
+<pre><code>...；----》判断条件为假，那么执行该项语句，调过复合语句体
 
 if(判断条件)
 ...;    ----》判断条件为真，执行该行语句
-...;    ----》不管条件是否成立，永远执行该项语句，
-              因为该项语句不在if的影响范围</code></pre></li>
-</ul>
-<h2 id="2-双选-if判断语句-else字句"><a href="#2-双选-if判断语句-else字句" class="headerlink" title="2.双选   if判断语句 else字句"></a>2.双选   if判断语句 else字句</h2><pre><code>定义   if(判断条件)   ---》判断条件为真，执行复合语句1
+...;    ----》不管条件是否成立，永远执  行该项语句，
+                因为该项语句不在if的影响范围</code></pre><h3 id="2-双选-if判断语句-else字句"><a href="#2-双选-if判断语句-else字句" class="headerlink" title="2.双选   if判断语句 else字句"></a>2.双选   if判断语句 else字句</h3><pre><code>定义   if(判断条件)   ---》判断条件为真，执行复合语句1
        {
            复合语句1;
        }
@@ -212,7 +204,7 @@ if(判断条件)
        {
            复合语句2;
        }
-  else原则：一定要有个最近的if与之匹配</code></pre><h2 id="3-多选-if-else-if-else"><a href="#3-多选-if-else-if-else" class="headerlink" title="3.多选    if  else if   else"></a>3.多选    if  else if   else</h2><pre><code>if(判断条件)   ---》判断条件为真，执行复合语句1
+  else原则：一定要有个最近的if与之匹配</code></pre><h3 id="3-多选-if-else-if-else"><a href="#3-多选-if-else-if-else" class="headerlink" title="3.多选    if  else if   else"></a>3.多选    if  else if   else</h3><pre><code>if(判断条件)   ---》判断条件为真，执行复合语句1
  {
      复合语句1;
  }
@@ -228,7 +220,7 @@ if(判断条件)
  else 
  {
      最终语句;
- }</code></pre><h2 id="4-多分支-switch"><a href="#4-多分支-switch" class="headerlink" title="4.多分支  switch"></a>4.多分支  switch</h2><pre><code>定义 switch(触发条件)判断值---》整型、字符型、枚举
+ }</code></pre><h3 id="4-多分支-switch"><a href="#4-多分支-switch" class="headerlink" title="4.多分支  switch"></a>4.多分支  switch</h3><pre><code>定义 switch(触发条件)判断值---》整型、字符型、枚举
       {
       case x：  -----》当触发条件==x的时候，执行该项语句；
           ...;
@@ -240,6 +232,7 @@ if(判断条件)
           ...;
           break;
       }
+
 
     //进行判断选择
     switch(num)
@@ -350,15 +343,6 @@ if(判断条件)
 
   
 <nav id="article-nav">
-  
-    <a href="/2019/07/18/表达式/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          c
-        
-      </div>
-    </a>
   
   
     <a href="/2019/07/17/gcc编译器/" id="article-nav-older" class="article-nav-link-wrap">
