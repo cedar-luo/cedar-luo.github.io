@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="爱京京">
 <meta property="og:description" content="表达式=========================    形式： 表达式;    每个表达式作用：作为语句的终止。 1.赋值语句int A=100;//直接定义并初始化  int A; A=100;//先定义然后初始化2.自身运算然后在赋值A += 100;=====&amp;gt;A=A+100; A++; ===&amp;gt;A+1  A++    先运算，然后自增1 ++A    先自增1，然后参与">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-18T11:15:51.784Z">
+<meta property="og:updated_time" content="2019-07-21T14:42:39.158Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="c">
 <meta name="twitter:description" content="表达式=========================    形式： 表达式;    每个表达式作用：作为语句的终止。 1.赋值语句int A=100;//直接定义并初始化  int A; A=100;//先定义然后初始化2.自身运算然后在赋值A += 100;=====&amp;gt;A=A+100; A++; ===&amp;gt;A+1  A++    先运算，然后自增1 ++A    先自增1，然后参与">
@@ -251,7 +251,64 @@ if(判断条件)
     }        
 
 注意：1.每个case后面记住加break，否则导致多个分支重叠
-      2.不要忘记在最后default，即使你不用，也要加上</code></pre>
+      2.不要忘记在最后default，即使你不用，也要加上</code></pre><h1 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h1><p> 循环：    for  while  do while  goto<br> 循环的要素：<br>     1.循环条件   —》给某个变量的终止条件<br>     2.循环体     —》反复执行的程序<br>     一般使用复合语句作为循环体</p>
+<h2 id="1-for循环"><a href="#1-for循环" class="headerlink" title="1.for循环"></a>1.for循环</h2><pre><code>定义 for(;;)
+     {
+       循环体；
+     }    </code></pre><h3 id="循环方式"><a href="#循环方式" class="headerlink" title="循环方式"></a>循环方式</h3><pre><code>for(循环条件初始化;判断循环条件;循环操作(计数))
+     循环条件只初始化一次
+     当判断循环条件满足执行我们的循环体（自动触发）</code></pre><h2 id="2-while循环"><a href="#2-while循环" class="headerlink" title="2.while循环"></a>2.while循环</h2><h3 id="判定条件"><a href="#判定条件" class="headerlink" title="判定条件"></a>判定条件</h3><pre><code>while(判断条件)---》判定如果条件为真，那么就执行循环体语句执行循环体语句之后，
+                    继续进行判断，如果判断条件为假，就退出循环体
+{
+  循环体；----》一般循环体中我们改变判定条件变量
+}
+while(x&lt;5)</code></pre><h3 id="2-死循环"><a href="#2-死循环" class="headerlink" title="2.死循环"></a>2.死循环</h3><p>   while(1)<br>     ….;循环内容<br>     …;—&gt;永远不会被执行了，如果想打印这个条语句，就要加入循环体</p>
+<p>   while(1)<br>   {<br>     循环体；<br>   }</p>
+<h3 id="3-do-while循环"><a href="#3-do-while循环" class="headerlink" title="3.do-while循环"></a>3.do-while循环</h3><h5 id="判定条件-1"><a href="#判定条件-1" class="headerlink" title="判定条件"></a>判定条件</h5><p>   do     ———&gt;不管条件是真还假，先执行一遍在判断<br>   {<br>      循环体；<br>   }<br>   while(判断条件);—》判定如果条件为真，那么就执行循环体语句执行循环体语句之后，<br>                        继续进行判断，如果判断条件为假，就退出循环</p>
+<h5 id="死循环"><a href="#死循环" class="headerlink" title="死循环"></a>死循环</h5><pre><code>do
+{
+   循环内容；
+}
+while(1);</code></pre><h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><h2 id="C语言的程序入口—-》main函数"><a href="#C语言的程序入口—-》main函数" class="headerlink" title="C语言的程序入口—-》main函数"></a>C语言的程序入口—-》main函数</h2><p>   1.main函数是主函数，他可以调用别的函数但是不允许被其他函数调用<br>   2.C语言程序从main函数开始，从main函数结束。<br>   3.一个C语言程序有且仅有一个主函数<br>   错误：<br>   int fun()<br>   {<br>    main();<br>   }</p>
+<p>   linux c不仅提供了多种多样的函数提供给用户，还允许用户自己自定义函数</p>
+<p>   菜   fun(你要提供的菜名)—》函数调用—-》过程—》C语言</p>
+<h2 id="函数的定义"><a href="#函数的定义" class="headerlink" title="函数的定义"></a>函数的定义</h2><h5 id="无参函数的定义形式"><a href="#无参函数的定义形式" class="headerlink" title="无参函数的定义形式"></a>无参函数的定义形式</h5><pre><code> 返回值类型 函数名()  -----》函数头
+ {
+    语句；            -----》函数体
+ }     
+
+  返回值类型： int char long  指针
+  无返回值类型：void
+
+  函数名 用户自定义---体现函数功能
+
+  ()无参数，括号不能省略
+
+  {} 函数体，存放着函数实现的过程代码
+
+void Hello()
+{
+    printf(&quot;helloworld\n&quot;);
+}  </code></pre><h5 id="有参函数定义"><a href="#有参函数定义" class="headerlink" title="有参函数定义"></a>有参函数定义</h5><pre><code>返回值类型 函数名(参数列表)----&gt;形式参数就是函数本身传递的局部变量
+{
+  语句;
+}
+形式参数列表:各种类型的变量,中间使用逗号隔开;
+1.形式参数的类型要和实际参数匹配
+2.形式参数的个数要和实际参数匹配
+形式参数的值---&gt;主调函数的实参-----&gt;初始化</code></pre><h5 id="函数的声明"><a href="#函数的声明" class="headerlink" title="函数的声明"></a>函数的声明</h5><pre><code>声明 定义
+函数的定义：包括函数的实现功能和过程
+函数的声明：只说明函数的名字，不涉及函数的实现过程
+
+函数声明
+void hello();
+
+在C语言中，一个函数的定义可以随便放到任何位置，
+           既可以放在main函数前面，也可以放到main函数后面。
+
+1.如果放置在main函数之前不需要声明
+
+2.如果你放置在main函数后需要声明函数</code></pre>
       
 
       
