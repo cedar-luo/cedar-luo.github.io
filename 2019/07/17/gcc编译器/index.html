@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="爱京京">
 <meta property="og:description" content="gcc编译器的编译过程  嵌入式开发四步骤：  编写工程编译工程移植工程测试工程  1.编写工程编写软件 vi gedit notepad++编写代码新建文件 右击新文件----》另存为------&amp;gt;共享文件 编写代码    #include &amp;lt;stdio.h&amp;gt;     int main(int argc,char *argv[])    {        printf(&amp;quo">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-17T11:41:43.156Z">
+<meta property="og:updated_time" content="2019-07-29T06:21:23.884Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gcc编译器&#x2F;c">
 <meta name="twitter:description" content="gcc编译器的编译过程  嵌入式开发四步骤：  编写工程编译工程移植工程测试工程  1.编写工程编写软件 vi gedit notepad++编写代码新建文件 右击新文件----》另存为------&amp;gt;共享文件 编写代码    #include &amp;lt;stdio.h&amp;gt;     int main(int argc,char *argv[])    {        printf(&amp;quo">
@@ -289,7 +289,18 @@
 字符串型 %s     
 浮点型   单精度 %f
          双精度 %lf
-长整型   %ld         </code></pre><h2 id="变量的定义"><a href="#变量的定义" class="headerlink" title="变量的定义"></a>变量的定义</h2><p>定义标准：数据类型   变量名   —》申请该类型对应的空间 由当前变量直接访问<br>变量名：  变量名由数字、子母、下划线组成，而且开头由字母和下划线；</p>
+长整型   %ld 
+长长整型 %lld  
+
+无符号类型   %u
+无符号整型   %hu
+无符号短整型 %hd
+
+科学计数法   %e
+地址类型     %p
+八进制       %o
+十六进制     %x
+二进制       %b</code></pre><h2 id="变量的定义"><a href="#变量的定义" class="headerlink" title="变量的定义"></a>变量的定义</h2><p>定义标准：数据类型   变量名   —》申请该类型对应的空间 由当前变量直接访问<br>变量名：  变量名由数字、子母、下划线组成，而且开头由字母和下划线；</p>
 <p>比如：int A；—》申请int类型的数据空间4字节，由当前变量A直接访问该存储空间的数据</p>
 <h2 id="变量的赋值"><a href="#变量的赋值" class="headerlink" title="变量的赋值"></a>变量的赋值</h2><h3 id="1-左值和右值的数据类型一定要匹配"><a href="#1-左值和右值的数据类型一定要匹配" class="headerlink" title="1.左值和右值的数据类型一定要匹配"></a>1.左值和右值的数据类型一定要匹配</h3><h3 id="2-将右值赋值给左值-区分"><a href="#2-将右值赋值给左值-区分" class="headerlink" title="2.将右值赋值给左值 区分 =  =="></a>2.将右值赋值给左值 区分 =  ==</h3><pre><code>int a  = 100;
    左值  右值

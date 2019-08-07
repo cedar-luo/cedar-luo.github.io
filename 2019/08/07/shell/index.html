@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>爱京京</title>
+  <title>shell | 爱京京</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="爱京京">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="shell的初步理解1.怎么 理解shell？   shell在英文当中翻译为“贝壳”，在贝壳内部就是linux内核，在贝壳的外部是用户。   shell就是用户和内核之间的媒介 2.shell命令 linux命令大多数都是shell命令，大多数的shell存在/bin里面，当我们需要使用一个命令   实际流程： 1.打开一个Terminal—-》Terminal终端上面实际运行了一个bash进程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell">
+<meta property="og:url" content="http://yoursite.com/2019/08/07/shell/index.html">
 <meta property="og:site_name" content="爱京京">
+<meta property="og:description" content="shell的初步理解1.怎么 理解shell？   shell在英文当中翻译为“贝壳”，在贝壳内部就是linux内核，在贝壳的外部是用户。   shell就是用户和内核之间的媒介 2.shell命令 linux命令大多数都是shell命令，大多数的shell存在/bin里面，当我们需要使用一个命令   实际流程： 1.打开一个Terminal—-》Terminal终端上面实际运行了一个bash进程">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-08-07T12:02:21.587Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="爱京京">
+<meta name="twitter:title" content="shell">
+<meta name="twitter:description" content="shell的初步理解1.怎么 理解shell？   shell在英文当中翻译为“贝壳”，在贝壳内部就是linux内核，在贝壳的外部是用户。   shell就是用户和内核之间的媒介 2.shell命令 linux命令大多数都是shell命令，大多数的shell存在/bin里面，当我们需要使用一个命令   实际流程： 1.打开一个Terminal—-》Terminal终端上面实际运行了一个bash进程">
   
     <link rel="alternative" href="/atom.xml" title="爱京京" type="application/atom+xml">
   
@@ -150,16 +154,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-shell" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-shell" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/07/shell/">shell</a>
+    <h1 class="article-title" itemprop="name">
+      shell
     </h1>
   
 
@@ -397,6 +399,27 @@ fi
       
 
       
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
     </div>
     <div class="article-info article-info-index">
       
@@ -404,16 +427,75 @@ fi
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/07/shell/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/08/07/shell/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/07/18/c语言/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">c</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -433,768 +515,14 @@ fi
 
 
 
-
   
-    <article id="post-c语言" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/18/c语言/">c</a>
-    </h1>
   
 
-        
-        <a href="/2019/07/18/c语言/" class="archive-article-date">
-  	<time datetime="2019-07-18T11:06:27.445Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="表达式"><a href="#表达式" class="headerlink" title="表达式"></a>表达式</h1><p>=========================<br>    形式： 表达式;<br>    每个表达式作用：作为语句的终止。</p>
-<h3 id="1-赋值语句"><a href="#1-赋值语句" class="headerlink" title="1.赋值语句"></a>1.赋值语句</h3><pre><code>int A=100;//直接定义并初始化
-
-int A;
-A=100;//先定义然后初始化</code></pre><h3 id="2-自身运算然后在赋值"><a href="#2-自身运算然后在赋值" class="headerlink" title="2.自身运算然后在赋值"></a>2.自身运算然后在赋值</h3><pre><code>A += 100;=====&gt;A=A+100;
-A++; ===&gt;A+1
-
-A++    先运算，然后自增1
-++A    先自增1，然后参与运算
-A--    先运算，然后自减1
---A    先自减1，然后参与运算</code></pre><h3 id="3-算术运算语句，计算结果不会保留"><a href="#3-算术运算语句，计算结果不会保留" class="headerlink" title="3.算术运算语句，计算结果不会保留"></a>3.算术运算语句，计算结果不会保留</h3><h3 id="4-逗号表达式"><a href="#4-逗号表达式" class="headerlink" title="4.逗号表达式"></a>4.逗号表达式</h3><pre><code>int a=1,b=2,c=3;</code></pre><h1 id="输入语句"><a href="#输入语句" class="headerlink" title="输入语句"></a>输入语句</h1><p>====================================<br>    scanf—-》man 3 scanf<br>    #include &lt;stdio.h&gt;  头文件<br>    函数原型<br>    int scanf(const char *format, …);//变参函数<br>    参数：const char *format  输入类型格式<br>          …                  输入的变量<br><br>    printf()—-》输出内容到屏幕上<br>    scanf()—–》用键盘输入内容—-》以不同的形式存放到变量之中<br><br>    把一个值放置到变量空间的内存当中，需要将变量地址输入<br><br>    变量地址====》&amp;变量</p>
-<h1 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h1><ul>
-<li>顺序结构</li>
-<li>选择结构</li>
-<li>循环结构   </li>
-</ul>
-<h2 id="gt-控制流：-选择分支-循环"><a href="#gt-控制流：-选择分支-循环" class="headerlink" title="&gt; 控制流： 选择分支  循环"></a>&gt; 控制流： 选择分支  循环</h2><h2 id="选择分支"><a href="#选择分支" class="headerlink" title="选择分支"></a>选择分支</h2><h3 id="1-单选-if判断语句"><a href="#1-单选-if判断语句" class="headerlink" title="1.单选 if判断语句"></a>1.单选 if判断语句</h3><p>   定义 if(判断条件)—-》判断条件为真，那么执行复合语句体<br>        {<br>            复合语句体;<br>        }</p>
-<pre><code>...；----》判断条件为假，那么执行该项语句，调过复合语句体
-
-if(判断条件)
-...;    ----》判断条件为真，执行该行语句
-...;    ----》不管条件是否成立，永远执  行该项语句，
-                因为该项语句不在if的影响范围</code></pre><h3 id="2-双选-if判断语句-else字句"><a href="#2-双选-if判断语句-else字句" class="headerlink" title="2.双选   if判断语句 else字句"></a>2.双选   if判断语句 else字句</h3><pre><code>定义   if(判断条件)   ---》判断条件为真，执行复合语句1
-       {
-           复合语句1;
-       }
-       else          ---》不满足判断条件的所有情况都执行复合语句2
-       {
-           复合语句2;
-       }
-  else原则：一定要有个最近的if与之匹配</code></pre><h3 id="3-多选-if-else-if-else"><a href="#3-多选-if-else-if-else" class="headerlink" title="3.多选    if  else if   else"></a>3.多选    if  else if   else</h3><pre><code>if(判断条件)   ---》判断条件为真，执行复合语句1
- {
-     复合语句1;
- }
- else if（判断条件）         ---》不满足判断条件的所有情况都执行复合语句2
- {
-   复合语句2;
- }
- else if（判断条件）         ---》不满足判断条件的所有情况都执行复合语句3
- {
-   复合语句3;
- }
- ...
- else 
- {
-     最终语句;
- }</code></pre><h3 id="4-多分支-switch"><a href="#4-多分支-switch" class="headerlink" title="4.多分支  switch"></a>4.多分支  switch</h3><pre><code>定义 switch(触发条件)判断值---》整型、字符型、枚举
-      {
-      case x：  -----》当触发条件==x的时候，执行该项语句；
-          ...;
-          break;--》跳出switch语句,如果没有break，就继续执行
-      case y：
-          ...;
-          break;
-      default:
-          ...;
-          break;
-      }
-
-
-    //进行判断选择
-    switch(num)
-    {
-      case 90 ... 100:------&gt;响应范围
-              printf(&quot;优秀\n&quot;);break;
-      case 80 ... 89:
-              printf(&quot;良好\n&quot;);break;
-      case 70 ... 79:
-              printf(&quot;中等\n&quot;);break;
-      case 60 ... 69:
-              printf(&quot;及格\n&quot;);break;
-      case 0 ... 59:
-              printf(&quot;不及格\n&quot;);break;
-      default:printf(&quot;闹啥呢\n&quot;);break;
-    }        
-
-注意：1.每个case后面记住加break，否则导致多个分支重叠
-      2.不要忘记在最后default，即使你不用，也要加上</code></pre><h1 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h1><p> 循环：    for  while  do while  goto<br> 循环的要素：<br>     1.循环条件   —》给某个变量的终止条件<br>     2.循环体     —》反复执行的程序<br>     一般使用复合语句作为循环体</p>
-<h2 id="1-for循环"><a href="#1-for循环" class="headerlink" title="1.for循环"></a>1.for循环</h2><pre><code>定义 for(;;)
-     {
-       循环体；
-     }    </code></pre><h3 id="循环方式"><a href="#循环方式" class="headerlink" title="循环方式"></a>循环方式</h3><pre><code>for(循环条件初始化;判断循环条件;循环操作(计数))
-     循环条件只初始化一次
-     当判断循环条件满足执行我们的循环体（自动触发）</code></pre><h2 id="2-while循环"><a href="#2-while循环" class="headerlink" title="2.while循环"></a>2.while循环</h2><h3 id="判定条件"><a href="#判定条件" class="headerlink" title="判定条件"></a>判定条件</h3><pre><code>while(判断条件)---》判定如果条件为真，那么就执行循环体语句执行循环体语句之后，
-                    继续进行判断，如果判断条件为假，就退出循环体
-{
-  循环体；----》一般循环体中我们改变判定条件变量
-}
-while(x&lt;5)</code></pre><h3 id="2-死循环"><a href="#2-死循环" class="headerlink" title="2.死循环"></a>2.死循环</h3><p>   while(1)<br>     ….;循环内容<br>     …;—&gt;永远不会被执行了，如果想打印这个条语句，就要加入循环体</p>
-<p>   while(1)<br>   {<br>     循环体；<br>   }</p>
-<h3 id="3-do-while循环"><a href="#3-do-while循环" class="headerlink" title="3.do-while循环"></a>3.do-while循环</h3><h5 id="判定条件-1"><a href="#判定条件-1" class="headerlink" title="判定条件"></a>判定条件</h5><p>   do     ———&gt;不管条件是真还假，先执行一遍在判断<br>   {<br>      循环体；<br>   }<br>   while(判断条件);—》判定如果条件为真，那么就执行循环体语句执行循环体语句之后，<br>                        继续进行判断，如果判断条件为假，就退出循环</p>
-<h5 id="死循环"><a href="#死循环" class="headerlink" title="死循环"></a>死循环</h5><pre><code>do
-{
-   循环内容；
-}
-while(1);</code></pre><h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><h2 id="C语言的程序入口—-》main函数"><a href="#C语言的程序入口—-》main函数" class="headerlink" title="C语言的程序入口—-》main函数"></a>C语言的程序入口—-》main函数</h2><p>   1.main函数是主函数，他可以调用别的函数但是不允许被其他函数调用<br>   2.C语言程序从main函数开始，从main函数结束。<br>   3.一个C语言程序有且仅有一个主函数<br>   错误：<br>   int fun()<br>   {<br>    main();<br>   }</p>
-<p>   linux c不仅提供了多种多样的函数提供给用户，还允许用户自己自定义函数</p>
-<p>   菜   fun(你要提供的菜名)—》函数调用—-》过程—》C语言</p>
-<h2 id="函数的定义"><a href="#函数的定义" class="headerlink" title="函数的定义"></a>函数的定义</h2><h5 id="无参函数的定义形式"><a href="#无参函数的定义形式" class="headerlink" title="无参函数的定义形式"></a>无参函数的定义形式</h5><pre><code> 返回值类型 函数名()  -----》函数头
- {
-    语句；            -----》函数体
- }     
-
-  返回值类型： int char long  指针
-  无返回值类型：void
-
-  函数名 用户自定义---体现函数功能
-
-  ()无参数，括号不能省略
-
-  {} 函数体，存放着函数实现的过程代码
-
-void Hello()
-{
-    printf(&quot;helloworld\n&quot;);
-}  </code></pre><h5 id="有参函数定义"><a href="#有参函数定义" class="headerlink" title="有参函数定义"></a>有参函数定义</h5><pre><code>返回值类型 函数名(参数列表)----&gt;形式参数就是函数本身传递的局部变量
-{
-  语句;
-}
-形式参数列表:各种类型的变量,中间使用逗号隔开;
-1.形式参数的类型要和实际参数匹配
-2.形式参数的个数要和实际参数匹配
-形式参数的值---&gt;主调函数的实参-----&gt;初始化</code></pre><h5 id="函数的声明"><a href="#函数的声明" class="headerlink" title="函数的声明"></a>函数的声明</h5><pre><code>声明 定义
-函数的定义：包括函数的实现功能和过程
-函数的声明：只说明函数的名字，不涉及函数的实现过程
-
-函数声明
-void hello();
-
-在C语言中，一个函数的定义可以随便放到任何位置，
-           既可以放在main函数前面，也可以放到main函数后面。
-
-1.如果放置在main函数之前不需要声明
-
-2.如果你放置在main函数后需要声明函数</code></pre><hr>
-<p>char str[100]={[0…19]=’h’,<br>               [20…39]=’e’,<br>               [40…59]=’l’,<br>               [60…79]=’l’,<br>               [80…99]=’o’,};</p>
-<hr>
-<h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><p>定义：相同数据类型的集合(箩筐)，一段连续性内存存储;<br>数组的写法：<br>       数据类型  数组名 定义存储空间<br>    例子： int arr[10];//定义一个整型数组能够存储10个整型数据<br>数组的下标： 从0开始</p>
-<h3 id="数组的初始化：如果你不赋值，那么数组当中会存储垃圾数据"><a href="#数组的初始化：如果你不赋值，那么数组当中会存储垃圾数据" class="headerlink" title="数组的初始化：如果你不赋值，那么数组当中会存储垃圾数据"></a>数组的初始化：如果你不赋值，那么数组当中会存储垃圾数据</h3><pre><code>//定义的时候直接初始化
-1.int a[10]={0,1,2,3,4,5,6,7,8,9};
-//定义的时候通过循环输入
-2.int a[10];
-int i;
-//键盘赋值
-for(i=0;i&lt;10;i++){scanf(&quot;%d&quot;,&amp;a[i]);} </code></pre><h3 id="柔性数组：定义的时候需要初始化"><a href="#柔性数组：定义的时候需要初始化" class="headerlink" title="柔性数组：定义的时候需要初始化"></a>柔性数组：定义的时候需要初始化</h3><pre><code>int a[]={0,1,2,3,4,5,6,7,8,9};    </code></pre><h3 id="字符串相当于在数组当中去储存字符"><a href="#字符串相当于在数组当中去储存字符" class="headerlink" title="字符串相当于在数组当中去储存字符"></a>字符串相当于在数组当中去储存字符</h3><pre><code>char str[10]=&quot;hellowrold&quot;;
-char str[10]={&quot;hellowrold&quot;};
-char str[10]={&apos;h&apos;,&apos;e&apos;,&apos;l&apos;,&apos;l&apos;,&apos;o&apos;,&apos;w&apos;,&apos;r&apos;,&apos;o&apos;,&apos;l&apos;,&apos;d&apos;};</code></pre><h2 id="字符串操作函数"><a href="#字符串操作函数" class="headerlink" title="字符串操作函数"></a>字符串操作函数</h2><h5 id="1-atoi"><a href="#1-atoi" class="headerlink" title="1.atoi"></a>1.atoi</h5><ul>
-<li><p>描述<br>C 库函数 int atoi(const char *str) 把参数 str 所指向的字符串转换为一个整数（类型为 int 型）。</p>
-</li>
-<li><p>声明<br>下面是 atoi() 函数的声明。</p>
-</li>
-</ul>
-<p>int atoi(const char *str)</p>
-<ul>
-<li><p>参数<br>str – 要转换为整数的字符串。</p>
-</li>
-<li><p>返回值<br>该函数返回转换后的长整数，如果没有执行有效的转换，则返回零。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">+ 实例</span><br><span class="line">下面的实例演示了 atoi() 函数的用法。</span><br><span class="line"></span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">   int val;</span><br><span class="line">   char str[20];</span><br><span class="line">   </span><br><span class="line">   strcpy(str, &quot;98993489&quot;);</span><br><span class="line">   val = atoi(str);</span><br><span class="line">   printf(&quot;字符串值 = %s, 整型值 = %d\n&quot;, str, val);</span><br><span class="line"></span><br><span class="line">   strcpy(str, &quot;runoob.com&quot;);</span><br><span class="line">   val = atoi(str);</span><br><span class="line">   printf(&quot;字符串值 = %s, 整型值 = %d\n&quot;, str, val);</span><br><span class="line"></span><br><span class="line">   return(0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>让我们编译并运行上面的程序，这将产生以下结果：</p>
-</li>
-</ul>
-<p>字符串值 = 98993489, 整型值 = 98993489<br>字符串值 = runoob.com, 整型值 = 0</p>
-<h5 id="2-strcpy"><a href="#2-strcpy" class="headerlink" title="2.strcpy"></a>2.strcpy</h5><ul>
-<li>描述<br>C 库函数 char *strcpy(char *dest, const char *src) 把 src 所指向的字符串复制到 dest。</li>
-</ul>
-<p>需要注意的是如果目标数组 dest 不够大，而源字符串的长度又太长，可能会造成缓冲溢出的情况。</p>
-<ul>
-<li>声明<br>下面是 strcpy() 函数的声明。</li>
-</ul>
-<p>char *strcpy(char *dest, const char *src)</p>
-<ul>
-<li><p>参数<br>dest – 指向用于存储复制内容的目标数组。<br>src – 要复制的字符串。</p>
-</li>
-<li><p>返回值<br>该函数返回一个指向最终的目标字符串 dest 的指针。</p>
-</li>
-<li><p>实例<br>下面的实例演示了 strcpy() 函数的用法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">实例 1</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"> </span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">   char src[40];</span><br><span class="line">   char dest[100];</span><br><span class="line">  </span><br><span class="line">   memset(dest, &apos;\0&apos;, sizeof(dest));</span><br><span class="line">   strcpy(src, &quot;This is runoob.com&quot;);</span><br><span class="line">   strcpy(dest, src);</span><br><span class="line"> </span><br><span class="line">   printf(&quot;最终的目标字符串： %s\n&quot;, dest);</span><br><span class="line">   </span><br><span class="line">   return(0);</span><br><span class="line">&#125;</span><br><span class="line">让我们编译并运行上面的程序，这将产生以下结果：</span><br><span class="line"></span><br><span class="line">最终的目标字符串： This is runoob.com</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">实例 1</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"> </span><br><span class="line">int main ()</span><br><span class="line">&#123;</span><br><span class="line">  char str1[]=&quot;Sample string&quot;;</span><br><span class="line">  char str2[40];</span><br><span class="line">  char str3[40];</span><br><span class="line">  strcpy (str2,str1);</span><br><span class="line">  strcpy (str3,&quot;copy successful&quot;);</span><br><span class="line">  printf (&quot;str1: %s\nstr2: %s\nstr3: %s\n&quot;,str1,str2,str3);</span><br><span class="line">  return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>让我们编译并运行上面的程序，这将产生以下结果：</li>
-</ul>
-<p>str1: Sample string<br>str2: Sample string<br>str3: copy successful</p>
-<h5 id="3-strcmp"><a href="#3-strcmp" class="headerlink" title="3.strcmp"></a>3.strcmp</h5><ul>
-<li><p>描述<br>C 库函数 int strcmp(const char *str1, const char *str2) 把 str1 所指向的字符串和 str2 所指向的字符串进行比较。</p>
-</li>
-<li><p>声明<br>下面是 strcmp() 函数的声明。</p>
-</li>
-</ul>
-<p>int strcmp(const char *str1, const char *str2)</p>
-<ul>
-<li>参数<br>str1 – 要进行比较的第一个字符串。<br>str2 – 要进行比较的第二个字符串。</li>
-<li>返回值<br>该函数返回值如下：</li>
-</ul>
-<p>如果返回值 &lt; 0，则表示 str1 小于 str2。<br>如果返回值 &gt; 0，则表示 str2 小于 str1。<br>如果返回值 = 0，则表示 str1 等于 str2。</p>
-<ul>
-<li><p>实例<br>下面的实例演示了 strcmp() 函数的用法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">实例</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"> </span><br><span class="line">int main ()</span><br><span class="line">&#123;</span><br><span class="line">   char str1[15];</span><br><span class="line">   char str2[15];</span><br><span class="line">   int ret;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">   strcpy(str1, &quot;abcdef&quot;);</span><br><span class="line">   strcpy(str2, &quot;ABCDEF&quot;);</span><br><span class="line"> </span><br><span class="line">   ret = strcmp(str1, str2);</span><br><span class="line"> </span><br><span class="line">   if(ret &lt; 0)</span><br><span class="line">   &#123;</span><br><span class="line">      printf(&quot;str1 小于 str2&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">   else if(ret &gt; 0) </span><br><span class="line">   &#123;</span><br><span class="line">      printf(&quot;str2 小于 str1&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">   else </span><br><span class="line">   &#123;</span><br><span class="line">      printf(&quot;str1 等于 str2&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   return(0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>让我们编译并运行上面的程序，这将产生以下结果：</p>
-</li>
-</ul>
-<p>str2 小于 str1</p>
-<h5 id="4-strlen"><a href="#4-strlen" class="headerlink" title="4.strlen"></a>4.strlen</h5><ul>
-<li><p>描述<br>C 库函数 size_t strlen(const char *str) 计算字符串 str 的长度，直到空结束字符，但不包括空结束字符。</p>
-</li>
-<li><p>声明<br>下面是 strlen() 函数的声明。</p>
-</li>
-</ul>
-<p>size_t strlen(const char *str)</p>
-<ul>
-<li><p>参数<br>str – 要计算长度的字符串。</p>
-</li>
-<li><p>返回值<br>该函数返回字符串的长度。</p>
-</li>
-<li><p>实例<br>下面的实例演示了 strlen() 函数的用法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"></span><br><span class="line">int main ()</span><br><span class="line">&#123;</span><br><span class="line">   char str[50];</span><br><span class="line">   int len;</span><br><span class="line"></span><br><span class="line">   strcpy(str, &quot;This is runoob.com&quot;);</span><br><span class="line"></span><br><span class="line">   len = strlen(str);</span><br><span class="line">   printf(&quot;|%s| 的长度是 |%d|\n&quot;, str, len);</span><br><span class="line">   </span><br><span class="line">   return(0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>让我们编译并运行上面的程序，这将产生以下结果：</p>
-</li>
-</ul>
-<p>|This is runoob.com| 的长度是 |18|</p>
-<h1 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h1><hr>
-<ul>
-<li><p>定义：一种数据类型，存放地址变量</p>
-</li>
-<li><p>指针的写法：<br>   int <em>p;//定义一个int *类型的指针p<br>   int</em> p;<br>   *的修饰对象是数据类型</p>
-<p>   char <em>a；<br>   cahr</em> a；</p>
-</li>
-<li><p>如何打印地址：<br>   %p  </p>
-</li>
-<li><p>地址运算符：<br>!    * 取值符     对指针进行操作(获取指针的内容),(解引用)</p>
-</li>
-</ul>
-<p>!    &amp; 取地址符   对变量进行操作(获取变量的地址)</p>
-<ul>
-<li>注意：<br> 1.定义指针的时候，最好是指向某个数据<pre><code> 如果实在是没有数据，指向空地址NULL;
-Segmentation fault (core dumped)
-  段错误，内存溢出
-(原因：没有指向的对象的指针----野指针)
-(操作野指针的后果是不可预料)</code></pre></li>
-</ul>
-<h2 id="指针的应用"><a href="#指针的应用" class="headerlink" title="指针的应用"></a>指针的应用</h2><ul>
-<li><p>1.字符串操作函数</p>
-</li>
-<li><p>2.修改变量的内容<br>函数传参。传参变量,只是拷贝，不是修改原始值</p>
-</li>
-<li><p>3.指针数组 数组指针 函数指针 指针函数 结构体指针 野指针 </p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    //定义指针</span><br><span class="line">	int c=4;</span><br><span class="line">	int* a=&amp;c;</span><br><span class="line">	</span><br><span class="line">	char stu[10]=&quot;helloworld&quot;;</span><br><span class="line">	char* s=stu;//定义一个char *指针s指向stu数组</span><br><span class="line">	             /*</span><br><span class="line">				  1.指针指向数组实际上是指向数组的首地址</span><br><span class="line">				  2.数组名用在表达式当中的含义是数组首地址</span><br><span class="line">				  3.在表达式当中数组名使用取地址符号,代表数组的地址 </span><br><span class="line">				 */</span><br><span class="line">	</span><br><span class="line">	printf(&quot;stu[0] is %p\n&quot;,&amp;stu[0]);//数组的首元素的地址</span><br><span class="line">	printf(&quot;&amp;stu   is %p\n&quot;,&amp;stu);//数组的地址</span><br><span class="line">	printf(&quot;%s\n&quot;,s);//s指向数组，访问数组从首地址开始的元素，</span><br><span class="line">	printf(&quot;%s\n&quot;,stu);//stu在表达式当中代表数组首地址</span><br><span class="line">	printf(&quot;%c\n&quot;,stu[0]);//stu数组中的首元素</span><br><span class="line">	printf(&quot;%c\n&quot;,s[0]);//s指针的首地址的元素</span><br><span class="line">	printf(&quot;%c\n&quot;,s[9]);</span><br><span class="line">	</span><br><span class="line">	int  b;//b存储的常量</span><br><span class="line">	</span><br><span class="line">	printf(&quot;int *a：%p\n&quot;,a);</span><br><span class="line">	printf(&quot;int *a: %d\n&quot;,*a);</span><br><span class="line">	printf(&quot;int  b: %p\n&quot;,&amp;b); </span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/18/c语言/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-gcc编译器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/17/gcc编译器/">gcc编译器/c</a>
-    </h1>
   
 
-        
-        <a href="/2019/07/17/gcc编译器/" class="archive-article-date">
-  	<time datetime="2019-07-17T01:43:46.647Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="gcc编译器的编译过程"><a href="#gcc编译器的编译过程" class="headerlink" title="gcc编译器的编译过程"></a>gcc编译器的编译过程</h1><p>  嵌入式开发四步骤：</p>
-<blockquote>
-<p>编写工程<br>编译工程<br>移植工程<br>测试工程</p>
-</blockquote>
-<h2 id="1-编写工程"><a href="#1-编写工程" class="headerlink" title="1.编写工程"></a>1.编写工程</h2><h3 id="编写软件-vi-gedit-notepad"><a href="#编写软件-vi-gedit-notepad" class="headerlink" title="编写软件 vi gedit notepad++"></a>编写软件 vi gedit notepad++</h3><h3 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h3><pre><code>新建文件
-右击新文件----》另存为------&gt;共享文件
-编写代码
-   #include &lt;stdio.h&gt;
-
-   int main(int argc,char *argv[])
-   {
-       printf(&quot;helloworld!&quot;);
-       return 0;
-   }</code></pre><h2 id="2-编译工程"><a href="#2-编译工程" class="headerlink" title="2.编译工程"></a>2.编译工程</h2><p>  gcc编译器很多的参数<br>  预处理           -E      .c只工作到预处理极端<br>  编译             -S<br>  汇编             -c<br>  指定输出二进制    -o</p>
-<h3 id="源文件：-hello-c-目标文件（二进制）-hello"><a href="#源文件：-hello-c-目标文件（二进制）-hello" class="headerlink" title="源文件：  hello.c  目标文件（二进制） hello"></a>源文件：  hello.c  目标文件（二进制） hello</h3><h4 id="1-预处理—》处理头文件、宏定义展开、屏蔽注释"><a href="#1-预处理—》处理头文件、宏定义展开、屏蔽注释" class="headerlink" title="1.预处理—》处理头文件、宏定义展开、屏蔽注释"></a>1.预处理—》处理头文件、宏定义展开、屏蔽注释</h4><pre><code>gcc  -E hello.c -o hello.i</code></pre><h4 id="2-编译—》程序C语言-c转化为二进制文件-s"><a href="#2-编译—》程序C语言-c转化为二进制文件-s" class="headerlink" title="2.编译—》程序C语言.c转化为二进制文件.s"></a>2.编译—》程序C语言.c转化为二进制文件.s</h4><pre><code>gcc  -S hello.i -o hello.s</code></pre><h4 id="3-汇编—》把地址按照规律重新排列"><a href="#3-汇编—》把地址按照规律重新排列" class="headerlink" title="3.汇编—》把地址按照规律重新排列"></a>3.汇编—》把地址按照规律重新排列</h4><pre><code>gcc  -c hello.s -o hello.o</code></pre><h4 id="4-链接—》链接到我们的库文件"><a href="#4-链接—》链接到我们的库文件" class="headerlink" title="4.链接—》链接到我们的库文件"></a>4.链接—》链接到我们的库文件</h4><pre><code>gcc   hello.o -o hello</code></pre><h4 id="5-本地测试"><a href="#5-本地测试" class="headerlink" title="5.本地测试"></a>5.本地测试</h4><pre><code>&gt; ./hello   .当前目录
-直接将原文件.c编译成目标文件
-&gt; 1.gcc hello.c   生成可执行文件hello
-
-&gt; 2.gcc hello.c -o hello 生成可执行文件 hello
-
-&gt; 3.gcc -o hello hello.c 生成可执行文件 hello</code></pre><hr>
-<h1 id="C语言介绍"><a href="#C语言介绍" class="headerlink" title="C语言介绍"></a>C语言介绍</h1><h1 id="Linux标准c"><a href="#Linux标准c" class="headerlink" title="Linux标准c"></a>Linux标准c</h1><h2 id="1-Linux系统是多任务的操作系统，需要知道各任务执行的返回结果，所以需要返回值！"><a href="#1-Linux系统是多任务的操作系统，需要知道各任务执行的返回结果，所以需要返回值！" class="headerlink" title="1.Linux系统是多任务的操作系统，需要知道各任务执行的返回结果，所以需要返回值！"></a>1.Linux系统是多任务的操作系统，需要知道各任务执行的返回结果，所以需要返回值！</h2><pre><code>#include &lt;stdio.h&gt;
-
-    int main(int argc,char *argv[])---》int返回值的类型
-    {
-        //输出语句helloworld
-        printf(&quot;helloworld!\n&quot;);
-        return 0; ----》返回值 返回结果
-                  ----》成功执行 返回值为0
-                        执行失败 返回值为负数
-    }</code></pre><hr>
-<p> C语言主函数参数，main可以带形参，可以传递参数<br>        main()<br>        main(void)<br>        int main()<br>        int main(void)<br>        int main(int argc,char *<em>argv)<br>        int main(int argc,const char *</em>argv)<br>        int main(int argc,char *argv[])<br>        argc: 指示你当前命令行传入参数的个数  count<br>        argv: 指示你当前命令行传入参数的内容  value<br>              并且argv[0]是你的执行文件对象</p>
-<hr>
-<p>程序中所包含的库函数均要声明或者自己定义—》需要包含对应的头文件</p>
-<pre><code>    printf(&quot;helloworld!\n&quot;);
-    查询printf
-    #include &lt;stdio.h&gt;//标准输入输出头文件
-    函数原型：
-    int printf(const char *format, ...);//变参函数
-    参数：const char *format  输出字符串，提示语句
-            ...               输出对象
-学习任何函数，只要知道其函数原型以及参数还有头文件就可以了</code></pre><h2 id="2-注释-适当的注释有利于之后回来翻看代码"><a href="#2-注释-适当的注释有利于之后回来翻看代码" class="headerlink" title="2.注释 适当的注释有利于之后回来翻看代码"></a>2.注释 适当的注释有利于之后回来翻看代码</h2><pre><code>行注释   //
-
-区域注释 /* ... */</code></pre><h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><hr>
-<p>程序=数据结构+算法</p>
-<p>  数据结构：数据的封装–》数据类型—》量程—》定义数据存储空间<br>  算法    ：数据之间的逻辑关系</p>
-<h2 id="变量在数据里面的存储空间—》内存"><a href="#变量在数据里面的存储空间—》内存" class="headerlink" title="变量在数据里面的存储空间—》内存"></a>变量在数据里面的存储空间—》内存</h2><p>  内存理解：</p>
-<blockquote>
-<p>程序在执行的时候一定是在内存中<br>程序在分配内存时，一定是连续分配<br>程序在分配空间的时候不确定位置</p>
-</blockquote>
-<h2 id="变量的类型"><a href="#变量的类型" class="headerlink" title="变量的类型"></a>变量的类型</h2><table>
-<thead>
-<tr>
-<th align="center">变量类型</th>
-<th align="center">具体类型</th>
-<th align="center">变量表示</th>
-<th align="center">字节大小</th>
-<th align="center">打印格式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">整形</td>
-<td align="center">短整型</td>
-<td align="center">short</td>
-<td align="center">2</td>
-<td align="center">%d</td>
-</tr>
-<tr>
-<td align="center"></td>
-<td align="center">整型</td>
-<td align="center">int</td>
-<td align="center">4</td>
-<td align="center">%d</td>
-</tr>
-<tr>
-<td align="center"></td>
-<td align="center">长整型</td>
-<td align="center">long</td>
-<td align="center">4</td>
-<td align="center">%ld</td>
-</tr>
-<tr>
-<td align="center"></td>
-<td align="center">长长整型</td>
-<td align="center">long long</td>
-<td align="center">8</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">字符型</td>
-<td align="center"></td>
-<td align="center">char</td>
-<td align="center">1</td>
-<td align="center">%c/%s</td>
-</tr>
-<tr>
-<td align="center">浮点型</td>
-<td align="center">单精度</td>
-<td align="center">float</td>
-<td align="center">4</td>
-<td align="center">%f</td>
-</tr>
-<tr>
-<td align="center"></td>
-<td align="center">双精度</td>
-<td align="center">double</td>
-<td align="center">8</td>
-<td align="center">%lf</td>
-</tr>
-</tbody></table>
-<pre><code>使用函数sizeof计算空间大小    </code></pre><h3 id="打印格式："><a href="#打印格式：" class="headerlink" title="打印格式："></a>打印格式：</h3><pre><code>整型     %d
-字符型   %c
-字符串型 %s     
-浮点型   单精度 %f
-         双精度 %lf
-长整型   %ld 
-长长整型 %lld  
-
-无符号类型   %u
-无符号整型   %hu
-无符号短整型 %hd
-
-科学计数法   %e
-地址类型     %p
-八进制       %o
-十六进制     %x
-二进制       %b</code></pre><h2 id="变量的定义"><a href="#变量的定义" class="headerlink" title="变量的定义"></a>变量的定义</h2><p>定义标准：数据类型   变量名   —》申请该类型对应的空间 由当前变量直接访问<br>变量名：  变量名由数字、子母、下划线组成，而且开头由字母和下划线；</p>
-<p>比如：int A；—》申请int类型的数据空间4字节，由当前变量A直接访问该存储空间的数据</p>
-<h2 id="变量的赋值"><a href="#变量的赋值" class="headerlink" title="变量的赋值"></a>变量的赋值</h2><h3 id="1-左值和右值的数据类型一定要匹配"><a href="#1-左值和右值的数据类型一定要匹配" class="headerlink" title="1.左值和右值的数据类型一定要匹配"></a>1.左值和右值的数据类型一定要匹配</h3><h3 id="2-将右值赋值给左值-区分"><a href="#2-将右值赋值给左值-区分" class="headerlink" title="2.将右值赋值给左值 区分 =  =="></a>2.将右值赋值给左值 区分 =  ==</h3><pre><code>int a  = 100;
-   左值  右值
-    a == 100；  a是否等于100？</code></pre><h2 id="变量的生命周期和作用域"><a href="#变量的生命周期和作用域" class="headerlink" title="变量的生命周期和作用域"></a>变量的生命周期和作用域</h2><pre><code>定义位置----》决定了生命周期</code></pre><h3 id="局部变量"><a href="#局部变量" class="headerlink" title="局部变量"></a>局部变量</h3><pre><code>定义    ：在函数内部定义的变量
-生命周期：运行的时候才分配空间
-作用域  ：只能在函数内部使用
-赋值    ：如果局部变量一开未赋值，编译的时候会随机产生一个数赋值---》未知</code></pre><h3 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h3><pre><code>定义    ：在所有函数之外定义的变量
-生命周期：gcc编译的时候就已经分配空间
-作用域  ：所有的函数都可以访问
-赋值    ：如果全局变量一开始为赋值，自动赋值为0；</code></pre><ul>
-<li>关于局部变量和全局变量，你还需要知道？<ul>
-<li>1.如果全局变量和局部变量同名，那么全局变量的作用域无效。</li>
-<li>2.主函数和其他函数之间的平行关系。</li>
-<li>3.在不同的函数中能够使用相同的变量名。</li>
-<li>4.全局变量的作用域是只能往下不能往上，<br>如果你全局变量是先使用在定义,gcc编译就出现错误<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">test.c: In function ‘main’:</span><br><span class="line">      test.c:8:21: error: ‘a’ undeclared (first use in this function)</span><br><span class="line">      test.c:8:21: note: each undeclared identifier is reported only once for each function it appears in</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h1><hr>
-<h2 id="算术运算符-–"><a href="#算术运算符-–" class="headerlink" title="算术运算符  + - * / %  ++ –"></a>算术运算符  + - * / %  ++ –</h2><ul>
-<li><p>双目运算(两个操作数)：+ - * / %<br>比如： a+b </p>
-</li>
-<li><p>单目运算(一个操作数)：++ –<br>比如： a++  ++a</p>
-</li>
-</ul>
-<h2 id="关系运算符-gt-lt-gt-lt"><a href="#关系运算符-gt-lt-gt-lt" class="headerlink" title="关系运算符  &gt; &lt; &gt;= &lt;= == !="></a>关系运算符  &gt; &lt; &gt;= &lt;= == !=</h2><pre><code>主要是和判断语句使用</code></pre><h2 id="逻辑运算符-amp-amp"><a href="#逻辑运算符-amp-amp" class="headerlink" title="逻辑运算符 &amp;&amp; || !"></a>逻辑运算符 &amp;&amp; || !</h2><pre><code>主要是和判断语句使用
-
-&amp;&amp; 逻辑与：两个条件都要成立
-
-|| 逻辑或：其中一个条件成立就可以使用
-
-！ 非     </code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/17/gcc编译器/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-嵌入式Linux环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/16/嵌入式Linux环境/">嵌入式Linux环境</a>
-    </h1>
   
 
-        
-        <a href="/2019/07/16/嵌入式Linux环境/" class="archive-article-date">
-  	<time datetime="2019-07-16T01:17:57.475Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="软件环境"><a href="#软件环境" class="headerlink" title="软件环境"></a>软件环境</h1><h2 id="1-Linux内核（Ubuntu，Redhat）"><a href="#1-Linux内核（Ubuntu，Redhat）" class="headerlink" title="1.Linux内核（Ubuntu，Redhat）"></a>1.Linux内核（Ubuntu，Redhat）</h2><p>Ubuntu特点：开源性、图形比较简陋   —-》开发效率高</p>
-<h2 id="2-Ubuntu与windows之间的差异"><a href="#2-Ubuntu与windows之间的差异" class="headerlink" title="2.Ubuntu与windows之间的差异"></a>2.Ubuntu与windows之间的差异</h2><h3 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h3><p>Windows系统：以图形界面的方式进行交互<br>Ubuntu系统：以命令形式进行交互</p>
-<h3 id="文件目录架构："><a href="#文件目录架构：" class="headerlink" title="文件目录架构："></a>文件目录架构：</h3><p>Windows系统：目录从属分区<br>Ubuntu系统：分区从属目录</p>
-<h2 id="3-Linux的操作基础"><a href="#3-Linux的操作基础" class="headerlink" title="3.Linux的操作基础"></a>3.Linux的操作基础</h2><h3 id="打开命令提示符终端："><a href="#打开命令提示符终端：" class="headerlink" title="打开命令提示符终端："></a>打开命令提示符终端：</h3><p>1双击terminal<br>2.快捷键 CTRL+alt+t</p>
-<h3 id="命令提示符"><a href="#命令提示符" class="headerlink" title="命令提示符"></a>命令提示符</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gec@ubuntu:~$</span><br><span class="line">gec        用户名</span><br><span class="line">@          分隔符</span><br><span class="line">Ubuntu     操作系统</span><br><span class="line">：         分隔符</span><br><span class="line">~          工作路径</span><br><span class="line">$          用户身份(普通用户)  <span class="comment">#   超级用户</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="图形界面切换字符界面"><a href="#图形界面切换字符界面" class="headerlink" title="图形界面切换字符界面"></a>图形界面切换字符界面</h3><p>切换到字符界面</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CTRL+alt+f1</span><br><span class="line">Ubuntu login：gec</span><br><span class="line">password    ：123456  隐性密码</span><br></pre></td></tr></table></figure>
-
-<p>如果鼠标不见了使用CTRL+alt切换图形界面<br>CTRL+alt+f7</p>
-<h2 id="Linux操作命令"><a href="#Linux操作命令" class="headerlink" title="Linux操作命令"></a>Linux操作命令</h2><h3 id="1-查看当前工作路径-pwd"><a href="#1-查看当前工作路径-pwd" class="headerlink" title="1.查看当前工作路径  pwd"></a>1.查看当前工作路径  pwd</h3><p>/  —》  根目录<br>~  —》  /home/gec  家目录</p>
-<h3 id="2-查看文件-ls"><a href="#2-查看文件-ls" class="headerlink" title="2.查看文件  ls"></a>2.查看文件  ls</h3><p>ls    查看文件查看当前工作路径下文件<br>ls -l 查看当前路径文件的详细信息</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">drwxrwxr-x  2 gec gec    4096 Jul  2  2013 Desktop</span><br><span class="line">drwxrwxr-x  4 gec gec    4096 Jul  2  2013 Download</span><br><span class="line">-rw-r--r--  1 gec gec    8445 Jun 27  2013 examples.desktop</span><br><span class="line">drwxr-xr-x  4 gec gec   12288 May 25  2016 jpeg-9a</span><br></pre></td></tr></table></figure>
-
-<p>不带-的为目录<br>带-的为文件<br>Linux目录的大小不会因为里面的文件变大<br>目录中即使没有任何文件，目录的大小也只会是4096的整数倍</p>
-<p>ls -a 查看当前工作路径的所有文件包括隐藏文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.                 .gconf                 .mission-control</span><br><span class="line">..                .gnome2                .mplayer</span><br><span class="line">.bash_history     .goutputstream-A9F1ZW  .profile</span><br></pre></td></tr></table></figure>
-
-<p>.  :当前目录<br>.. :上一层目录<br>.wenjian   :隐藏文件<br>la   查看当前工作工作路径所有文件包括隐藏文件的详细信息</p>
-<h3 id="3-切换路径-cd"><a href="#3-切换路径-cd" class="headerlink" title="3.切换路径  cd"></a>3.切换路径  cd</h3><p>访问方式：<br>cd+绝对路径：以根为开头，一层一层往下写<br>cd+相对路径：以当前目录为基准访问下级目录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">实例</span><br><span class="line"><span class="built_in">cd</span> /  命令与参数之间要有空格  直接切换到根目录</span><br><span class="line"><span class="built_in">cd</span>    直接切换到家目录</span><br><span class="line"><span class="built_in">cd</span> -  返回到刚刚去过的路径</span><br><span class="line"><span class="built_in">cd</span> *  一般在家目录使用最快访问桌面</span><br><span class="line"><span class="built_in">cd</span> .. 返回上一级目录</span><br><span class="line"><span class="built_in">cd</span> ~  直接切换到家目录</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gec@ubuntu:~$ cd /home/gec/  ---》 cd+ 绝对路径</span><br><span class="line">gec@ubuntu:~$</span><br><span class="line">gec@ubuntu:/$ cd bin/  ---》 cd+ 相对路径</span><br><span class="line">gec@ubuntu:/bin$</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-清屏操作-clear"><a href="#4-清屏操作-clear" class="headerlink" title="4.清屏操作 clear"></a>4.清屏操作 clear</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c  ----》     clear</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-创建文件-touch"><a href="#5-创建文件-touch" class="headerlink" title="5.创建文件 touch"></a>5.创建文件 touch</h3><p>实例：touch+文件名  例子：touch 1.txt<br>假如在家目录，拥有一切权力</p>
-<p>在根目录当中创建1.txt</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">gec@ubuntu:/$ touch 1.txt</span><br><span class="line">touch: cannot touch `1.txt&apos;: Permission denied权限不足</span><br><span class="line">```                        </span><br><span class="line"></span><br><span class="line">假如不在家目录，不再拥有权力</span><br><span class="line">如果需要访问系统文件，需要临时切换到超级用户</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">sudo touch 1.txt</span><br><span class="line">gec@ubuntu:~$ sudo touch 1.txt</span><br><span class="line">[sudo] password for gec:</span><br></pre></td></tr></table></figure>
-
-<h3 id="6-创建目录-mkdir"><a href="#6-创建目录-mkdir" class="headerlink" title="6.创建目录  mkdir"></a>6.创建目录  mkdir</h3><p>实例： mkdir+目录名  例子： mkdir abc<br>家目录中： mkdir abc<br>不在家目录中：sudo mkdir abc<br>1.如果文件存在就不能被创建<br>2.同一级目录中，文件和目录不能重名</p>
-<h3 id="7-删除文件-目录-rm"><a href="#7-删除文件-目录-rm" class="headerlink" title="7.删除文件/目录  rm"></a>7.删除文件/目录  rm</h3><p>rm +文件目录名/文件名<br>删除一个文件:      rm   1.txt<br>删除同一类型的文件：rm <em>.txt(</em>通配符)</p>
-<p>删除目录  rm+目录+ -rf   例子: rm abc -rf<br>       -rf    r :递归删除   f :不可忽略文件 隐藏文件<br>删库   sudo  rm  /*  -rf<br>5 6 7命令属于修改系统中的文件资源，执行的时候需要<br>        切换到管理员身份进行操作</p>
-<h3 id="8复制文件-目录-cp"><a href="#8复制文件-目录-cp" class="headerlink" title="8复制文件/目录  cp"></a>8复制文件/目录  cp</h3><p> 实例：cp+拷贝对象+拷贝的目的地址<br> 例子：cp 1.txt /home/gec/abc<br> gec@ubuntu:~$ cp 1.txt cedar/</p>
-<p>拷贝目录：cp+拷贝对象+拷贝的目的地址 -rf<br>例子： cp+123/ +abc/</p>
-<h3 id="9剪切文件-目录-mv"><a href="#9剪切文件-目录-mv" class="headerlink" title="9剪切文件/目录      mv"></a>9剪切文件/目录      mv</h3><p> 剪切文件/目录<br> 实例：mv 需要剪切的对象 移动的目标地址<br> 例子：mv 1.txt 123/</p>
-<p> 重命名<br>  实例:mv 源文件的名称  目标文件的名称<br>  例子：mv 1.txt  2.txt</p>
-<h3 id="10-获取文件的参数属性-file"><a href="#10-获取文件的参数属性-file" class="headerlink" title="10.获取文件的参数属性 file"></a>10.获取文件的参数属性 file</h3><p>  实例： file+文件名<br>  例子： file 1.txt</p>
-<h3 id="11-如何获取可执行工具路径-which"><a href="#11-如何获取可执行工具路径-which" class="headerlink" title="11.如何获取可执行工具路径  which"></a>11.如何获取可执行工具路径  which</h3><p>  实例：which 可执行工具<br>  例子：gec@ubuntu:~$ which mv<br>/bin/mv</p>
-<h3 id="12-切换超级用户-切换普通用户"><a href="#12-切换超级用户-切换普通用户" class="headerlink" title="12.切换超级用户/切换普通用户"></a>12.切换超级用户/切换普通用户</h3><p>实例：sudo su /exit</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gec@ubuntu:~$ sudo su</span><br><span class="line">[sudo] password <span class="keyword">for</span> gec: </span><br><span class="line">root@ubuntu:/home/gec<span class="comment">#</span></span><br></pre></td></tr></table></figure>
-
-<p>root  超级用户用户名</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@ubuntu:/home/gec<span class="comment"># exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">gec@ubuntu:~$</span><br></pre></td></tr></table></figure>
-
-<p>/home/gec 普通用户的家目录<br>/root     超级用户的家目录</p>
-<h3 id="13-文件目录权限的修改-chmod"><a href="#13-文件目录权限的修改-chmod" class="headerlink" title="13.文件目录权限的修改 chmod"></a>13.文件目录权限的修改 chmod</h3><p>实例：chmod 八进制数  修改对象</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">drwx------  3 gec  gec     4096 Jun 27  2013 .mission-control</span><br><span class="line">drwxrwxr-x  2 gec  gec     4096 Mar 29  2016 .mplayer</span><br><span class="line">-rw-r--r--  1 gec  gec      675 Jun 27  2013 .profile</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">文件类型  文件权限     连接数   创建者  创建者的组  文件大小   创建日期     文件名</span><br><span class="line">-         rw-r--r--     1       gec      gec      675    Jun 27  2013  .profile</span><br></pre></td></tr></table></figure>
-
-<p>文件类型：<br>-：使用touch命名创建的文件<br>d：使用mkdir命名创建的目录</p>
-<p>文件权限：<br>创建的组    同组用户  其他人<br>rwx          rwx      r-x<br>权限是：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">r:  <span class="built_in">read</span> only   只读    4</span><br><span class="line">w:  write only  只写    2</span><br><span class="line">x： exe         执行权   1</span><br><span class="line">-： 缺省              0</span><br></pre></td></tr></table></figure>
-
-<p>例子：chomd 777 1.txt<br>-rwxrwxrwx 1 gec gec 675 Jun 27 1.txt</p>
-<h3 id="14-man手册-查看帮助的文档"><a href="#14-man手册-查看帮助的文档" class="headerlink" title="14.man手册  查看帮助的文档"></a>14.man手册  查看帮助的文档</h3><p>实例：man man 寻找9本守则    退出：退出字母 q</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1   Executable programs or shell commands</span><br><span class="line"> //系统命令的帮助 shell</span><br><span class="line">2   System calls (functions provided by the kernel)</span><br><span class="line"> //系统函数帮助  文件IO</span><br><span class="line">3   Library calls (functions within program libraries)</span><br><span class="line"> //库函数的帮助  C语言</span><br><span class="line">4   Special files (usually found in /dev)</span><br><span class="line">5   File formats and conventions eg /etc/passwd</span><br><span class="line">6   Games</span><br><span class="line">7   Miscellaneous  (including  macro  packages  and  conventions), e.g.</span><br><span class="line">    man(7), groff(7)</span><br><span class="line">8   System administration commands (usually only for root)</span><br><span class="line">9   Kernel routines [Non standard]</span><br></pre></td></tr></table></figure>
-
-<pre><code>寻找ls的使用方法  man 1 ls</code></pre><h3 id="15-查看文件中的内容-cat"><a href="#15-查看文件中的内容-cat" class="headerlink" title="15 查看文件中的内容 cat"></a>15 查看文件中的内容 cat</h3><pre><code>实例： cat +文件名
-例子  cat  1.txt </code></pre><h2 id="共享目录"><a href="#共享目录" class="headerlink" title="共享目录"></a>共享目录</h2><p>让windows系统和Linux系统共用一个文件夹</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1.Windows上创建一个文件夹，比如叫Linux。</span><br><span class="line">2.点击VMware上的虚拟机（m）--》设置---》选项</span><br><span class="line">3.选中共享文件夹----》选中总是启用</span><br><span class="line">4.添加----》下一步---》浏览----》选中Linux----》下一步----》完成</span><br><span class="line">5.点击确认</span><br><span class="line">6.检验是否完成   gec@ubuntu:~$ <span class="built_in">cd</span> /mnt/hgfs/linux/</span><br><span class="line">gec@ubuntu:/mnt/hgfs/linux$ ls</span><br><span class="line">gec@ubuntu:/mnt/hgfs/linux$ touch 1.txt</span><br></pre></td></tr></table></figure>
-
-<h2 id="补充知识点"><a href="#补充知识点" class="headerlink" title="补充知识点"></a>补充知识点</h2><p>1.自动补齐  按tab键自动补齐<br>2.上下翻页  寻找之前执行过的命令</p>
-<h2 id="Linux文件系统架构"><a href="#Linux文件系统架构" class="headerlink" title="Linux文件系统架构"></a>Linux文件系统架构</h2><p>Linux文件系统比Windows，规矩要多得多<br>特有的文件就要放到特定的目录中才会生效</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">bin         可执行文件，Linux命令的存放目录</span><br><span class="line">            大部分文件是绿色，绿色是可执行文件</span><br><span class="line">cdrom       光驱存放目录</span><br><span class="line">etc         修改系统文件的配置文件（类似于Windows控制面板）</span><br><span class="line">mnt         挂载目录  比如说共享文件</span><br><span class="line">proc        有关系统进程的信息存放位置</span><br><span class="line">run         系统运行日志</span><br><span class="line">sys         系统运行目录</span><br><span class="line">var         系统日志目录</span><br><span class="line">usr         一般存放工具链/用户使用头文件/库文件/安装软件</span><br><span class="line">boot        系统的镜像目录  内核  文件系统</span><br><span class="line">dev         设备文件 驱动</span><br><span class="line">home        普通用户的家目录</span><br><span class="line">lib         库文件     库文件的后缀.so	</span><br><span class="line">srv         系统服务</span><br><span class="line">media      多媒体</span><br><span class="line">opt        映射镜像 映射内存空间</span><br><span class="line">root       超级用户的家目录</span><br><span class="line">sbin       超级用户的可执行文件区</span><br><span class="line">tmp        存放临时文件</span><br></pre></td></tr></table></figure>
-
-<h2 id="linux编程"><a href="#linux编程" class="headerlink" title="linux编程"></a>linux编程</h2><p>   编程语言 C语言 c++  C#  java  python<br>   低级语言 机器语言<br>    （01010101000001111）<br>      特点：语法少 结构少 没有封装性 可移植性差</p>
-<pre><code>*.s----》*.o-----》*.exe bin elf-----》镜像文件 
-
-解决逻辑/算法/分析问题
-
-编译器
-
-x86平台编译器   gcc  ------》这个编译文件之后只能在x86镜像平台使用
-
-arm平台编译器 arm-linux-gcc ---》开发板的使用平台
-
-vi编辑器   gedit编辑器</code></pre><h3 id="vi编辑器"><a href="#vi编辑器" class="headerlink" title="vi编辑器"></a>vi编辑器</h3><pre><code>1.创建并打开文件
-  vi  test.c
-
-2.vi编辑器三种模式
-  2.0编辑模式（写东西）
-     默认的是命令模式，按下字母 i
-     底行就会出现insert，代表能够输入内容
-
-  2.1底行模式（搜索/退出）
-     按下Esc菜单键，进入命令模式
-     保存退出： 2.1.1 shift+；
-                2.1.2 wq  w保存 q退出
-
-  2.2命令模式（控制文本）
-     按下Esc菜单键，进入命令模式</code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/16/嵌入式Linux环境/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-我的第一篇博客文章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/05/我的第一篇博客文章/">爱京京</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/05/我的第一篇博客文章/" class="archive-article-date">
-  	<time datetime="2019-07-05T10:09:22.624Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="爱你"><a href="#爱你" class="headerlink" title="爱你"></a>爱你</h2><p>你最棒了</p>
-<h1 id="超级棒"><a href="#超级棒" class="headerlink" title="超级棒"></a>超级棒</h1><p>肯定可以的</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">加油噢</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/05/我的第一篇博客文章/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
 
 
@@ -1217,8 +545,8 @@ vi编辑器   gedit编辑器</code></pre><h3 id="vi编辑器"><a href="#vi编辑
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
