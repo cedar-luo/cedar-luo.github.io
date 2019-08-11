@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | 爱京京</title>
+  <title>爱京京</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="一、Makefile初步了解1.Makefile意义Makefile被称为工程管理文件，makefile中有一套特定逻辑规则， 就像shell脚本，Makefile根据用户所规规定的规则，依次执行2.什么时候用Makefile？Makefile必须写吗？当工程文件编译的内容比较多，编译命令很复杂，就会使用makefile 使得用户不需要重复输入命令，提高效率 makefile不是一定写的，想写就写">
+<meta property="og:type" content="article">
 <meta property="og:title" content="爱京京">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/08/11/makefile/index.html">
 <meta property="og:site_name" content="爱京京">
+<meta property="og:description" content="一、Makefile初步了解1.Makefile意义Makefile被称为工程管理文件，makefile中有一套特定逻辑规则， 就像shell脚本，Makefile根据用户所规规定的规则，依次执行2.什么时候用Makefile？Makefile必须写吗？当工程文件编译的内容比较多，编译命令很复杂，就会使用makefile 使得用户不需要重复输入命令，提高效率 makefile不是一定写的，想写就写">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-08-11T13:56:38.971Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="爱京京">
+<meta name="twitter:description" content="一、Makefile初步了解1.Makefile意义Makefile被称为工程管理文件，makefile中有一套特定逻辑规则， 就像shell脚本，Makefile根据用户所规规定的规则，依次执行2.什么时候用Makefile？Makefile必须写吗？当工程文件编译的内容比较多，编译命令很复杂，就会使用makefile 使得用户不需要重复输入命令，提高效率 makefile不是一定写的，想写就写">
   
     <link rel="alternative" href="/atom.xml" title="爱京京" type="application/atom+xml">
   
@@ -150,178 +154,334 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-makefile" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一、Makefile初步了解"><a href="#一、Makefile初步了解" class="headerlink" title="一、Makefile初步了解"></a>一、Makefile初步了解</h1><h5 id="1-Makefile意义"><a href="#1-Makefile意义" class="headerlink" title="1.Makefile意义"></a>1.Makefile意义</h5><pre><code>Makefile被称为工程管理文件，makefile中有一套特定逻辑规则，
+就像shell脚本，Makefile根据用户所规规定的规则，依次执行</code></pre><h5 id="2-什么时候用Makefile？Makefile必须写吗？"><a href="#2-什么时候用Makefile？Makefile必须写吗？" class="headerlink" title="2.什么时候用Makefile？Makefile必须写吗？"></a>2.什么时候用Makefile？Makefile必须写吗？</h5><pre><code>当工程文件编译的内容比较多，编译命令很复杂，就会使用makefile
+使得用户不需要重复输入命令，提高效率
+makefile不是一定写的，想写就写</code></pre><h1 id="二、工程的组成"><a href="#二、工程的组成" class="headerlink" title="二、工程的组成"></a>二、工程的组成</h1><p>   一般而言，一个基本工程包含如下内容<br>       复杂版 多目录<br>        1.主函数源文件和应用函数源文件 <strong>*.c<br>        2.头文件  *</strong>.h —》宏定义、函数声明、结构体、变量<br>        3.库文件  lib(<strong><em>.so或者</em></strong>.a)<br>        4.makefile  —-》工程管理文件</p>
+<pre><code>简单版  实例：add目录
+ 1.主函数文件   main.c
+ 2.功能函数文件 fun.c
+ 3.头文件       head.h
+ 4.工程管理文件 makefile
+
+ 编译：gcc main.c add.c -o main
+ shell:gcc *.c -o main</code></pre><h1 id="三、makefile书写规则"><a href="#三、makefile书写规则" class="headerlink" title="三、makefile书写规则"></a>三、makefile书写规则</h1><pre><code>1.makefile的核心： 目标 和 依赖
+  依赖：一般指的是所有的.c文件
+  目标：你最终编译之后的文件名，指的可执行程序
+
+例子：gcc main.c add.c -o main
+  依赖：main.c add.c
+  目标：main
+
+2.makefile的书写规则
+  目标:依赖  （各个依赖文件之间用空格隔开）
+         &lt;tab键规则&gt;
+   $^:代表所有的依赖文件
+   $@:代表目标文件
+
+3.makefile版的helloworld
+  target：   ---》依赖文件不是必须的
+        echo &quot;helloworld&quot;---》用户自定义，在写之前使用tab键
+
+  执行的时候：make
+  echo &quot;helloworld&quot; 
+  helloworld
+
+  target:
+        @echo &quot;helloworld&quot; ---》执行make，只打印helloworld
+  执行的时候：make
+  helloworld    </code></pre><p>练习：写一个makefile，实现“gcc main.c add.c -o main”<br>      main:main.c add.c     目标文件：依赖文件<br>        gcc $^ -o $@                编译器  依赖文件代表  指定生成  目标文件代表</p>
+<h1 id="四、makefile可以指定文件生成"><a href="#四、makefile可以指定文件生成" class="headerlink" title="四、makefile可以指定文件生成"></a>四、makefile可以指定文件生成</h1><pre><code>add:main.c add.c  加法
+gcc $^ -o $@
+
+
+max:main1.c max.c 比较大小  运行：make max
+gcc $^ -o $@
+
+clean:            清除      运行：make clean
+rm add max
+
+make: `max&apos; is up to date.---&gt;所有的依赖文件没有更新（makefile自动检测文件修改日期）</code></pre><h1 id="五、makefile变量种类"><a href="#五、makefile变量种类" class="headerlink" title="五、makefile变量种类"></a>五、makefile变量种类</h1><pre><code>1.自定义变量 ---》默认字符串类型
+ 规则：
+    1）只能用数字、字母、下划线
+    2）大小写敏感
+    3）不能出现#
+    A = Hello
+    B = Hello world
+    C = $(A) WH1908
+
+    all:
+        @echo $(A)
+        @echo $(B)
+        @echo $(C)         
+    注意：1.引用变量和shell脚本很像，但是要加()
+          2.makefile不是shell脚本，变量两边有没有空格都行
+          3.makefile和shell不一样，字符串不需要“”
+例如：所有的依赖文件存在自定义变量中
+    C_SOURCE = main.c add.c
+    add:$(C_SOURCE)
+        gcc $^ -o $@
+
+    clean:
+        rm add     
+
+2.系统变量 预设
+  有些变量是系统设定好的，不需要再次定义
+   常用的变量
+   CC: 编译器的名字 默认是cc 等价于gcc
+   RM: 删除内容     默认是rm -f 
+
+   虽然系统变量已经设定，但是可以修改
+   例子：CC:arm-linux-gcc
+
+3.自动化变量
+   $^:代表所有的依赖文件
+   $@:代表目标文件
+
+C_SOURCE = main.c add.c
+add:$(C_SOURCE)
+    $(CC) $^ -o $@
+
+clean:
+    $(RM) add        </code></pre><h1 id="六、伪指令"><a href="#六、伪指令" class="headerlink" title="六、伪指令"></a>六、伪指令</h1><pre><code> make: `clean&apos; is up to date.   
+当我们写的$(RM)的时候，make clean出现了错误，需要添加一个伪指令makefile
+.PHONY:clean
+clean：
+    $(RM) add    
+
+C_SOURCE = main.c add.c
+add:$(C_SOURCE)
+    $(CC) $^ -o $@
+.PHONY:clean
+clean:
+    $(RM) add        </code></pre><h1 id="七、makefile函数"><a href="#七、makefile函数" class="headerlink" title="七、makefile函数"></a>七、makefile函数</h1><pre><code>makefile函数调用方式：
+1.$(wildcard)作用：在某个路径下寻找相匹配的文件
+           用法：$(wildcard argv1,argv2,argv3)     
+
+    例子：$(wildcard *.c) 当前目录下寻找所有.c文件
+    C_SOURCE = $(wildcard *.c)
+    add:$(C_SOURCE)
+        $(CC) $^ -o $@
+
+    clean:
+        $(RM) add 
+
+2.patsubst作用：将所有.c结尾的文件变成.o的文件
+    SRC = $(wildcard *.c)
+    OBJ = $(patsubst %.c,%.o,$(SRC))//将.c文件转化为.o的文件
+    add:$(OBJ)
+        $(CC) $^ -o $@
+
+    clean:
+        $(RM) add     </code></pre><h1 id="八、多目录工程"><a href="#八、多目录工程" class="headerlink" title="八、多目录工程"></a>八、多目录工程</h1><pre><code>1.源文件目录        src
+  放置的都是.c文件
+
+2.头文件目录        include
+  放置的都是.h文件
+
+3.库文件目录        lib
+  放置的都是.so文件
+
+4.可执行文件目录    bin
+
+SRC = $(wildcard ./src/*.c)   //源文件
+I_DIR = -I ./include          //头文件
+L_DIR = -L ./lib -lm          //库文件
+TARGET = ./bin/main           //执行文件
+$(TARGET):$(SRC)
+    $(CC) $^ -o $@ $(I_DIR) $(L_DIR)
+
+clean:
+    $(RM) $(TARGET)
+
+.PHONY:clean
+
+gec@ubuntu:/mnt/hgfs/linux/project$ make
+cc src/add.c src/leng.c src/main.c src/max.c -o bin/main -I ./include -L ./lib -lm</code></pre><h1 id="九、库制作"><a href="#九、库制作" class="headerlink" title="九、库制作"></a>九、库制作</h1><p>   1.什么是库？<br>     库在linux下面以二进制形式存储，在编译的时候链接库。</p>
+<p>   2.库的的格式<br>     libxxx.so —》动态库<br>     libxxx.a  —》静态库</p>
+<p>   3.库的种类<br>      1.静态库 libxxx.a<br>      (去图书馆(libxxx.a)把书(库当中的接口函数)借走)<br>      特点：<br>       1.静态库就是在编译程序的时候链接，进行静态编译，编译完了之后，<br>       将库当中的接口函数加入到可执行程序。<br>       2.由于是静态编译，所有在编译之后，可执行文件不需要静态库的存在</p>
+<pre><code>2.动态库 libxxx.so
+  （去图书馆(libxxx.so)看看书(库当中的接口函数)，
+   然后又把书(库当中的接口函数)放回图书馆）
+  1.程序编译的时候，并没有将库的内容编译，只是链接了该库，所以执行文件比较小
+  2.由于是动态编译，所以在编译之后，可执行文件必须要有动态库才能运行
+
+4.制作库的意义
+  1.减少工程中的代码量
+  2.保护工程师权益性，保证函数的接口原创性
+
+静态库
+==================================
+main.c  调用库的函数
+add.c   功能函数
+add.h   头文件
+
+静态库的制作：只能将不包含主函数的.c文件编译为库
+1.将工程当中的所有不包含主函数.c文件编译成.o文件
+   gcc add.c -o add.o -c
+
+2.把所有.o文件统统塞进一个.a文件当中，文件名你决定
+   ar rcs libadd.a add.o
+
+3.链接静态库，编译程序
+   gcc main.c libadd.a -o add
+
+  体积：-rwxrwxrwx 1 root root 7224 Aug  9 02:19 add
+4.直接运行
+    ./add
+
+动态库的制作：只能将不包含主函数的.c文件编译为库        
+ 1.将工程当中的所有不包含主函数.c文件编译成.o文件
+    gcc add.c -o add.o -c
+
+ 2.把所有.o文件统统塞进一个.so文件当中，文件名你决定
+    gcc -shared -fPIC -o libadd.so add.o
+
+ 3.链接动态库，编译程序
+     gcc main.c -o add1 -L . -ladd
+
+ 4.直接运行
+   ./add1
+
+./add1: error while loading shared libraries: 
+libadd.so: cannot open shared object file: No such file or directory
+  解决方案：直接将动态库libadd.so丢到/lib当中
+   gec@ubuntu:/mnt/hgfs/linux/main$ sudo cp libadd.so /lib
+   [sudo] password for gec: 123456
+   重新运行就ok了</code></pre>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/11/makefile/" class="archive-article-date">
-  	<time datetime="2019-08-11T13:41:12.908Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-11</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/08/11/makefile/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/07/shell/" class="archive-article-date">
-  	<time datetime="2019-08-07T01:39:06.811Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-07</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/07/shell/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">shell</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/07/shell/">shell</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/18/c语言/" class="archive-article-date">
-  	<time datetime="2019-07-18T11:06:27.445Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/18/c语言/">c</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/17/gcc编译器/" class="archive-article-date">
-  	<time datetime="2019-07-17T01:43:46.647Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/17/gcc编译器/">gcc编译器/c</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/16/嵌入式Linux环境/" class="archive-article-date">
-  	<time datetime="2019-07-16T01:17:57.475Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/16/嵌入式Linux环境/">嵌入式Linux环境</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/05/我的第一篇博客文章/" class="archive-article-date">
-  	<time datetime="2019-07-05T10:09:22.624Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/05/我的第一篇博客文章/">爱京京</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -344,8 +504,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

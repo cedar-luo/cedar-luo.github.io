@@ -152,6 +152,247 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-makefile" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一、Makefile初步了解"><a href="#一、Makefile初步了解" class="headerlink" title="一、Makefile初步了解"></a>一、Makefile初步了解</h1><h5 id="1-Makefile意义"><a href="#1-Makefile意义" class="headerlink" title="1.Makefile意义"></a>1.Makefile意义</h5><pre><code>Makefile被称为工程管理文件，makefile中有一套特定逻辑规则，
+就像shell脚本，Makefile根据用户所规规定的规则，依次执行</code></pre><h5 id="2-什么时候用Makefile？Makefile必须写吗？"><a href="#2-什么时候用Makefile？Makefile必须写吗？" class="headerlink" title="2.什么时候用Makefile？Makefile必须写吗？"></a>2.什么时候用Makefile？Makefile必须写吗？</h5><pre><code>当工程文件编译的内容比较多，编译命令很复杂，就会使用makefile
+使得用户不需要重复输入命令，提高效率
+makefile不是一定写的，想写就写</code></pre><h1 id="二、工程的组成"><a href="#二、工程的组成" class="headerlink" title="二、工程的组成"></a>二、工程的组成</h1><p>   一般而言，一个基本工程包含如下内容<br>       复杂版 多目录<br>        1.主函数源文件和应用函数源文件 <strong>*.c<br>        2.头文件  *</strong>.h —》宏定义、函数声明、结构体、变量<br>        3.库文件  lib(<strong><em>.so或者</em></strong>.a)<br>        4.makefile  —-》工程管理文件</p>
+<pre><code>简单版  实例：add目录
+ 1.主函数文件   main.c
+ 2.功能函数文件 fun.c
+ 3.头文件       head.h
+ 4.工程管理文件 makefile
+
+ 编译：gcc main.c add.c -o main
+ shell:gcc *.c -o main</code></pre><h1 id="三、makefile书写规则"><a href="#三、makefile书写规则" class="headerlink" title="三、makefile书写规则"></a>三、makefile书写规则</h1><pre><code>1.makefile的核心： 目标 和 依赖
+  依赖：一般指的是所有的.c文件
+  目标：你最终编译之后的文件名，指的可执行程序
+
+例子：gcc main.c add.c -o main
+  依赖：main.c add.c
+  目标：main
+
+2.makefile的书写规则
+  目标:依赖  （各个依赖文件之间用空格隔开）
+         &lt;tab键规则&gt;
+   $^:代表所有的依赖文件
+   $@:代表目标文件
+
+3.makefile版的helloworld
+  target：   ---》依赖文件不是必须的
+        echo &quot;helloworld&quot;---》用户自定义，在写之前使用tab键
+
+  执行的时候：make
+  echo &quot;helloworld&quot; 
+  helloworld
+
+  target:
+        @echo &quot;helloworld&quot; ---》执行make，只打印helloworld
+  执行的时候：make
+  helloworld    </code></pre><p>练习：写一个makefile，实现“gcc main.c add.c -o main”<br>      main:main.c add.c     目标文件：依赖文件<br>        gcc $^ -o $@                编译器  依赖文件代表  指定生成  目标文件代表</p>
+<h1 id="四、makefile可以指定文件生成"><a href="#四、makefile可以指定文件生成" class="headerlink" title="四、makefile可以指定文件生成"></a>四、makefile可以指定文件生成</h1><pre><code>add:main.c add.c  加法
+gcc $^ -o $@
+
+
+max:main1.c max.c 比较大小  运行：make max
+gcc $^ -o $@
+
+clean:            清除      运行：make clean
+rm add max
+
+make: `max&apos; is up to date.---&gt;所有的依赖文件没有更新（makefile自动检测文件修改日期）</code></pre><h1 id="五、makefile变量种类"><a href="#五、makefile变量种类" class="headerlink" title="五、makefile变量种类"></a>五、makefile变量种类</h1><pre><code>1.自定义变量 ---》默认字符串类型
+ 规则：
+    1）只能用数字、字母、下划线
+    2）大小写敏感
+    3）不能出现#
+    A = Hello
+    B = Hello world
+    C = $(A) WH1908
+
+    all:
+        @echo $(A)
+        @echo $(B)
+        @echo $(C)         
+    注意：1.引用变量和shell脚本很像，但是要加()
+          2.makefile不是shell脚本，变量两边有没有空格都行
+          3.makefile和shell不一样，字符串不需要“”
+例如：所有的依赖文件存在自定义变量中
+    C_SOURCE = main.c add.c
+    add:$(C_SOURCE)
+        gcc $^ -o $@
+
+    clean:
+        rm add     
+
+2.系统变量 预设
+  有些变量是系统设定好的，不需要再次定义
+   常用的变量
+   CC: 编译器的名字 默认是cc 等价于gcc
+   RM: 删除内容     默认是rm -f 
+
+   虽然系统变量已经设定，但是可以修改
+   例子：CC:arm-linux-gcc
+
+3.自动化变量
+   $^:代表所有的依赖文件
+   $@:代表目标文件
+
+C_SOURCE = main.c add.c
+add:$(C_SOURCE)
+    $(CC) $^ -o $@
+
+clean:
+    $(RM) add        </code></pre><h1 id="六、伪指令"><a href="#六、伪指令" class="headerlink" title="六、伪指令"></a>六、伪指令</h1><pre><code> make: `clean&apos; is up to date.   
+当我们写的$(RM)的时候，make clean出现了错误，需要添加一个伪指令makefile
+.PHONY:clean
+clean：
+    $(RM) add    
+
+C_SOURCE = main.c add.c
+add:$(C_SOURCE)
+    $(CC) $^ -o $@
+.PHONY:clean
+clean:
+    $(RM) add        </code></pre><h1 id="七、makefile函数"><a href="#七、makefile函数" class="headerlink" title="七、makefile函数"></a>七、makefile函数</h1><pre><code>makefile函数调用方式：
+1.$(wildcard)作用：在某个路径下寻找相匹配的文件
+           用法：$(wildcard argv1,argv2,argv3)     
+
+    例子：$(wildcard *.c) 当前目录下寻找所有.c文件
+    C_SOURCE = $(wildcard *.c)
+    add:$(C_SOURCE)
+        $(CC) $^ -o $@
+
+    clean:
+        $(RM) add 
+
+2.patsubst作用：将所有.c结尾的文件变成.o的文件
+    SRC = $(wildcard *.c)
+    OBJ = $(patsubst %.c,%.o,$(SRC))//将.c文件转化为.o的文件
+    add:$(OBJ)
+        $(CC) $^ -o $@
+
+    clean:
+        $(RM) add     </code></pre><h1 id="八、多目录工程"><a href="#八、多目录工程" class="headerlink" title="八、多目录工程"></a>八、多目录工程</h1><pre><code>1.源文件目录        src
+  放置的都是.c文件
+
+2.头文件目录        include
+  放置的都是.h文件
+
+3.库文件目录        lib
+  放置的都是.so文件
+
+4.可执行文件目录    bin
+
+SRC = $(wildcard ./src/*.c)   //源文件
+I_DIR = -I ./include          //头文件
+L_DIR = -L ./lib -lm          //库文件
+TARGET = ./bin/main           //执行文件
+$(TARGET):$(SRC)
+    $(CC) $^ -o $@ $(I_DIR) $(L_DIR)
+
+clean:
+    $(RM) $(TARGET)
+
+.PHONY:clean
+
+gec@ubuntu:/mnt/hgfs/linux/project$ make
+cc src/add.c src/leng.c src/main.c src/max.c -o bin/main -I ./include -L ./lib -lm</code></pre><h1 id="九、库制作"><a href="#九、库制作" class="headerlink" title="九、库制作"></a>九、库制作</h1><p>   1.什么是库？<br>     库在linux下面以二进制形式存储，在编译的时候链接库。</p>
+<p>   2.库的的格式<br>     libxxx.so —》动态库<br>     libxxx.a  —》静态库</p>
+<p>   3.库的种类<br>      1.静态库 libxxx.a<br>      (去图书馆(libxxx.a)把书(库当中的接口函数)借走)<br>      特点：<br>       1.静态库就是在编译程序的时候链接，进行静态编译，编译完了之后，<br>       将库当中的接口函数加入到可执行程序。<br>       2.由于是静态编译，所有在编译之后，可执行文件不需要静态库的存在</p>
+<pre><code>2.动态库 libxxx.so
+  （去图书馆(libxxx.so)看看书(库当中的接口函数)，
+   然后又把书(库当中的接口函数)放回图书馆）
+  1.程序编译的时候，并没有将库的内容编译，只是链接了该库，所以执行文件比较小
+  2.由于是动态编译，所以在编译之后，可执行文件必须要有动态库才能运行
+
+4.制作库的意义
+  1.减少工程中的代码量
+  2.保护工程师权益性，保证函数的接口原创性
+
+静态库
+==================================
+main.c  调用库的函数
+add.c   功能函数
+add.h   头文件
+
+静态库的制作：只能将不包含主函数的.c文件编译为库
+1.将工程当中的所有不包含主函数.c文件编译成.o文件
+   gcc add.c -o add.o -c
+
+2.把所有.o文件统统塞进一个.a文件当中，文件名你决定
+   ar rcs libadd.a add.o
+
+3.链接静态库，编译程序
+   gcc main.c libadd.a -o add
+
+  体积：-rwxrwxrwx 1 root root 7224 Aug  9 02:19 add
+4.直接运行
+    ./add
+
+动态库的制作：只能将不包含主函数的.c文件编译为库        
+ 1.将工程当中的所有不包含主函数.c文件编译成.o文件
+    gcc add.c -o add.o -c
+
+ 2.把所有.o文件统统塞进一个.so文件当中，文件名你决定
+    gcc -shared -fPIC -o libadd.so add.o
+
+ 3.链接动态库，编译程序
+     gcc main.c -o add1 -L . -ladd
+
+ 4.直接运行
+   ./add1
+
+./add1: error while loading shared libraries: 
+libadd.so: cannot open shared object file: No such file or directory
+  解决方案：直接将动态库libadd.so丢到/lib当中
+   gec@ubuntu:/mnt/hgfs/linux/main$ sudo cp libadd.so /lib
+   [sudo] password for gec: 123456
+   重新运行就ok了</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/11/makefile/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-shell" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -393,7 +634,144 @@ fi
 注意：
     1.每一个if语句都有fi作为结束标志
     2.if后面的判断条件必须是真的时候，then后面的语句才能被执行
-    3.if判断条件; 等价于 if判断条件----》有没有分号都可以</code></pre>
+    3.if判断条件; 等价于 if判断条件----》有没有分号都可以
+
+2.case语句
+
+C语言 switch
+switch（变量）------》
+{
+    case xx：1111;break;
+    case yy：2222;break;
+
+}
+
+shell case
+case 变量 in
+xx) 1111;;
+yy) 2222;;
+*)  0000;;
+esac
+从键盘输入一个值：
+C语言：
+      int a;
+      scanf(&quot;%d&quot;,&amp;a);
+shell:
+      read
+      read str//获取键盘输入的字符串保存到str变量中
+      read -p &quot;please input a num&quot; str
+   //打印提示，并获取键盘输入的值存放在str
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">  假设有一个文件test.txt，内容为1，要求写一个脚本，判断文件内容</span><br><span class="line">        内容是10，打印lager</span><br><span class="line">  内容是5，打印middle</span><br><span class="line">  内容是1.打印little</span><br><span class="line">  其他值，打印error</span><br><span class="line">      命令行传参</span><br><span class="line">     #!/bin/bash</span><br><span class="line"></span><br><span class="line">if test $# -ne 1</span><br><span class="line">then</span><br><span class="line">  echo &quot;input error&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">a=`cat $1`</span><br><span class="line"></span><br><span class="line">case $a in</span><br><span class="line">10) </span><br><span class="line">   echo &quot;lager&quot;;;</span><br><span class="line">5)</span><br><span class="line">   echo &quot;middle&quot;;;</span><br><span class="line">1)</span><br><span class="line">   echo &quot;litte&quot;;;</span><br><span class="line">*)</span><br><span class="line">   echo &quot;error&quot;;;</span><br><span class="line">esac</span><br></pre></td></tr></table></figure></code></pre><h1 id="shell脚本中的运算"><a href="#shell脚本中的运算" class="headerlink" title="shell脚本中的运算"></a>shell脚本中的运算</h1><h3 id><a href="#" class="headerlink" title="+ - * / %"></a>+ - * / %</h3><pre><code>格式：
+    `expr 变量1  运算符 变量2`
+计算的是整数,并且乘法运算是不能直接写*,需要转义 \*；
+#!/bin/bash
+
+sum=`expr $1 + $2`
+echo $sum
+
+结合case、read语句实现shell计算器，
+#!/bin/bash
+
+echo &quot;please input num1&quot;
+read num1
+echo &quot;please intput + - * /&quot;
+read str
+echo &quot;please input num2&quot;
+read num2
+
+case $str in
++)
+  echo &quot;num1 + num2=`expr $num1 + $num2`&quot;;;
+-)
+  echo &quot;num1 - num2=`expr $num1 - $num2`&quot;;;
+\*)
+  echo &quot;num1 x num2=`expr $num1 \* $num2`&quot;;;
+/)
+  echo &quot;num1 ÷ num2=`expr $num1 / $num2`&quot;;;
+esac</code></pre><p>=========</p>
+<h3 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h3><p>   例子：把命令行的参数全部打印出来<br>         argc    $#<br>         argv[1] $1<br>         argv[2] $2<br>         argv    $*<br>    C语言中for循环：<br>    for(变量初始化;判断循环条件;循环次的累计)<br>    {<br>       循环体；<br>    }<br>    ======================================<br>    #include &lt;stdio.h&gt;<br><br>    int main(int argc,char <em>argv[])<br>    {<br>      int i;<br>      for(i=0;i&lt;argc;i++)<br>      {<br>         printf(“argv[%d]:%s\n”,i,argv[i]);<br>      }<br>      return 0;<br>    }<br>    =====================================<br>    shell编程中for<br>    for  循环变量  in  次数<br>    do   —–》如果循环条件ok，就执行do下面的语句<br>         xxxx<br>    done<br>    /*1到5次</em>/<br>    #!/bin/bash<br><br>    for i in <code>seq 1 5</code><br>    do<br>       echo “i is:$i hello world”<br>    done<br><br>    从1+2+3…+99+100<br>        for i in <code>seq 1 100</code><br>        do<br>          total=<code>expr $total + $i</code><br>        done<br><br>        echo $total —》打印最后的总值<br><br>    C语言： int i—-》整型数据<br>            int <em>i—》指针类型<br><br>    shell： n—-》存放字符串<br>      declare -i n—》整型数据<br><br>    例子：10！<br>        #!/bin/bash<br>        declare -i t=1<br><br>        for i in <code>seq 1 10</code><br>        do<br>          t=`expr $t \</em> $i<code>done
+
+        echo $t
+
+    练习：打印命令行传入的参数个数以及参数内容
+       ./test.sh 1 2 3  ----》$*
+        #!/bin/bash
+        declare -i n=1
+
+        for count in $* ---&gt;没有范围，只带所有参数
+        do  
+          echo &quot;argv[$n]:$count&quot;  
+          n=$n+1  //累计计数
+        done
+
+    练习：使用ls遍历当前目录下的文件，如果文件存在并可读就打印文件名
+                                      如果文件不存在并不可读打印&quot;error&quot;
+            #!/bin/bash
+
+            resault=</code>ls`<br><br>            for filename in $resault —》每一次遍历$resault就将结果赋值给filename<br>            do<br>              if test -e $filename &amp;&amp; test -r $filename<br>              then<br>                  echo “$filename r–”<br>              else<br>                  echo “error -wx”<br>              fi<br>            done</p>
+<p>=======================================================</p>
+<h3 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h3><pre><code>C语言：
+while(判断语句)----》条件为真，执行循环体
+{
+  //循环体
+}
+
+shell编程：
+while 判断条件
+do
+   xxxx;循环内容      
+done
+
+例题 在终端打印从1加到100的值
+      如果判断条件的值小于100,就执行do下面的语句
+      如果判断条件的值大于100,那就不执行
+  #!/bin/bash
+
+  declare -i n=1
+
+  while test $n -le 100
+  do
+     sumnum=`expr $sumnum + $n`
+     n=$n+1;
+  done 
+  echo $sumnum    </code></pre><ul>
+<li>死循环<br>#!/bin/bash<br>n=0<br>while test $n -eq 0<br>do<br>  n=0<br>done        </li>
+</ul>
+<p>=======================================================</p>
+<h3 id="until循环"><a href="#until循环" class="headerlink" title="until循环"></a>until循环</h3><pre><code>until循环的判断条件和while循环的判断条件完全相反
+框架：
+until 判断条件
+do
+  xxxx;
+done
+
+declare -i n=1
+如果该n的值小于100(假)，执行以下语句 
+如果该n的值大于100(真)，不执行以下的语句
+ #!/bin/bash
+ declare -i n=1
+
+ until test $n -gt 100 //当n大于等于100停止
+ do
+    echo &quot;$n&quot; 
+    resualt=`expr $resualt + $n` 
+    n=$n+1
+ done
+ echo $resualt</code></pre><ul>
+<li>死循环<br>#!/bin/bash<br>n=0<br>while test $n -gt 100<br>do<br> n=0<br>done</li>
+</ul>
+<p>===================================</p>
+<h1 id="shell函数"><a href="#shell函数" class="headerlink" title="shell函数"></a>shell函数</h1><p>在shell编程中，函数和C语言中函数非常像，功能：用于内容的封装<br>   例题：写一个函数，把传递函数的参数全部打印出来<br>   fun()<br>   { </p>
+<p>   }<br>   注意：<br>    1.shell里面的函数不需要写形参和返回值，默认返回值为int型<br>    2.在函数内部，$<em>和$#代表传递给函数的参数的值和个数<br>              而不是命令行的传递给程序的参数的值和个数<br>    3.调用函数的时候不需要添加()<br>      fun（hello，world）//错误<br>    #!/bin/bash<br><br>    fun()<br>    {<br>      echo $#        //函数内部$# 统计函数传入的参数个数<br>      for a in $</em><br>      do<br>        echo “$a”<br>      done<br>      return 10<br>    }<br><br>    fun hello world apple  //调用函数<br>    echo “return value =$?”</p>
+<p>=================================</p>
+<h1 id="trap—》捕捉"><a href="#trap—》捕捉" class="headerlink" title="trap—》捕捉"></a>trap—》捕捉</h1><p>   trap命令作用类似于C语言中的signal函数，用于捕捉信号，<br>   将来收到这个信号，可以做什么事情</p>
+<p>   trap 响应内容 信号</p>
+<p>   信号查看：trap -l<br>    1) SIGHUP         2) SIGINT     3) SIGQUIT         4) SIGILL     5) SIGTRAP<br>    6) SIGABRT         7) SIGBUS     8) SIGFPE         9) SIGKILL    10) SIGUSR1<br>    11) SIGSEGV        12) SIGUSR2    13) SIGPIPE        14) SIGALRM    15) SIGTERM<br>    16) SIGSTKFLT    17) SIGCHLD    18) SIGCONT        19) SIGSTOP    20) SIGTSTP<br>    21) SIGTTIN        22) SIGTTOU    23) SIGURG        24) SIGXCPU    25) SIGXFSZ<br>    26) SIGVTALRM    27) SIGPROF    28) SIGWINCH    29) SIGIO    30) SIGPWR<br>    31) SIGSYS    </p>
+<p>  例题：假设shell脚本接受到SIGINT信号，则打印字符串hello<br>    SIGINT 程序终止信号，用户在键入INTR字符或者ctrl+c触发<br>    #!/bin/bash<br><br>    fun()<br>    {<br>      echo “hello”<br>    }<br>    trap fun INT<br>                  //死循环<br>    n=0<br>    while test $n -eq 0<br>    do<br>      n=0<br>    done</p>
+<p>=====================================================</p>
+<h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><p>正则表达式 RE,实际就是特殊符号组成一个式子，帮助你用于模糊查询<br>      grep<br>       用法<br>          grep 寻找范围 寻找对象 参数<br>        例如： grep ‘a[^s]b’ 3.txt</p>
+<pre><code>参数 -n:打印所在匹配行的行数
+     -H:将你查询的文件名打印</code></pre>
       
 
       

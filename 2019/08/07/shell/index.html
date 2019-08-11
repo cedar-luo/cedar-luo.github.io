@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="爱京京">
 <meta property="og:description" content="shell的初步理解1.怎么 理解shell？   shell在英文当中翻译为“贝壳”，在贝壳内部就是linux内核，在贝壳的外部是用户。   shell就是用户和内核之间的媒介 2.shell命令 linux命令大多数都是shell命令，大多数的shell存在/bin里面，当我们需要使用一个命令   实际流程： 1.打开一个Terminal—-》Terminal终端上面实际运行了一个bash进程">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-07T12:02:21.587Z">
+<meta property="og:updated_time" content="2019-08-11T13:40:32.659Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="shell">
 <meta name="twitter:description" content="shell的初步理解1.怎么 理解shell？   shell在英文当中翻译为“贝壳”，在贝壳内部就是linux内核，在贝壳的外部是用户。   shell就是用户和内核之间的媒介 2.shell命令 linux命令大多数都是shell命令，大多数的shell存在/bin里面，当我们需要使用一个命令   实际流程： 1.打开一个Terminal—-》Terminal终端上面实际运行了一个bash进程">
@@ -395,7 +395,144 @@ fi
 注意：
     1.每一个if语句都有fi作为结束标志
     2.if后面的判断条件必须是真的时候，then后面的语句才能被执行
-    3.if判断条件; 等价于 if判断条件----》有没有分号都可以</code></pre>
+    3.if判断条件; 等价于 if判断条件----》有没有分号都可以
+
+2.case语句
+
+C语言 switch
+switch（变量）------》
+{
+    case xx：1111;break;
+    case yy：2222;break;
+
+}
+
+shell case
+case 变量 in
+xx) 1111;;
+yy) 2222;;
+*)  0000;;
+esac
+从键盘输入一个值：
+C语言：
+      int a;
+      scanf(&quot;%d&quot;,&amp;a);
+shell:
+      read
+      read str//获取键盘输入的字符串保存到str变量中
+      read -p &quot;please input a num&quot; str
+   //打印提示，并获取键盘输入的值存放在str
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">  假设有一个文件test.txt，内容为1，要求写一个脚本，判断文件内容</span><br><span class="line">        内容是10，打印lager</span><br><span class="line">  内容是5，打印middle</span><br><span class="line">  内容是1.打印little</span><br><span class="line">  其他值，打印error</span><br><span class="line">      命令行传参</span><br><span class="line">     #!/bin/bash</span><br><span class="line"></span><br><span class="line">if test $# -ne 1</span><br><span class="line">then</span><br><span class="line">  echo &quot;input error&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">a=`cat $1`</span><br><span class="line"></span><br><span class="line">case $a in</span><br><span class="line">10) </span><br><span class="line">   echo &quot;lager&quot;;;</span><br><span class="line">5)</span><br><span class="line">   echo &quot;middle&quot;;;</span><br><span class="line">1)</span><br><span class="line">   echo &quot;litte&quot;;;</span><br><span class="line">*)</span><br><span class="line">   echo &quot;error&quot;;;</span><br><span class="line">esac</span><br></pre></td></tr></table></figure></code></pre><h1 id="shell脚本中的运算"><a href="#shell脚本中的运算" class="headerlink" title="shell脚本中的运算"></a>shell脚本中的运算</h1><h3 id><a href="#" class="headerlink" title="+ - * / %"></a>+ - * / %</h3><pre><code>格式：
+    `expr 变量1  运算符 变量2`
+计算的是整数,并且乘法运算是不能直接写*,需要转义 \*；
+#!/bin/bash
+
+sum=`expr $1 + $2`
+echo $sum
+
+结合case、read语句实现shell计算器，
+#!/bin/bash
+
+echo &quot;please input num1&quot;
+read num1
+echo &quot;please intput + - * /&quot;
+read str
+echo &quot;please input num2&quot;
+read num2
+
+case $str in
++)
+  echo &quot;num1 + num2=`expr $num1 + $num2`&quot;;;
+-)
+  echo &quot;num1 - num2=`expr $num1 - $num2`&quot;;;
+\*)
+  echo &quot;num1 x num2=`expr $num1 \* $num2`&quot;;;
+/)
+  echo &quot;num1 ÷ num2=`expr $num1 / $num2`&quot;;;
+esac</code></pre><p>=========</p>
+<h3 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h3><p>   例子：把命令行的参数全部打印出来<br>         argc    $#<br>         argv[1] $1<br>         argv[2] $2<br>         argv    $*<br>    C语言中for循环：<br>    for(变量初始化;判断循环条件;循环次的累计)<br>    {<br>       循环体；<br>    }<br>    ======================================<br>    #include &lt;stdio.h&gt;<br><br>    int main(int argc,char <em>argv[])<br>    {<br>      int i;<br>      for(i=0;i&lt;argc;i++)<br>      {<br>         printf(“argv[%d]:%s\n”,i,argv[i]);<br>      }<br>      return 0;<br>    }<br>    =====================================<br>    shell编程中for<br>    for  循环变量  in  次数<br>    do   —–》如果循环条件ok，就执行do下面的语句<br>         xxxx<br>    done<br>    /*1到5次</em>/<br>    #!/bin/bash<br><br>    for i in <code>seq 1 5</code><br>    do<br>       echo “i is:$i hello world”<br>    done<br><br>    从1+2+3…+99+100<br>        for i in <code>seq 1 100</code><br>        do<br>          total=<code>expr $total + $i</code><br>        done<br><br>        echo $total —》打印最后的总值<br><br>    C语言： int i—-》整型数据<br>            int <em>i—》指针类型<br><br>    shell： n—-》存放字符串<br>      declare -i n—》整型数据<br><br>    例子：10！<br>        #!/bin/bash<br>        declare -i t=1<br><br>        for i in <code>seq 1 10</code><br>        do<br>          t=`expr $t \</em> $i<code>done
+
+        echo $t
+
+    练习：打印命令行传入的参数个数以及参数内容
+       ./test.sh 1 2 3  ----》$*
+        #!/bin/bash
+        declare -i n=1
+
+        for count in $* ---&gt;没有范围，只带所有参数
+        do  
+          echo &quot;argv[$n]:$count&quot;  
+          n=$n+1  //累计计数
+        done
+
+    练习：使用ls遍历当前目录下的文件，如果文件存在并可读就打印文件名
+                                      如果文件不存在并不可读打印&quot;error&quot;
+            #!/bin/bash
+
+            resault=</code>ls`<br><br>            for filename in $resault —》每一次遍历$resault就将结果赋值给filename<br>            do<br>              if test -e $filename &amp;&amp; test -r $filename<br>              then<br>                  echo “$filename r–”<br>              else<br>                  echo “error -wx”<br>              fi<br>            done</p>
+<p>=======================================================</p>
+<h3 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h3><pre><code>C语言：
+while(判断语句)----》条件为真，执行循环体
+{
+  //循环体
+}
+
+shell编程：
+while 判断条件
+do
+   xxxx;循环内容      
+done
+
+例题 在终端打印从1加到100的值
+      如果判断条件的值小于100,就执行do下面的语句
+      如果判断条件的值大于100,那就不执行
+  #!/bin/bash
+
+  declare -i n=1
+
+  while test $n -le 100
+  do
+     sumnum=`expr $sumnum + $n`
+     n=$n+1;
+  done 
+  echo $sumnum    </code></pre><ul>
+<li>死循环<br>#!/bin/bash<br>n=0<br>while test $n -eq 0<br>do<br>  n=0<br>done        </li>
+</ul>
+<p>=======================================================</p>
+<h3 id="until循环"><a href="#until循环" class="headerlink" title="until循环"></a>until循环</h3><pre><code>until循环的判断条件和while循环的判断条件完全相反
+框架：
+until 判断条件
+do
+  xxxx;
+done
+
+declare -i n=1
+如果该n的值小于100(假)，执行以下语句 
+如果该n的值大于100(真)，不执行以下的语句
+ #!/bin/bash
+ declare -i n=1
+
+ until test $n -gt 100 //当n大于等于100停止
+ do
+    echo &quot;$n&quot; 
+    resualt=`expr $resualt + $n` 
+    n=$n+1
+ done
+ echo $resualt</code></pre><ul>
+<li>死循环<br>#!/bin/bash<br>n=0<br>while test $n -gt 100<br>do<br> n=0<br>done</li>
+</ul>
+<p>===================================</p>
+<h1 id="shell函数"><a href="#shell函数" class="headerlink" title="shell函数"></a>shell函数</h1><p>在shell编程中，函数和C语言中函数非常像，功能：用于内容的封装<br>   例题：写一个函数，把传递函数的参数全部打印出来<br>   fun()<br>   { </p>
+<p>   }<br>   注意：<br>    1.shell里面的函数不需要写形参和返回值，默认返回值为int型<br>    2.在函数内部，$<em>和$#代表传递给函数的参数的值和个数<br>              而不是命令行的传递给程序的参数的值和个数<br>    3.调用函数的时候不需要添加()<br>      fun（hello，world）//错误<br>    #!/bin/bash<br><br>    fun()<br>    {<br>      echo $#        //函数内部$# 统计函数传入的参数个数<br>      for a in $</em><br>      do<br>        echo “$a”<br>      done<br>      return 10<br>    }<br><br>    fun hello world apple  //调用函数<br>    echo “return value =$?”</p>
+<p>=================================</p>
+<h1 id="trap—》捕捉"><a href="#trap—》捕捉" class="headerlink" title="trap—》捕捉"></a>trap—》捕捉</h1><p>   trap命令作用类似于C语言中的signal函数，用于捕捉信号，<br>   将来收到这个信号，可以做什么事情</p>
+<p>   trap 响应内容 信号</p>
+<p>   信号查看：trap -l<br>    1) SIGHUP         2) SIGINT     3) SIGQUIT         4) SIGILL     5) SIGTRAP<br>    6) SIGABRT         7) SIGBUS     8) SIGFPE         9) SIGKILL    10) SIGUSR1<br>    11) SIGSEGV        12) SIGUSR2    13) SIGPIPE        14) SIGALRM    15) SIGTERM<br>    16) SIGSTKFLT    17) SIGCHLD    18) SIGCONT        19) SIGSTOP    20) SIGTSTP<br>    21) SIGTTIN        22) SIGTTOU    23) SIGURG        24) SIGXCPU    25) SIGXFSZ<br>    26) SIGVTALRM    27) SIGPROF    28) SIGWINCH    29) SIGIO    30) SIGPWR<br>    31) SIGSYS    </p>
+<p>  例题：假设shell脚本接受到SIGINT信号，则打印字符串hello<br>    SIGINT 程序终止信号，用户在键入INTR字符或者ctrl+c触发<br>    #!/bin/bash<br><br>    fun()<br>    {<br>      echo “hello”<br>    }<br>    trap fun INT<br>                  //死循环<br>    n=0<br>    while test $n -eq 0<br>    do<br>      n=0<br>    done</p>
+<p>=====================================================</p>
+<h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><p>正则表达式 RE,实际就是特殊符号组成一个式子，帮助你用于模糊查询<br>      grep<br>       用法<br>          grep 寻找范围 寻找对象 参数<br>        例如： grep ‘a[^s]b’ 3.txt</p>
+<pre><code>参数 -n:打印所在匹配行的行数
+     -H:将你查询的文件名打印</code></pre>
       
 
       
@@ -487,6 +624,15 @@ fi
 
   
 <nav id="article-nav">
+  
+    <a href="/2019/08/11/makefile/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
   
   
     <a href="/2019/07/18/c语言/" id="article-nav-older" class="article-nav-link-wrap">
