@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019/8 | 爱京京</title>
+  <title>Linux基础 | 爱京京</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="爱京京">
-<meta property="og:url" content="http://yoursite.com/archives/2019/08/index.html">
+  <meta name="description" content="Linux基础linux和ubuntu的关系   linux：一般我们认为linux指的整个系统（界面+内核+…）         真正意义上的linux只是指的系统内核 linux指的是Ubuntu里面的内核 Ubuntu只是linux的一个发行版本 什么发行版本？  Unix    以linux为核心的系统都叫linux的发行版本Ubuntu   1.开源性： 开发者可以随机修改源代码   2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux基础">
+<meta property="og:url" content="http://yoursite.com/2019/09/10/Linux基础/index.html">
 <meta property="og:site_name" content="爱京京">
+<meta property="og:description" content="Linux基础linux和ubuntu的关系   linux：一般我们认为linux指的整个系统（界面+内核+…）         真正意义上的linux只是指的系统内核 linux指的是Ubuntu里面的内核 Ubuntu只是linux的一个发行版本 什么发行版本？  Unix    以linux为核心的系统都叫linux的发行版本Ubuntu   1.开源性： 开发者可以随机修改源代码   2">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-09-10T07:56:45.036Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="爱京京">
+<meta name="twitter:title" content="Linux基础">
+<meta name="twitter:description" content="Linux基础linux和ubuntu的关系   linux：一般我们认为linux指的整个系统（界面+内核+…）         真正意义上的linux只是指的系统内核 linux指的是Ubuntu里面的内核 Ubuntu只是linux的一个发行版本 什么发行版本？  Unix    以linux为核心的系统都叫linux的发行版本Ubuntu   1.开源性： 开发者可以随机修改源代码   2">
   
     <link rel="alternative" href="/atom.xml" title="爱京京" type="application/atom+xml">
   
@@ -150,130 +154,366 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Linux基础" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux基础
+    </h1>
+  
+
+        
+        <a href="/2019/09/10/Linux基础/" class="archive-article-date">
+  	<time datetime="2019-09-10T07:48:32.397Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-10</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux基础"><a href="#Linux基础" class="headerlink" title="Linux基础"></a>Linux基础</h1><h3 id="linux和ubuntu的关系"><a href="#linux和ubuntu的关系" class="headerlink" title="linux和ubuntu的关系"></a>linux和ubuntu的关系</h3><p>   linux：一般我们认为linux指的整个系统（界面+内核+…）<br>         真正意义上的linux只是指的系统内核</p>
+<pre><code>linux指的是Ubuntu里面的内核
+Ubuntu只是linux的一个发行版本
+什么发行版本？  Unix
+   以linux为核心的系统都叫linux的发行版本</code></pre><h3 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h3><p>   1.开源性： 开发者可以随机修改源代码<br>   2.免费性： 从官网下载免费镜像文件<br>   3.多任务： 多程序同时运行(进程、线程)</p>
+<h3 id="关于查看系统属性的命令"><a href="#关于查看系统属性的命令" class="headerlink" title="关于查看系统属性的命令"></a>关于查看系统属性的命令</h3><p>   1.如何查看当前Ubuntu的版本<br>     gec@ubuntu:~$ cat /etc/issue.net<br>     Ubuntu 12.04.2 LTS<br>     Ubuntu   linux的发行版本<br>     12.04    版本号<br>     .2       修订号（经过2次修订）<br>     LTS      long term support 长期项目支持</p>
+<p>   2.如何查看ubuntu位数<br>     gec@ubuntu:~$ getconf LONG_BIT  —-》长整型<br>       32</p>
+<h3 id="linux系统架构"><a href="#linux系统架构" class="headerlink" title="linux系统架构"></a>linux系统架构</h3><pre><code>windows：目录从属分区 
+         所有入口以分区的名字开头：E:\(反斜杠)
+
+linux：  分区从属目录
+         所有人口以根目录的名字开头：/
+linux系统特点：
+   1.分区之间使用正反斜杠割分
+   2.所有的文件都是规定存在某个目录下
+   3.所有的操作都是命令交互</code></pre><h3 id="linux命令"><a href="#linux命令" class="headerlink" title="linux命令"></a>linux命令</h3><pre><code>=============================</code></pre><h6 id="浏览系统"><a href="#浏览系统" class="headerlink" title="浏览系统"></a>浏览系统</h6><pre><code>ls       查看  list
+la       查看所有文件(隐藏文件)详细信息
+cd       切换路径     change diretcory
+pwd      查看当前目录
+cat      查看文件内容
+which    寻找可执行程序所在路径   which ls
+env      查看环境变量
+history     查看历史命令</code></pre><p>==============================</p>
+<h6 id="修改系统资源"><a href="#修改系统资源" class="headerlink" title="修改系统资源"></a>修改系统资源</h6><pre><code>touch    新建文件
+mkdir    新建目录
+rm       删除       删库：sudo rm  /* -rf
+cp       复制文件
+mv       剪切文件 重命名
+
+ln       创建文件链接(生成链接相当于Windows当中快捷方式)
+         硬链接  直接给文件取别名
+         ln  文件名  别名 (注意不要在共享文件中使用，windows不支持这个格式的文件)
+          软链接 生成了一种链接方式    
+         ln  文件名 软链接名 -s
+         gec@ubuntu:~$ ls -l 3 4
+        硬    -rwxrwxr-x 2 gec gec 380 Aug 18 23:45 3
+        软    lrwxrwxrwx 1 gec gec   6 Aug 20 19:54 4 -&gt; dup2.c
+
+find     查找  find  文件名
+
+grep     在文件中匹配对应的内容
+         grep 匹配内容 匹配文件 参数 
+         grep &quot;hello&quot; 1.txt -Hnw  //(H表示打印文件名字,n打印行号,w全字匹配)
+
+echo    输出  字符串
+        echo &quot;hello&quot;
+
+alias   给命令区别名
+        alias 别名 = &apos;命令名&apos;
+        alias LS=&apos;ls&apos;
+
+unlias  取消别名
+        unalias LS
+
+apt-get 下载并安装
+        sudo apt-get install 下载程序的名字
+        卸载程序
+        sudo apt-get remove 程序名
+        更新下载资源
+        apt-get update
+
+        linux离线安装
+
+tar     linux中常见的两种压缩格式bz2和gz
+        1.查看压缩包里面的内容
+         tar -tf 压缩包名字
+
+        2.bz2结尾：  v参数可以详细查看
+          压缩  c
+          tar  -jcf  xxx.tar.bz2 文件1 文件2 文件3 
+          tar  -jcvf  xxx.tar.bz2 文件1 文件2 文件3  详细的压缩过程
+
+          解压  x
+          tar  -jxf  xxx.tar.bz2   直接解压
+          tar  -jxvf  xxx.tar.bz2  可以详细查看解压过程
+
+        3.gz结尾：
+          压缩
+          tar  -zcf xxx.tar.gz 文件1 文件2 文件3
+          tar  -zcvf xxx.tar.gz 文件1 文件2 文件3
+
+          解压
+          tar  -zxf  xxx.tar.gz   直接解压
+          tar  -zxvf  xxx.tar.gz   解压详细过程
+
+        注意：在共享目录下面如果压缩包里面有链接文件，千万不要解压，去linux解压
+        z  处理以.gz结尾的压缩包
+        j  处理以.bz2结尾的压缩包
+        c  压缩  ---》tar是压缩命令
+        x  解压  ---》tar是解压命令
+        v  以可见方式进行处理
+        f  文件，不可忽略参数
+        -C 指定解压之后的位置</code></pre><p>=================================================</p>
+<h6 id="中文手册的使用"><a href="#中文手册的使用" class="headerlink" title="中文手册的使用"></a>中文手册的使用</h6><p>例子：查看ls的中文手册<br>       man -M /usr/local/zhman/share/man/zh_CN ls</p>
+<pre><code> 给man -M /usr/local/zhman/share/man/zh_CN取别名
+ alias cman=&apos;man -M /usr/local/zhman/share/man/zh_CN&apos;
+
+file  用来查看文件的属性
+      gec@ubuntu:~$ file 1
+      1: directory
+
+chmod  修改文件的权限
+       chmod 八进制权限 文件名
+
+       chmod 777 1.txt
+
+    文件初始创建 
+      touch 1.txt
+     -rw-rw-r-- 1 gec gec 0 Aug 21 00:30 1.txt  664
+      mkdir 5
+     drwxrwxr-x  2 gec gec    4096 Aug 21 00:32 5 775
+
+     drw-rw-rw-  2 gec gec    4096 Aug 21 00:32 5 666
+          不能够切换到内部
+     dr-xr-xr-x  2 gec gec    4096 Aug 21 00:32 5 555
+          在目录下面不能创建
+     d-wx-wx-wx  2 gec gec    4096 Aug 21 00:32 5 333
+          可以进入目录不能查看内容
+
+vi   编辑器  gedit
+     三种模式
+     命令模式  按键盘Esc
+     底行模式  shift+;
+     编辑模式  按字母‘i’
+
+     查找字符串： 在命令模式进行
+     /hello 从前往后查找hello（按字母n不断查找下一个）
+     ?hello 从后往前查找hello 
+
+     替换字符串：在命令模式进行
+      %s/旧的字符串/新的字符串      所有的字符串替换为新的
+      n,ms/旧的字符串/新的字符串/g  把从第n行开始到到第m行的所有内容替换
+
+    保存退出
+     :wq!  w保存 q退出  ！ 强制
+
+linux中常用命令(linux中常用命令非常多,没有必要全部都记)
+    除非你想去做：系统运维，网络管理</code></pre><p>=============================================</p>
+<h6 id="根目录"><a href="#根目录" class="headerlink" title="根目录"></a>根目录</h6><p>cdrom      光驱挂载目录<br>home       家目录<br>media      挂载USB接口移动硬盘<br>proc       以可见的方式查看linux系统内存的数据<br>sbin       超级用户的命令所在地<br>sys        以可见的方式查看linux内核的数据<br>var        存放系统运行的需要改变的数据<br>bin        普通用户的命令所在地<br>dev        驱动文件<br>lib        普通用户的库文件<br>mnt        共享文件所在地<br>root       超级用户的家目录<br>selinux    加固系统安全目录<br>tmp        系统文件文件临时存放地<br>vmlinuz    vmlinuz -&gt; boot/vmlinuz-3.5.0-23-generic //linux内核<br>boot       linux内核,文件系统<br>etc        系统的所有的配置文件<br>lost+found 系统崩溃，产生的碎片到此目录。重启时候，系统修改碎片<br>opt        存放的功能性代码<br>run        系统运行时目录<br>srv        系统服务日志<br>usr        一般存放第三方的程序头文件</p>
+<p>==================================================</p>
+<h3 id="安装中文man手册"><a href="#安装中文man手册" class="headerlink" title="安装中文man手册"></a>安装中文man手册</h3><pre><code>man手册的中文包：manpages-zh-1.5.1.tar.gz
+
+ubuntu当中安装软件步骤;
+    1.配置 
+    2.编译
+    3.安装</code></pre><ol>
+<li><p>首先将manpages-zh-1.5.1.tar.gz拷贝到共享目录linux</p>
+</li>
+<li><p>ubuntu中切换到manpages-zh-1.5.1.tar.gz所在位置    </p>
+<pre><code>cd /mnt/hgfs/linux    </code></pre></li>
+<li><p>将压缩包解压到家目录</p>
+<pre><code>tar -zxf manpages-zh-1.5.1.tar.gz -C ~</code></pre></li>
+<li><p>在/usr/local下建立安装包的目录</p>
+<pre><code>gec@ubuntu:/usr/local$ sudo mkdir /usr/local/zhman
+[sudo] password for gec: 
+gec@ubuntu:/usr/local$ sudo chmod 777 zhman</code></pre></li>
+<li><p>切换解压目录的路径下</p>
+<pre><code>cd /home/gec/manpages-zh-1.5.1</code></pre></li>
+<li><p>查看文件的配置参数<br>   ./configure -help</p>
+<p>  –disable-zhtw          do not generate manpages for zh_TW</p>
+<pre><code>禁止生成繁体字的man手册</code></pre><p>  –prefix=PREFIX         install architecture-independent files in PREFIX</p>
+<pre><code>[/usr/local] 指定安装的文件路径</code></pre></li>
+<li><p>配置<br>   ./configure  –disable-zhtw  –prefix=/usr/local/zhman</p>
+<pre><code>manpages-zh configure summary
+ =============================
+ UTF-8 : true
+ zh_CN : true
+ zh_TW : false</code></pre></li>
+<li><p>编译<br>   make</p>
+<pre><code>make[3]: Leaving directory `/home/gec/manpages-zh-1.5.1/src/mann/zh_CN&apos;
+make[3]: Entering directory `/home/gec/manpages-zh-1.5.1/src/mann&apos;
+make[3]: Nothing to be done for `all-am&apos;.
+make[3]: Leaving directory `/home/gec/manpages-zh-1.5.1/src/mann&apos;
+make[2]: Leaving directory `/home/gec/manpages-zh-1.5.1/src/mann&apos;
+make[2]: Entering directory `/home/gec/manpages-zh-1.5.1/src&apos;
+make[2]: Nothing to be done for `all-am&apos;.
+make[2]: Leaving directory `/home/gec/manpages-zh-1.5.1/src&apos;
+make[1]: Leaving directory `/home/gec/manpages-zh-1.5.1/src&apos;
+Making all in utils
+make[1]: Entering directory `/home/gec/manpages-zh-1.5.1/utils&apos;
+make[1]: Nothing to be done for `all&apos;.
+make[1]: Leaving directory `/home/gec/manpages-zh-1.5.1/utils&apos;
+make[1]: Entering directory `/home/gec/manpages-zh-1.5.1&apos;
+make[1]: Nothing to be done for `all-am&apos;.
+make[1]: Leaving directory `/home/gec/manpages-zh-1.5.1&apos;</code></pre></li>
+<li><p>安装<br>   make install</p>
+<pre><code>make[1]: Entering directory `/home/gec/manpages-zh-1.5.1/utils&apos;
+make[2]: Entering directory `/home/gec/manpages-zh-1.5.1/utils&apos;
+make[2]: Nothing to be done for `install-exec-am&apos;.
+make[2]: Nothing to be done for `install-data-am&apos;.
+make[2]: Leaving directory `/home/gec/manpages-zh-1.5.1/utils&apos;
+make[1]: Leaving directory `/home/gec/manpages-zh-1.5.1/utils&apos;
+make[1]: Entering directory `/home/gec/manpages-zh-1.5.1&apos;
+make[2]: Entering directory `/home/gec/manpages-zh-1.5.1&apos;
+make[2]: Nothing to be done for `install-exec-am&apos;.
+make[2]: Nothing to be done for `install-data-am&apos;.
+make[2]: Leaving directory `/home/gec/manpages-zh-1.5.1&apos;
+make[1]: Leaving directory `/home/gec/manpages-zh-1.5.1&apos;</code></pre></li>
+<li><p>安装的结果<br>  cd /usr/local/zhman/share/man/zh_CN </p>
+<p>  man1  man2  man3  man4  man5  man6  man7  man8 中文手册分开8个管理</p>
+</li>
+</ol>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/27/文件IO/" class="archive-article-date">
-  	<time datetime="2019-08-27T11:58:20.004Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/27/文件IO/">文件IO</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/09/10/Linux基础/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/27/系统编程/" class="archive-article-date">
-  	<time datetime="2019-08-27T11:13:44.956Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-27</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2019/09/10/系统编程-进程通信/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          系统编程-进程通信
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/09/10/目录操作/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">目录操作</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/27/系统编程/">系统编程</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/11/makefile/" class="archive-article-date">
-  	<time datetime="2019-08-11T13:41:12.908Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/11/makefile/">makefile</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/07/shell/" class="archive-article-date">
-  	<time datetime="2019-08-07T01:39:06.811Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/07/shell/">shell</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -296,8 +536,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

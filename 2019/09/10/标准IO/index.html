@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019/8 | 爱京京</title>
+  <title>标准IO | 爱京京</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="爱京京">
-<meta property="og:url" content="http://yoursite.com/archives/2019/08/index.html">
+  <meta name="description" content="区别系统IO:    常量操作        1.    直接调用系统函数接口        2.  不带IO缓冲区 标准IO:     指针操作   1.  调用的标准库里面的函数   2.  携带IO缓冲区    标准IO —&amp;gt;f开头的一系列函数fopen()  fread() fwrite() fclose() fstat() fseek()  ftell() ferror() feo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="标准IO">
+<meta property="og:url" content="http://yoursite.com/2019/09/10/标准IO/index.html">
 <meta property="og:site_name" content="爱京京">
+<meta property="og:description" content="区别系统IO:    常量操作        1.    直接调用系统函数接口        2.  不带IO缓冲区 标准IO:     指针操作   1.  调用的标准库里面的函数   2.  携带IO缓冲区    标准IO —&amp;gt;f开头的一系列函数fopen()  fread() fwrite() fclose() fstat() fseek()  ftell() ferror() feo">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-09-11T04:42:04.704Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="爱京京">
+<meta name="twitter:title" content="标准IO">
+<meta name="twitter:description" content="区别系统IO:    常量操作        1.    直接调用系统函数接口        2.  不带IO缓冲区 标准IO:     指针操作   1.  调用的标准库里面的函数   2.  携带IO缓冲区    标准IO —&amp;gt;f开头的一系列函数fopen()  fread() fwrite() fclose() fstat() fseek()  ftell() ferror() feo">
   
     <link rel="alternative" href="/atom.xml" title="爱京京" type="application/atom+xml">
   
@@ -150,130 +154,278 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-标准IO" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      标准IO
+    </h1>
+  
+
+        
+        <a href="/2019/09/10/标准IO/" class="archive-article-date">
+  	<time datetime="2019-09-10T03:20:38.249Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-10</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h5><p>系统IO:    常量操作<br>        1.    直接调用系统函数接口<br>        2.  不带IO缓冲区</p>
+<pre><code>标准IO:     指针操作
+  1.  调用的标准库里面的函数
+  2.  携带IO缓冲区    </code></pre><h5 id="标准IO-—-gt-f开头的一系列函数"><a href="#标准IO-—-gt-f开头的一系列函数" class="headerlink" title="标准IO —&gt;f开头的一系列函数"></a>标准IO —&gt;f开头的一系列函数</h5><pre><code>fopen()  fread() fwrite() fclose() fstat()
+fseek()  ftell() ferror() feof() rewind()    
+fprintf() fscanf() sprintf() sscanf()
+fputs()   fgets()  fputc()  fgetc()
+puts()  gets() getchar() putchar()</code></pre><p>注意点：<br>    系统IO,打开文件会得到文件描述符，文件操作围绕文件描述符</p>
+<pre><code>标准IO,得到文件指针，文件指针指向文件结构体，
+       其中有个成员_fileno,这个就是文件描述符</code></pre><h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><h4 id="1-文件的打开和关闭"><a href="#1-文件的打开和关闭" class="headerlink" title="1.文件的打开和关闭"></a>1.文件的打开和关闭</h4><pre><code>fopen()       
+fclose()</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">标准IO打开 fopen</span><br><span class="line">    NAME   打开文件指针</span><br><span class="line">       fopen, fdopen, freopen - stream open functions</span><br><span class="line"></span><br><span class="line">    SYNOPSIS</span><br><span class="line">       #include &lt;stdio.h&gt;</span><br><span class="line">       函数原型：</span><br><span class="line">       FILE *fopen(const char *path, const char *mode);</span><br><span class="line">       函数参数：   </span><br><span class="line">	      const char *path     打开文件路径</span><br><span class="line">		  const char *mode     打开的方式</span><br><span class="line">		  </span><br><span class="line">        r   以只读的方式打开</span><br><span class="line">        r+  以可读可写的方式打开</span><br><span class="line">        w   以可写的方式打开，如果文件存在就清空，如果不存在就创建</span><br><span class="line">        w+  以可读可写的方式打开，如果文件存在就清空，如果不存在就创建</span><br><span class="line">        a   以可写的方式打开，如果文件存在就追加，如果不存在就创建</span><br><span class="line">        a+  以可读可写的方式打开，如果文件存在就追加，如果不存在就创建</span><br><span class="line">       函数返回值：</span><br><span class="line">	       成功：返回一个文件指针</span><br><span class="line">		   失败：返回NULL</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fclose</span><br><span class="line">    NAME</span><br><span class="line">	fclose - close a stream</span><br><span class="line"></span><br><span class="line">    SYNOPSIS</span><br><span class="line">	#include &lt;stdio.h&gt;</span><br><span class="line">       函数原型：</span><br><span class="line">	int fclose(FILE *fp);</span><br><span class="line">    函数返回值：</span><br><span class="line">               FILE *fp：要关闭的文件的文件指针</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-文件的读"><a href="#2-文件的读" class="headerlink" title="2.文件的读"></a>2.文件的读</h4><pre><code>1.读取一个字符
+  fgetc()
+  getc()
+  getchar()
+
+2.读取一行数据
+  fgets()
+  gets</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">NAME  获取字符或者字符串</span><br><span class="line">       fgetc,  fgets,  getc,  getchar,  gets, ungetc - input of characters and strings</span><br><span class="line"></span><br><span class="line">      SYNOPSIS</span><br><span class="line">       #include &lt;stdio.h&gt;</span><br><span class="line">       </span><br><span class="line">       int fgetc(FILE *stream);</span><br><span class="line">       函数参数：FILE *stream   文件流指针</span><br><span class="line">       char *fgets(char *s, int size, FILE *stream);</span><br><span class="line">       函数参数:char *s      存放数据的位置</span><br><span class="line">	            int size     输入的大小</span><br><span class="line">				FILE *stream 文件流指针</span><br><span class="line">       int getc(FILE *stream);</span><br><span class="line">       函数参数：FILE *stream 文件流指针</span><br><span class="line">       int getchar(void);</span><br><span class="line">      </span><br><span class="line">       char *gets(char *s);</span><br><span class="line">       函数参数：字符串数据</span><br></pre></td></tr></table></figure>
+
+<pre><code>3.读取一块数据
+  fread    </code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">NAME</span><br><span class="line">       fread, fwrite - binary stream input/output</span><br><span class="line"></span><br><span class="line">    SYNOPSIS</span><br><span class="line">       #include &lt;stdio.h&gt;</span><br><span class="line">       函数原型： 以数据块为单位进行读取</span><br><span class="line">       size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);</span><br><span class="line">       函数参数：</span><br><span class="line">	        void *ptr     你要储存数据的位置</span><br><span class="line">			size_t size   每一块数据块的大小 字节</span><br><span class="line">			size_t nmemb  你打算要读多少个数据块</span><br><span class="line">			FILE *stream  读取的文件指针</span><br><span class="line">			最终读取的字节数=size*nmemb</span><br><span class="line">	        read(fd,buf,100);</span><br><span class="line">	        fread(buf,10,10,myfd);</span><br><span class="line">	   </span><br><span class="line">	   函数返回值：</span><br><span class="line">	        成功： 返回读取到完整的数据块的个数</span><br><span class="line">			失败： 0或者其他小于</span><br><span class="line">		使用feof函数来判断数据</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-文件的写入"><a href="#3-文件的写入" class="headerlink" title="3.文件的写入"></a>3.文件的写入</h4><pre><code>1.写入一个字符
+  fputc()
+  putc()      
+  putchar()    
+
+2.写入一行数据
+  fputs()
+  puts()</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">NAME   输出字符和字符串</span><br><span class="line">       fputc, fputs, putc, putchar, puts - output of characters and strings</span><br><span class="line"></span><br><span class="line">    SYNOPSIS</span><br><span class="line">       #include &lt;stdio.h&gt;</span><br><span class="line">        </span><br><span class="line">       int fputc(int c, FILE *stream);</span><br><span class="line">       函数参数：int c           ASCII码值或者是字符</span><br><span class="line">	             FILE *stream    文件流指针</span><br><span class="line">       int fputs(const char *s, FILE *stream);</span><br><span class="line">       函数参数：const char *s   字符串</span><br><span class="line">	             FILE *stream    文件流指针</span><br><span class="line">       int putc(int c, FILE *stream);</span><br><span class="line">       函数参数：int c           ASCII码值或者是字符</span><br><span class="line">         	     FILE *stream    文件流指针</span><br><span class="line">       int putchar(int c);</span><br><span class="line">       函数参数： ASCII码值或者是字符  </span><br><span class="line">       int puts(const char *s);</span><br><span class="line">       函数参数： 字符串</span><br></pre></td></tr></table></figure>
+
+<pre><code>3.写入一块数据</code></pre><blockquote>
+<pre><code>fwrite();</code></pre></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">size_t fwrite(const void *ptr, size_t size, size_t nmemb,</span><br><span class="line">              FILE *stream);</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-文件的偏移"><a href="#4-文件的偏移" class="headerlink" title="4.文件的偏移"></a>4.文件的偏移</h4><pre><code>fseek()
+ftell()
+rewind()</code></pre><p>fseek()  注意：返回值和lseek的返回值意思不一样</p>
+<blockquote>
+<pre><code>ftell()  注意：返回文件当前位置距离文件开头的字节数
+ rewind()</code></pre></blockquote>
+<pre><code>int fseek(FILE *stream, long offset, int whence);
+ 函数参数：FILE *stream   文件指针流
+             long offset    文件偏移的字节数
+           int whence     文件偏移位置</code></pre><blockquote>
+<pre><code> SEEK_SET  开头
+ SEEK_END  结束
+SEEK_CUR  当前位置</code></pre></blockquote>
+<pre><code>long ftell(FILE *stream);
+     lseek(fd,0,SEEK_END);</code></pre><blockquote>
+<p>   void rewind(FILE *stream);//等价于 将文件偏移量设置到起始位置<br>           fseek(myfile,0,SEEK_SET)</p>
+</blockquote>
+<h4 id="5-判断文件的状态"><a href="#5-判断文件的状态" class="headerlink" title="5.判断文件的状态"></a>5.判断文件的状态</h4><pre><code>feof()
+ferror()</code></pre><p>NAME   检查和重置流<br>       clearerr, feof, ferror, fileno - check and reset stream status</p>
+<pre><code>SYNOPSIS
+   #include &lt;stdio.h&gt;
+   函数模型：
+   int feof(FILE *stream);
+   int ferror(FILE *stream);
+   函数参数：
+        FILE *stream  文件指针
+
+ feof
+ int feof(FILE *stream);
+ 返回值：不等于0 ---》文件读取完毕
+         等于0   ---》文件还没读完</code></pre><h4 id="6-标准格式化"><a href="#6-标准格式化" class="headerlink" title="6.标准格式化"></a>6.标准格式化</h4><p>   fprintf()<br>   fscanf()<br>   sprintf()<br>   sscanf()<br>   printf()<br>   scanf()<br>   可变参函数<br>      标准输入  stdin<br>      标准输出  stdout</p>
+<h6 id="fprintf-拼装数据按照一定格式输出到文件或者屏幕"><a href="#fprintf-拼装数据按照一定格式输出到文件或者屏幕" class="headerlink" title="fprintf() 拼装数据按照一定格式输出到文件或者屏幕"></a>fprintf() 拼装数据按照一定格式输出到文件或者屏幕</h6><pre><code>int fprintf(FILE *stream, const char *format, ...);
+函数参数：FILE *stream,        文件流指针
+          const char *format,  标准格式  
+          ...                  参数不确定
+     FILE *file=fopen(&quot;2.txt&quot;,&quot;w+&quot;);
+     if(file == NULL)
+     {
+         perror(&quot;打开文件失败\n&quot;);
+         return -1;
+     }
+     char buf[5]=&quot;world&quot;;
+     int a=5;
+     char c=&apos;a&apos;;
+     fprintf(stdout,&quot;hello %s %d %c\n&quot;,buf,a,c);
+     fprintf(file,&quot;hello %s %d %c\n&quot;,buf,a,c);</code></pre><h6 id="sprintf-拼接数据按照一定格式输出到字符串-strcat"><a href="#sprintf-拼接数据按照一定格式输出到字符串-strcat" class="headerlink" title="sprintf() 拼接数据按照一定格式输出到字符串  strcat"></a>sprintf() 拼接数据按照一定格式输出到字符串  strcat</h6><pre><code>int sprintf(char *str, const char *format, ...);
+ 函数参数：char *str,          字符串
+           const char *format, 标准格式
+           ...                 参数不确定
+      char buf[5]=&quot;world&quot;;
+      int a=5;
+      char c=&apos;a&apos;;
+      char str[50]={0};
+      int year=2019;
+      int month=8;
+      int day=20;
+      sprintf(str,&quot;hello %s %d %c %d-%d-%d\n&quot;,buf,a,c,year,month,day);
+      fprintf(stdout,&quot;%s&quot;,str);  </code></pre><h6 id="fscanf-拼装数据按照一定格式输入到文件或者屏幕"><a href="#fscanf-拼装数据按照一定格式输入到文件或者屏幕" class="headerlink" title="fscanf()拼装数据按照一定格式输入到文件或者屏幕"></a>fscanf()拼装数据按照一定格式输入到文件或者屏幕</h6><pre><code>int fscanf(FILE *stream, const char *format, ...);
+函数参数：FILE *stream,       文件流指针
+         const char *format,  标准格式  
+         ...                  参数不确定
+    char buf[50];
+    int a;
+    char c;
+    char str[50]={0};
+    fscanf(stdin,&quot;%s %d %c&quot;,buf,&amp;a,&amp;c);
+    fprintf(stdout,&quot;%s %d %c\n&quot;,buf,a,c); </code></pre><h6 id="sscanf-拆分数据按照一定格式从字符串输入到空间"><a href="#sscanf-拆分数据按照一定格式从字符串输入到空间" class="headerlink" title="sscanf()拆分数据按照一定格式从字符串输入到空间"></a>sscanf()拆分数据按照一定格式从字符串输入到空间</h6><pre><code>int sscanf(const char *str, const char *format, ...);
+函数参数：char *str,          字符串
+          const char *format, 标准格式
+          ...                 参数不确定
+    char buf[50]=&quot;2019-08-20&quot;;
+    int year,month,day;
+    sscanf(buf,&quot;%d-%d-%d&quot;,&amp;year,&amp;month,&amp;day);
+    printf(&quot;%d\n&quot;,year);
+    printf(&quot;%d\n&quot;,month);
+    printf(&quot;%d\n&quot;,day);</code></pre>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/27/文件IO/" class="archive-article-date">
-  	<time datetime="2019-08-27T11:58:20.004Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/27/文件IO/">文件IO</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/09/10/标准IO/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/27/系统编程/" class="archive-article-date">
-  	<time datetime="2019-08-27T11:13:44.956Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-27</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2019/09/10/目录操作/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          目录操作
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/27/文件IO/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">文件IO</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/27/系统编程/">系统编程</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/11/makefile/" class="archive-article-date">
-  	<time datetime="2019-08-11T13:41:12.908Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/11/makefile/">makefile</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/07/shell/" class="archive-article-date">
-  	<time datetime="2019-08-07T01:39:06.811Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/07/shell/">shell</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -296,8 +448,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

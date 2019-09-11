@@ -152,6 +152,1235 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-网络编程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/11/网络编程/">网络编程</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/11/网络编程/" class="archive-article-date">
+  	<time datetime="2019-09-11T03:11:52.493Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="网络编程"><a href="#网络编程" class="headerlink" title="网络编程"></a>网络编程</h2><p>DHCP 自动设置IP地址<br>IPv4 32的点分制  192168012002—&gt;192.168.12.2</p>
+<p>TCP/IP:<br>    TCP: 网络通信传输协议<br>    IP：不同主机之间通信设置地址协议</p>
+<p>OSI模型：                            TCP/IP模型：<br>    应用层                                应用层            tftp,ftp,telent<br>    表示层<br>    会话层<br>    传输层                                传输层<br>    网络层                                网络层<br>    数据链路层                            物理链路层<br>    物理层<br>    OSI模型当前并没有实现                当前最广泛，也是一直在用的模型</p>
+<p>TCP/IP模型：<br>应用层—&gt;端口号<br>        0~65535<br>        tfp：21<br>        飞秋：2425<br>        0~255——–&gt;unix协议专用端口<br>        255~1023—–&gt;大部分是window系统部分进程的专用端口<br>        1023~40031—&gt;部分常用软件使用的端口(大约只有一百多个)</p>
+<p>传输层：<br>        tcp:<br>            一定存在一个服务器，而且所有的客户端都需要通过服务器才能连接<br>            tcp对网络稳定性要求高<br>            网状结构<br>            一般用于账户登录，密码登录，部分视频网站内容传输<br>            三次握手四次挥手<br>            一定要服务器存在，客户端才能运行<br>        udp:<br>            不存在服务器，所有客户端可以自行连接<br>            udp对网络要求不高<br>            星状模型<br>            一般用于视频数据的传输(监控录像，高速拍照)<br>            对运行的先后顺序没有严格要求<br>            可以进行组播和广播<br>                组播：将需要接收消息的客户端加在同一个组播地址中<br>                      发送端只需要向组播地址发消息，加入组的客户端都会接收到<br>                广播：向当前网络类的所有电脑发送信息，固定主机地址位是255<br>        原始套接字:ping</p>
+<p>网络层：<br>    IP地址</p>
+<p>物理链路层：<br>    网卡，交换机，网线</p>
+<h2 id="编程准备知识"><a href="#编程准备知识" class="headerlink" title="编程准备知识"></a>编程准备知识</h2><h5 id="（1）网络结构体"><a href="#（1）网络结构体" class="headerlink" title="（1）网络结构体"></a>（1）网络结构体</h5><p>//编程使用的网络结构体</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">struct sockaddr_in &#123;</span><br><span class="line">  __kernel_sa_family_t	sin_family;			//使用的协议族</span><br><span class="line">  __be16		sin_port;					//端口号</span><br><span class="line">  struct in_addr	sin_addr;				//IP地址</span><br><span class="line"></span><br><span class="line">  // 为了保证新的网络结构体兼容以前的网络参数，添加一个差值</span><br><span class="line">  // 差值 = sockaddr结构体大小 - sockaddr_in前三个成员的总大小</span><br><span class="line">  unsigned char		__pad[__SOCK_SIZE__ - sizeof(short int) -</span><br><span class="line">			sizeof(unsigned short int) - sizeof(struct in_addr)];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>//网络实际收发时使用的结构体</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct sockaddr</span><br><span class="line">&#123;</span><br><span class="line">	__SOCKADDR_COMMON (sa_);	/* Common data: address family and length.  */</span><br><span class="line">	char sa_data[14];			/* Address data.  */</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>//ipv4协议下点分制的IP地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">struct in_addr &#123;</span><br><span class="line">	__be32	s_addr;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-字节序"><a href="#2-字节序" class="headerlink" title="(2)字节序"></a>(2)字节序</h5><pre><code>小端存储：低位低字节
+大端存储：低位高字节</code></pre><p>linux系统，X86系统，windows系统大部分都是小端存储<br>但是网络数据传输有部分是大端存储的，所以需要转换字节序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;arpa/inet.h&gt;</span><br><span class="line"></span><br><span class="line">主机字节序转网络字节序(长整型转换)</span><br><span class="line">	uint32_t htonl(uint32_t hostlong);</span><br><span class="line"></span><br><span class="line">主机字节序转网络字节序(短整型转换)</span><br><span class="line">	uint16_t htons(uint16_t hostshort);</span><br><span class="line"></span><br><span class="line">网络字节序转主机字节序(长整型转换)</span><br><span class="line">	uint32_t ntohl(uint32_t netlong);</span><br><span class="line"></span><br><span class="line">网络字节序转主机字节序(短整型转换)</span><br><span class="line">	uint16_t ntohs(uint16_t netshort);</span><br><span class="line"></span><br><span class="line">h---&gt;host  主机</span><br><span class="line">to--&gt;      转换</span><br><span class="line">n---&gt;net   网络</span><br><span class="line">l---&gt;long  长整型转换</span><br><span class="line">s---&gt;short 短整型转换</span><br></pre></td></tr></table></figure>
+
+<h5 id="（3）32位点分制IP地址"><a href="#（3）32位点分制IP地址" class="headerlink" title="（3）32位点分制IP地址"></a>（3）32位点分制IP地址</h5><p>#include &lt;sys/socket.h&gt;</p>
+<p>#include &lt;netinet/in.h&gt;</p>
+<p>#include &lt;arpa/inet.h&gt;</p>
+<p>//将字符串转换成IP地址<br>in_addr_t inet_addr(const char *cp);<br><code>举例：inet_addr(&quot;192.168.12.2&quot;)---&gt;结果就是in_addr_t类型的192.168.12.2</code></p>
+<p>int inet_aton(const char *cp, struct in_addr *inp);</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">举例：</span><br><span class="line">struct sockaddr_in myaddr;</span><br><span class="line">inet_aton(&quot;192.168.12.2&quot;,&amp;myaddr.sin_addr)---&gt;将转换后的IP地址直接存放在结构体in中</span><br></pre></td></tr></table></figure>
+
+<p>//IP地址转换成字符串<br>char *inet_ntoa(struct in_addr in);<br><code>举例：inet_ntoa(srcaddr.sin_addr)----&gt;返回得到的字符串</code></p>
+<p>=====================</p>
+<h2 id="UDP通信"><a href="#UDP通信" class="headerlink" title="UDP通信"></a>UDP通信</h2>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/11/网络编程/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-系统编程-进程通信" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/10/系统编程-进程通信/">系统编程-进程通信</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/10/系统编程-进程通信/" class="archive-article-date">
+  	<time datetime="2019-09-10T08:01:54.857Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="进程间通信"><a href="#进程间通信" class="headerlink" title="进程间通信"></a>进程间通信</h1><p>管道，共享内存，消息队列，信号集，信号量</p>
+<h3 id="无名管道："><a href="#无名管道：" class="headerlink" title="无名管道："></a>无名管道：</h3><pre><code>主要是用在父子进程间的通信</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">int pipe(int fildes[2]);</span><br><span class="line">	打开一个无名管道，并且讲文件描述符放入到fildes[2]里面</span><br><span class="line">	fildes[0]一定是读端</span><br><span class="line">	fildes[1]一定是写端</span><br></pre></td></tr></table></figure>
+
+<p>程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	int fd[2];</span><br><span class="line">	int ret = pipe(fd);</span><br><span class="line">	if(ret == -1)</span><br><span class="line">	&#123;</span><br><span class="line">		perror(&quot;pipe failed&quot;);</span><br><span class="line">		exit(-1);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	ret = fork();</span><br><span class="line">	if(ret &gt; 0)</span><br><span class="line">	&#123;</span><br><span class="line">		sleep(1);</span><br><span class="line">		write(fd[1],&quot;hello&quot;,6);</span><br><span class="line">		printf(&quot;father write ok\n&quot;);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	else if(ret == 0)</span><br><span class="line">	&#123;</span><br><span class="line">		char buf[10];</span><br><span class="line">		read(fd[0],buf,6);</span><br><span class="line">		printf(&quot;child buf=%s\n&quot;,buf);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	close(fd[0]);</span><br><span class="line">	close(fd[1]);</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="有名管道"><a href="#有名管道" class="headerlink" title="有名管道"></a>有名管道</h3><p>无名管道没有实体，只能放在父子进程中</p>
+<p>有名管道存在实体，是可以ls查看到的文件，一般用于不相干<br>的两个进程之间通信</p>
+<p>#include &lt;sys/types.h&gt;</p>
+<p>#include &lt;sys/stat.h&gt;</p>
+<p>int mkfifo(const char *pathname, mode_t mode);<br>            所创建的管道文件位置和名称    管道文件权限</p>
+<p>正确返回0，出错返回-1，而且将错误码存储到errno变量<br>        EEXIST：表示文件已存在</p>
+<p>有名管道被创建后，仍然需要open函数打开，但是与普通不同文件<br>不一样的：<br>    1.写入的文件是被读取直接清除的<br>    2.读写端的进程可以不止一个<br>    3.如果写端没有打开，只打开了读端，则阻塞在open的位置</p>
+<p>判断文件是否存在：</p>
+<p>#include &lt;unistd.h&gt;<br>int access(const char *path, int amode);</p>
+<p>jack.c /rose.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/stat.h&gt;</span><br><span class="line">#include &lt;fcntl.h&gt;</span><br><span class="line">#include &lt;errno.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"></span><br><span class="line">#define FIFO_NAME	&quot;/home/gec/myfifo&quot;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	int ret = mkfifo(FIFO_NAME,0777);</span><br><span class="line">	if(ret == -1)</span><br><span class="line">	&#123;</span><br><span class="line">		if(errno != EEXIST)//防止文件是已存在的情况下推出</span><br><span class="line">		&#123;</span><br><span class="line">			perror(&quot;mkfifo failed&quot;);</span><br><span class="line">			return -1;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	int fd = open(FIFO_NAME,O_RDWR);</span><br><span class="line">	if(fd == -1)</span><br><span class="line">	&#123;</span><br><span class="line">		perror(&quot;open failed&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	char buf[10];</span><br><span class="line">    //in jack.c</span><br><span class="line">	/*while(1)</span><br><span class="line">	&#123;</span><br><span class="line">		scanf(&quot;%s&quot;,buf);</span><br><span class="line">		</span><br><span class="line">		write(fd,buf,strlen(buf));</span><br><span class="line">		</span><br><span class="line">	&#125;*/</span><br><span class="line">    //in rose.c</span><br><span class="line">    /*while(1)</span><br><span class="line">	&#123;</span><br><span class="line">		bzero(buf,10);</span><br><span class="line">		</span><br><span class="line">		read(fd,buf,10);</span><br><span class="line">		</span><br><span class="line">		printf(&quot;buf=%s\n&quot;,buf);</span><br><span class="line">		</span><br><span class="line">	&#125;*/</span><br><span class="line">	close(fd);</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br></pre></td></tr></table></figure>
+
+<h3 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h3><p>由linux系统支持的，经过linux内核来完成的不<br>同进程之间的通信。</p>
+<p>（1）执行默认设置，当没有注册信号时，也是执行默认设置<br>（2）执行指定函数<br>（3）忽略该信号</p>
+<p>查看linux系统支持哪些信号    kill -l    </p>
+<p>一般主流支持62个信号，编号1<del>31,34</del>64<br>1~31：不可靠信号，非实时信号<br>    容易发生嵌套，而且运行时再接收多个相同信号时，只会执行一次</p>
+<p>34~64：可靠信号，实时信号<br>    不会发生嵌套，而且运行时接收到N个相同信号，就会执行N次</p>
+<p>信号默认动作：<br>    1) SIGHUP    —-&gt;结束掉当前终端<br>    9) SIGKILL    —-&gt;杀死进程(无法被忽略)<br>    19) SIGSTOP    —-&gt;从系统发送的停止信号(无法被忽略)<br>    20) SIGTSTP    —-&gt;从终端发送的停止信号</p>
+<blockquote>
+<p>//注册信号</p>
+</blockquote>
+<p>#include &lt;signal.h&gt;<br>typedef void (*sighandler_t)(int);<br>sighandler_t signal(int signum, sighandler_t handler);<br>        int signum        ——&gt;注册的是哪一个信号<br>        sighandler_t handler–&gt;该信号执行的动作<br>                                自定义函数：执行自定义动作<br>                                SIG_IGN：忽略该信号<br>                                SIG_DFL：执行该信号的缺省动作</p>
+<blockquote>
+<p>//发送信号给某一个进程</p>
+</blockquote>
+<p>#include &lt;sys/types.h&gt;</p>
+<p>#include &lt;signal.h&gt;<br>int kill(pid_t pid, int sig);<br>        pid_t pid        ——&gt;接收信号的进程号<br>        int sig            ——&gt;被发送的信号</p>
+<p>信号可以单个忽略，使用singal函数，也可以设置一个集合，直接忽略集合<br>内的所有信号</p>
+<blockquote>
+<p>//对整个信号集合进行操作    </p>
+</blockquote>
+<p>#include &lt;signal.h&gt;<br>int sigprocmask(int how, const sigset_t *set, sigset_t *oldset);<br>        int how            ——&gt;对信号集做哪种操作<br>                                SIG_BLOCK    阻塞信号，将新信号集和旧信号集一起阻塞<br>                                SIG_UNBLOCK    解除阻塞<br>                                SIG_SETMASK    阻塞信号，只阻塞新的信号集<br>        sigset_t *set    ——&gt;新的信号集<br>        sigset_t *oldset——&gt;旧的信号集，可以设置为NULL</p>
+<p>#include &lt;signal.h&gt;<br>int sigemptyset(sigset_t *set);<br>    —-&gt;清空信号集<br>int sigfillset(sigset_t *set);<br>    —-&gt;把所有的信号全部添加到信号集中<br>int sigaddset(sigset_t *set, int signum);<br>    —-&gt;添加一个信号到信号集中<br>int sigdelset(sigset_t *set, int signum);<br>    —-&gt;从信号集中删除一个信号<br>int sigismember(const sigset_t *set, int signum);<br>    —-&gt;判断信号是否在信号集中<br>        返回1，信号在信号集中<br>        返回0，信号不在信号集中</p>
+<p>在不可靠信号里面，信号的数值越大，它的优先级是越高的:可以被嵌套<br>sig_recv.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;signal.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line">void func1(int arg)</span><br><span class="line">&#123;</span><br><span class="line">	printf(&quot;func1 is go  %d\n&quot;,arg);</span><br><span class="line">&#125;</span><br><span class="line">void func2(int arg)</span><br><span class="line">&#123;</span><br><span class="line">	printf(&quot;func2 is go  %d\n&quot;,arg);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	//signal(SIGTSTP,SIG_IGN);//忽略掉SIGTSTP信号</span><br><span class="line">	//signal(SIGINT,SIG_IGN);//忽略掉SIGINT信号</span><br><span class="line">	</span><br><span class="line">	signal(SIGUSR1,func1);//自定义信号SIGUSR1执行函数func</span><br><span class="line">	signal(SIGUSR2,func2);</span><br><span class="line">	</span><br><span class="line">	sigset_t act;//设置一个信号集</span><br><span class="line">	sigemptyset(&amp;act);//清空信号集</span><br><span class="line">	sigaddset(&amp;act,SIGTSTP);//向信号集中添加SIGTSTP信号</span><br><span class="line">	sigaddset(&amp;act,SIGUSR1);</span><br><span class="line">	sigaddset(&amp;act,SIGUSR2);</span><br><span class="line">	sigprocmask(SIG_BLOCK,&amp;act,NULL);//设置act信号集中信号全部阻塞</span><br><span class="line">	</span><br><span class="line">	int i=0;</span><br><span class="line">	while(i&lt;5)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;%u :i=%d\n&quot;,getpid(),i++);</span><br><span class="line">		sleep(1);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	sigprocmask(SIG_UNBLOCK,&amp;act,NULL);</span><br><span class="line">	//在解除阻塞的时候，会检查信号阻塞队列，如果有信号存在，则直接执行</span><br><span class="line">	while(1)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;%u ::i=%d\n&quot;,getpid(),i++);</span><br><span class="line">		sleep(1);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>sig_send.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;signal.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line">int main(int argc, char *argv[])</span><br><span class="line">&#123;</span><br><span class="line">	kill(atoi(argv[1]),SIGUSR2);</span><br><span class="line">	kill(atoi(argv[1]),SIGUSR1);</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>===============信号的安全使用===============<br>1.如果父进程存在挂起的信号，则子进程不继承<br>2.如果父进程存在阻塞的信号，子进程会继承阻塞，将获取的信号挂起<br>3.信号是可以被嵌套的，但如果同时有多个信号被挂起，<br>    可靠信号一定是响应优先级高的先响应<br>    不可靠信号可能会被嵌套响应</p>
+<pre><code>不可靠信号最多挂起一个
+可靠信号发送多少次，就挂起多少次</code></pre><p>例子：假设信号挂起队列中存在10,12,35,36四个信号，按优先级<br>响应时36,35,12,10，当36响应的时候，10,12,35都还在队列中，<br>    —&gt;若此时发送信号10，由于不可靠信号最多挂起一个，所以36不会被嵌套<br>    —&gt;若此时发送信号35，由于可靠信号可以挂起多次，所以35运行多次</p>
+<p>例子：假设信号挂起队列中存在10,35,36四个信号，按优先级<br>响应时36,35,10，当36响应的时候，10,35都还在队列中，<br>    —&gt;若此时发送信号12，信号12会嵌套在36响应过程中，但只能挂起一次</p>
+<p>4.可以设置信号不被指定的信号嵌套，需要通过sigaction注册信号执行函数，<br>signal函数此时无效，同时要注意不能嵌套的信号不是被忽略，而是被阻塞，<br>当当前信号执行完毕时，仍然会再一次执行</p>
+<p>5.信号是异步通信，信号响应的位置可能是程序的任意位置，那么如果<br>信号操作了全局变量，则很可能发生数值出错。<br>    信号不可操作全局变量<br>库函数函数中也存在许多函数操作了全局变量，这些函数都是不安全函数<br>使用 man 7 signal可以查看安全函数</p>
+<p>6.信号可以结束sleep和pause函数<br>    信号可以结束进程的睡眠状态，所以也被称为软中断</p>
+<p>信号挂起：<br>    （1）进程在信号阻塞的情况下接到该信号<br>    （2）进程在执行信号响应的情况下，再次接到该信号<br>信号阻塞：<br>        进程接到信号不立即执行，要等待解除阻塞才执行<br>信号忽略：<br>        进程屏蔽信号，不接受<br>信号响应：<br>        进程接到信号后执行函数或缺省动作<br>信号嵌套：<br>        进程在响应A信号的过程中，接收到B信号，会先执行B信号，再执行A信号<br>        信号嵌套可以多次相互嵌套，但已响应的信号不能被再次嵌套，会被挂起<br>信号缺省动作：<br>        执行linux系统指定的信号默认动作</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/10/系统编程-进程通信/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Linux基础" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/10/Linux基础/">Linux基础</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/10/Linux基础/" class="archive-article-date">
+  	<time datetime="2019-09-10T07:48:32.397Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux基础"><a href="#Linux基础" class="headerlink" title="Linux基础"></a>Linux基础</h1><h3 id="linux和ubuntu的关系"><a href="#linux和ubuntu的关系" class="headerlink" title="linux和ubuntu的关系"></a>linux和ubuntu的关系</h3><p>   linux：一般我们认为linux指的整个系统（界面+内核+…）<br>         真正意义上的linux只是指的系统内核</p>
+<pre><code>linux指的是Ubuntu里面的内核
+Ubuntu只是linux的一个发行版本
+什么发行版本？  Unix
+   以linux为核心的系统都叫linux的发行版本</code></pre><h3 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h3><p>   1.开源性： 开发者可以随机修改源代码<br>   2.免费性： 从官网下载免费镜像文件<br>   3.多任务： 多程序同时运行(进程、线程)</p>
+<h3 id="关于查看系统属性的命令"><a href="#关于查看系统属性的命令" class="headerlink" title="关于查看系统属性的命令"></a>关于查看系统属性的命令</h3><p>   1.如何查看当前Ubuntu的版本<br>     gec@ubuntu:~$ cat /etc/issue.net<br>     Ubuntu 12.04.2 LTS<br>     Ubuntu   linux的发行版本<br>     12.04    版本号<br>     .2       修订号（经过2次修订）<br>     LTS      long term support 长期项目支持</p>
+<p>   2.如何查看ubuntu位数<br>     gec@ubuntu:~$ getconf LONG_BIT  —-》长整型<br>       32</p>
+<h3 id="linux系统架构"><a href="#linux系统架构" class="headerlink" title="linux系统架构"></a>linux系统架构</h3><pre><code>windows：目录从属分区 
+         所有入口以分区的名字开头：E:\(反斜杠)
+
+linux：  分区从属目录
+         所有人口以根目录的名字开头：/
+linux系统特点：
+   1.分区之间使用正反斜杠割分
+   2.所有的文件都是规定存在某个目录下
+   3.所有的操作都是命令交互</code></pre><h3 id="linux命令"><a href="#linux命令" class="headerlink" title="linux命令"></a>linux命令</h3><pre><code>=============================</code></pre><h6 id="浏览系统"><a href="#浏览系统" class="headerlink" title="浏览系统"></a>浏览系统</h6><pre><code>ls       查看  list
+la       查看所有文件(隐藏文件)详细信息
+cd       切换路径     change diretcory
+pwd      查看当前目录
+cat      查看文件内容
+which    寻找可执行程序所在路径   which ls
+env      查看环境变量
+history     查看历史命令</code></pre><p>==============================</p>
+<h6 id="修改系统资源"><a href="#修改系统资源" class="headerlink" title="修改系统资源"></a>修改系统资源</h6><pre><code>touch    新建文件
+mkdir    新建目录
+rm       删除       删库：sudo rm  /* -rf
+cp       复制文件
+mv       剪切文件 重命名
+
+ln       创建文件链接(生成链接相当于Windows当中快捷方式)
+         硬链接  直接给文件取别名
+         ln  文件名  别名 (注意不要在共享文件中使用，windows不支持这个格式的文件)
+          软链接 生成了一种链接方式    
+         ln  文件名 软链接名 -s
+         gec@ubuntu:~$ ls -l 3 4
+        硬    -rwxrwxr-x 2 gec gec 380 Aug 18 23:45 3
+        软    lrwxrwxrwx 1 gec gec   6 Aug 20 19:54 4 -&gt; dup2.c
+
+find     查找  find  文件名
+
+grep     在文件中匹配对应的内容
+         grep 匹配内容 匹配文件 参数 
+         grep &quot;hello&quot; 1.txt -Hnw  //(H表示打印文件名字,n打印行号,w全字匹配)
+
+echo    输出  字符串
+        echo &quot;hello&quot;
+
+alias   给命令区别名
+        alias 别名 = &apos;命令名&apos;
+        alias LS=&apos;ls&apos;
+
+unlias  取消别名
+        unalias LS
+
+apt-get 下载并安装
+        sudo apt-get install 下载程序的名字
+        卸载程序
+        sudo apt-get remove 程序名
+        更新下载资源
+        apt-get update
+
+        linux离线安装
+
+tar     linux中常见的两种压缩格式bz2和gz
+        1.查看压缩包里面的内容
+         tar -tf 压缩包名字
+
+        2.bz2结尾：  v参数可以详细查看
+          压缩  c
+          tar  -jcf  xxx.tar.bz2 文件1 文件2 文件3 
+          tar  -jcvf  xxx.tar.bz2 文件1 文件2 文件3  详细的压缩过程
+
+          解压  x
+          tar  -jxf  xxx.tar.bz2   直接解压
+          tar  -jxvf  xxx.tar.bz2  可以详细查看解压过程
+
+        3.gz结尾：
+          压缩
+          tar  -zcf xxx.tar.gz 文件1 文件2 文件3
+          tar  -zcvf xxx.tar.gz 文件1 文件2 文件3
+
+          解压
+          tar  -zxf  xxx.tar.gz   直接解压
+          tar  -zxvf  xxx.tar.gz   解压详细过程
+
+        注意：在共享目录下面如果压缩包里面有链接文件，千万不要解压，去linux解压
+        z  处理以.gz结尾的压缩包
+        j  处理以.bz2结尾的压缩包
+        c  压缩  ---》tar是压缩命令
+        x  解压  ---》tar是解压命令
+        v  以可见方式进行处理
+        f  文件，不可忽略参数
+        -C 指定解压之后的位置</code></pre><p>=================================================</p>
+<h6 id="中文手册的使用"><a href="#中文手册的使用" class="headerlink" title="中文手册的使用"></a>中文手册的使用</h6><p>例子：查看ls的中文手册<br>       man -M /usr/local/zhman/share/man/zh_CN ls</p>
+<pre><code> 给man -M /usr/local/zhman/share/man/zh_CN取别名
+ alias cman=&apos;man -M /usr/local/zhman/share/man/zh_CN&apos;
+
+file  用来查看文件的属性
+      gec@ubuntu:~$ file 1
+      1: directory
+
+chmod  修改文件的权限
+       chmod 八进制权限 文件名
+
+       chmod 777 1.txt
+
+    文件初始创建 
+      touch 1.txt
+     -rw-rw-r-- 1 gec gec 0 Aug 21 00:30 1.txt  664
+      mkdir 5
+     drwxrwxr-x  2 gec gec    4096 Aug 21 00:32 5 775
+
+     drw-rw-rw-  2 gec gec    4096 Aug 21 00:32 5 666
+          不能够切换到内部
+     dr-xr-xr-x  2 gec gec    4096 Aug 21 00:32 5 555
+          在目录下面不能创建
+     d-wx-wx-wx  2 gec gec    4096 Aug 21 00:32 5 333
+          可以进入目录不能查看内容
+
+vi   编辑器  gedit
+     三种模式
+     命令模式  按键盘Esc
+     底行模式  shift+;
+     编辑模式  按字母‘i’
+
+     查找字符串： 在命令模式进行
+     /hello 从前往后查找hello（按字母n不断查找下一个）
+     ?hello 从后往前查找hello 
+
+     替换字符串：在命令模式进行
+      %s/旧的字符串/新的字符串      所有的字符串替换为新的
+      n,ms/旧的字符串/新的字符串/g  把从第n行开始到到第m行的所有内容替换
+
+    保存退出
+     :wq!  w保存 q退出  ！ 强制
+
+linux中常用命令(linux中常用命令非常多,没有必要全部都记)
+    除非你想去做：系统运维，网络管理</code></pre><p>=============================================</p>
+<h6 id="根目录"><a href="#根目录" class="headerlink" title="根目录"></a>根目录</h6><p>cdrom      光驱挂载目录<br>home       家目录<br>media      挂载USB接口移动硬盘<br>proc       以可见的方式查看linux系统内存的数据<br>sbin       超级用户的命令所在地<br>sys        以可见的方式查看linux内核的数据<br>var        存放系统运行的需要改变的数据<br>bin        普通用户的命令所在地<br>dev        驱动文件<br>lib        普通用户的库文件<br>mnt        共享文件所在地<br>root       超级用户的家目录<br>selinux    加固系统安全目录<br>tmp        系统文件文件临时存放地<br>vmlinuz    vmlinuz -&gt; boot/vmlinuz-3.5.0-23-generic //linux内核<br>boot       linux内核,文件系统<br>etc        系统的所有的配置文件<br>lost+found 系统崩溃，产生的碎片到此目录。重启时候，系统修改碎片<br>opt        存放的功能性代码<br>run        系统运行时目录<br>srv        系统服务日志<br>usr        一般存放第三方的程序头文件</p>
+<p>==================================================</p>
+<h3 id="安装中文man手册"><a href="#安装中文man手册" class="headerlink" title="安装中文man手册"></a>安装中文man手册</h3><pre><code>man手册的中文包：manpages-zh-1.5.1.tar.gz
+
+ubuntu当中安装软件步骤;
+    1.配置 
+    2.编译
+    3.安装</code></pre><ol>
+<li><p>首先将manpages-zh-1.5.1.tar.gz拷贝到共享目录linux</p>
+</li>
+<li><p>ubuntu中切换到manpages-zh-1.5.1.tar.gz所在位置    </p>
+<pre><code>cd /mnt/hgfs/linux    </code></pre></li>
+<li><p>将压缩包解压到家目录</p>
+<pre><code>tar -zxf manpages-zh-1.5.1.tar.gz -C ~</code></pre></li>
+<li><p>在/usr/local下建立安装包的目录</p>
+<pre><code>gec@ubuntu:/usr/local$ sudo mkdir /usr/local/zhman
+[sudo] password for gec: 
+gec@ubuntu:/usr/local$ sudo chmod 777 zhman</code></pre></li>
+<li><p>切换解压目录的路径下</p>
+<pre><code>cd /home/gec/manpages-zh-1.5.1</code></pre></li>
+<li><p>查看文件的配置参数<br>   ./configure -help</p>
+<p>  –disable-zhtw          do not generate manpages for zh_TW</p>
+<pre><code>禁止生成繁体字的man手册</code></pre><p>  –prefix=PREFIX         install architecture-independent files in PREFIX</p>
+<pre><code>[/usr/local] 指定安装的文件路径</code></pre></li>
+<li><p>配置<br>   ./configure  –disable-zhtw  –prefix=/usr/local/zhman</p>
+<pre><code>manpages-zh configure summary
+ =============================
+ UTF-8 : true
+ zh_CN : true
+ zh_TW : false</code></pre></li>
+<li><p>编译<br>   make</p>
+<pre><code>make[3]: Leaving directory `/home/gec/manpages-zh-1.5.1/src/mann/zh_CN&apos;
+make[3]: Entering directory `/home/gec/manpages-zh-1.5.1/src/mann&apos;
+make[3]: Nothing to be done for `all-am&apos;.
+make[3]: Leaving directory `/home/gec/manpages-zh-1.5.1/src/mann&apos;
+make[2]: Leaving directory `/home/gec/manpages-zh-1.5.1/src/mann&apos;
+make[2]: Entering directory `/home/gec/manpages-zh-1.5.1/src&apos;
+make[2]: Nothing to be done for `all-am&apos;.
+make[2]: Leaving directory `/home/gec/manpages-zh-1.5.1/src&apos;
+make[1]: Leaving directory `/home/gec/manpages-zh-1.5.1/src&apos;
+Making all in utils
+make[1]: Entering directory `/home/gec/manpages-zh-1.5.1/utils&apos;
+make[1]: Nothing to be done for `all&apos;.
+make[1]: Leaving directory `/home/gec/manpages-zh-1.5.1/utils&apos;
+make[1]: Entering directory `/home/gec/manpages-zh-1.5.1&apos;
+make[1]: Nothing to be done for `all-am&apos;.
+make[1]: Leaving directory `/home/gec/manpages-zh-1.5.1&apos;</code></pre></li>
+<li><p>安装<br>   make install</p>
+<pre><code>make[1]: Entering directory `/home/gec/manpages-zh-1.5.1/utils&apos;
+make[2]: Entering directory `/home/gec/manpages-zh-1.5.1/utils&apos;
+make[2]: Nothing to be done for `install-exec-am&apos;.
+make[2]: Nothing to be done for `install-data-am&apos;.
+make[2]: Leaving directory `/home/gec/manpages-zh-1.5.1/utils&apos;
+make[1]: Leaving directory `/home/gec/manpages-zh-1.5.1/utils&apos;
+make[1]: Entering directory `/home/gec/manpages-zh-1.5.1&apos;
+make[2]: Entering directory `/home/gec/manpages-zh-1.5.1&apos;
+make[2]: Nothing to be done for `install-exec-am&apos;.
+make[2]: Nothing to be done for `install-data-am&apos;.
+make[2]: Leaving directory `/home/gec/manpages-zh-1.5.1&apos;
+make[1]: Leaving directory `/home/gec/manpages-zh-1.5.1&apos;</code></pre></li>
+<li><p>安装的结果<br>  cd /usr/local/zhman/share/man/zh_CN </p>
+<p>  man1  man2  man3  man4  man5  man6  man7  man8 中文手册分开8个管理</p>
+</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/10/Linux基础/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-目录操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/10/目录操作/">目录操作</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/10/目录操作/" class="archive-article-date">
+  	<time datetime="2019-09-10T07:37:46.019Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="目录操作"><a href="#目录操作" class="headerlink" title="目录操作"></a>目录操作</h3><h6 id="1-目录的打开-opendir"><a href="#1-目录的打开-opendir" class="headerlink" title="1.目录的打开  opendir()"></a>1.目录的打开  opendir()</h6><pre><code> NAME   打开一个目录
+   opendir, fdopendir - open a directory
+
+SYNOPSIS
+   #include &lt;sys/types.h&gt;
+   #include &lt;dirent.h&gt;
+   函数原型：
+   DIR *opendir(const char *name);
+   函数参数：
+       const char *name  目录的完整地址
+    返回值：
+       成功: 返回DIR类型的指针指向你打开的目录
+       失败：NULL</code></pre><h6 id="2-目录的读取-readdir"><a href="#2-目录的读取-readdir" class="headerlink" title="2.目录的读取  readdir"></a>2.目录的读取  readdir</h6><pre><code>NAME 读取一个目录
+   readdir, readdir_r - read a directory
+
+SYNOPSIS
+   #include &lt;dirent.h&gt;
+   函数原型：
+   struct dirent *readdir(DIR *dirp);
+   函数参数：
+         DIR *dirp 给我要读取的目录指针
+   函数返回值：
+       成功: 返回struct dirent *类型的指针指向你读的目录
+       失败：NULL   
+    struct dirent {
+        ino_t          d_ino;       /* 节点编号 */
+        off_t          d_off;       /* 偏移到下个节点 */
+        unsigned short d_reclen;    /* 目录的长度 */
+        unsigned char  d_type;      /* 文件的类型*/
+        char           d_name[256]; /* 文件的名字 */
+       };//存放的是目录中每一个文件的相关信息
+    文件类型判断
+   DT_BLK      This is a block device.      块设备文件
+
+   DT_CHR      This is a character device.  字符设备文件
+
+   DT_DIR      This is a directory.          目录文件
+
+   DT_FIFO     This is a named pipe (FIFO).  管道文件
+
+   DT_LNK      This is a symbolic link.      链接文件
+
+   DT_REG      This is a regular file.       普通文件
+
+   DT_SOCK     This is a UNIX domain socket. 套接字文件
+
+   DT_UNKNOWN  The file type is unknown.     其他类型</code></pre><h6 id="3-关闭目录-closedir"><a href="#3-关闭目录-closedir" class="headerlink" title="3.关闭目录 closedir()"></a>3.关闭目录 closedir()</h6><pre><code>  NAME  关闭一个目录
+   closedir - close a directory
+
+ SYNOPSIS 
+   #include &lt;sys/types.h&gt;
+   #include &lt;dirent.h&gt;
+   函数原型：
+   int closedir(DIR *dirp);
+   函数参数：
+            DIR *dirp 要关闭的目录指针
+
+4.创建目录 mkdir
+  NAME  创建目录
+   mkdir - make a directory
+
+  SYNOPSIS
+   #include &lt;sys/stat.h&gt;
+   函数原型：
+   int mkdir(const char *path, mode_t mode);
+   函数参数：
+          const char *path   你要新建目录的位置
+          mode_t mode        新建目录的权限
+    返回值：
+         成功：返回  0 
+         失败：返回 -1</code></pre><h6 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">typedef struct  filelist</span><br><span class="line">&#123;</span><br><span class="line">	//数据域 存储真实有效数据</span><br><span class="line">	char filepath[1024];</span><br><span class="line"></span><br><span class="line">    // 新的文件地址</span><br><span class="line">    char filenewpath[1024];</span><br><span class="line"></span><br><span class="line">    //fileflag:  1为目录文件   0为其他文件</span><br><span class="line">    int fileflag;</span><br><span class="line">	//指针域</span><br><span class="line">	struct  filelist *next;</span><br><span class="line">&#125;flist,*plist;//flist 结构体名称 plist 结构体指针</span><br><span class="line">//递归函数</span><br><span class="line">int readfile(plist head ,const char *path,const char *newpath)//目录路径</span><br><span class="line">&#123;</span><br><span class="line">	struct dirent *mydirent;//父目录</span><br><span class="line">    static int flag=0;//记录目录层数</span><br><span class="line">	char pathname[1024]=&#123;0&#125;;//保存子目录路径</span><br><span class="line">	char newpathname[1024]=&#123;0&#125;;</span><br><span class="line">	int i;</span><br><span class="line">	</span><br><span class="line">	//1.打开目录 并把判断目录打开情况</span><br><span class="line">	DIR *mydir=opendir(path);</span><br><span class="line">	if(mydir == NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		perror(&quot;打开目录失败\n&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//2.循环读取目录内容</span><br><span class="line">	while((mydirent=readdir(mydir))!=NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		//2.1 剔除隐藏文件 . ..</span><br><span class="line">		if(strncmp(mydirent-&gt;d_name,&quot;.&quot;,1)==0|| </span><br><span class="line">		    strncmp(mydirent-&gt;d_name,&quot;..&quot;,2)==0)</span><br><span class="line">		    continue;//跳过. ..</span><br><span class="line"></span><br><span class="line">		//2.2 判断文件类型，判断这个文件是不是目录</span><br><span class="line">		if((mydirent-&gt;d_type)==DT_DIR)//说明读取的是目录</span><br><span class="line">		&#123;</span><br><span class="line">			</span><br><span class="line">			//拼接字符串得到子文件目录</span><br><span class="line">			sprintf(pathname,&quot;%s/%s&quot;,path,mydirent-&gt;d_name);</span><br><span class="line">			sprintf(newpathname,&quot;%s/%s&quot;,newpath,mydirent-&gt;d_name);</span><br><span class="line">			</span><br><span class="line">			//存入链表</span><br><span class="line">			filelist_add_tail(head,pathname,newpathname,1);</span><br><span class="line">	        /* //打印子目录的名称</span><br><span class="line">			printf(&quot;%s\n&quot;,pathname); */</span><br><span class="line">	</span><br><span class="line">            //反复调用自身			</span><br><span class="line">			readfile(head,pathname,newpathname);</span><br><span class="line">		&#125;</span><br><span class="line">		else//说明不是目录</span><br><span class="line">		&#123;</span><br><span class="line">			//拼接字符串得到子文件目录</span><br><span class="line">			sprintf(pathname,&quot;%s/%s&quot;,path,mydirent-&gt;d_name);</span><br><span class="line">			sprintf(newpathname,&quot;%s/%s&quot;,newpath,mydirent-&gt;d_name);</span><br><span class="line">			//存入链表</span><br><span class="line">			filelist_add_tail(head,pathname,newpathname,0);</span><br><span class="line">			/* printf(&quot;%s\n&quot;,pathname); */</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	//关闭目录</span><br><span class="line">	closedir(mydir);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line">int filelist_add_tail(plist head,char *pathname,char *newpathname,int flag)</span><br><span class="line">&#123;</span><br><span class="line">	//定义指针p指向头，方便遍历</span><br><span class="line">	plist p=head;</span><br><span class="line">	//定义新节点</span><br><span class="line">	plist newnode=malloc(sizeof(flist));</span><br><span class="line">	//初始化新节点</span><br><span class="line">	strcpy(newnode-&gt;filepath,pathname);//初始化数据域</span><br><span class="line">	strcpy(newnode-&gt;filenewpath,newpathname);</span><br><span class="line">	//printf(&quot;add45new  %s\n&quot;,newnode-&gt;filenewpath);</span><br><span class="line">	newnode-&gt;fileflag=flag;</span><br><span class="line">	newnode-&gt;next=NULL;//新节点指向空</span><br><span class="line">	//将新节点插入到链表的尾部，先找尾部</span><br><span class="line">	while(p-&gt;next != NULL)//当指向最后一个有效节点位置就停止</span><br><span class="line">	&#123;</span><br><span class="line">		p=p-&gt;next;//寻找下一个指针域</span><br><span class="line">	&#125;</span><br><span class="line">	//将新节点直接插入到链表的最后</span><br><span class="line">	p-&gt;next=newnode;</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/10/目录操作/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-标准IO" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/10/标准IO/">标准IO</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/10/标准IO/" class="archive-article-date">
+  	<time datetime="2019-09-10T03:20:38.249Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h5><p>系统IO:    常量操作<br>        1.    直接调用系统函数接口<br>        2.  不带IO缓冲区</p>
+<pre><code>标准IO:     指针操作
+  1.  调用的标准库里面的函数
+  2.  携带IO缓冲区    </code></pre><h5 id="标准IO-—-gt-f开头的一系列函数"><a href="#标准IO-—-gt-f开头的一系列函数" class="headerlink" title="标准IO —&gt;f开头的一系列函数"></a>标准IO —&gt;f开头的一系列函数</h5><pre><code>fopen()  fread() fwrite() fclose() fstat()
+fseek()  ftell() ferror() feof() rewind()    
+fprintf() fscanf() sprintf() sscanf()
+fputs()   fgets()  fputc()  fgetc()
+puts()  gets() getchar() putchar()</code></pre><p>注意点：<br>    系统IO,打开文件会得到文件描述符，文件操作围绕文件描述符</p>
+<pre><code>标准IO,得到文件指针，文件指针指向文件结构体，
+       其中有个成员_fileno,这个就是文件描述符</code></pre><h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><h4 id="1-文件的打开和关闭"><a href="#1-文件的打开和关闭" class="headerlink" title="1.文件的打开和关闭"></a>1.文件的打开和关闭</h4><pre><code>fopen()       
+fclose()</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">标准IO打开 fopen</span><br><span class="line">    NAME   打开文件指针</span><br><span class="line">       fopen, fdopen, freopen - stream open functions</span><br><span class="line"></span><br><span class="line">    SYNOPSIS</span><br><span class="line">       #include &lt;stdio.h&gt;</span><br><span class="line">       函数原型：</span><br><span class="line">       FILE *fopen(const char *path, const char *mode);</span><br><span class="line">       函数参数：   </span><br><span class="line">	      const char *path     打开文件路径</span><br><span class="line">		  const char *mode     打开的方式</span><br><span class="line">		  </span><br><span class="line">        r   以只读的方式打开</span><br><span class="line">        r+  以可读可写的方式打开</span><br><span class="line">        w   以可写的方式打开，如果文件存在就清空，如果不存在就创建</span><br><span class="line">        w+  以可读可写的方式打开，如果文件存在就清空，如果不存在就创建</span><br><span class="line">        a   以可写的方式打开，如果文件存在就追加，如果不存在就创建</span><br><span class="line">        a+  以可读可写的方式打开，如果文件存在就追加，如果不存在就创建</span><br><span class="line">       函数返回值：</span><br><span class="line">	       成功：返回一个文件指针</span><br><span class="line">		   失败：返回NULL</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fclose</span><br><span class="line">    NAME</span><br><span class="line">	fclose - close a stream</span><br><span class="line"></span><br><span class="line">    SYNOPSIS</span><br><span class="line">	#include &lt;stdio.h&gt;</span><br><span class="line">       函数原型：</span><br><span class="line">	int fclose(FILE *fp);</span><br><span class="line">    函数返回值：</span><br><span class="line">               FILE *fp：要关闭的文件的文件指针</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-文件的读"><a href="#2-文件的读" class="headerlink" title="2.文件的读"></a>2.文件的读</h4><pre><code>1.读取一个字符
+  fgetc()
+  getc()
+  getchar()
+
+2.读取一行数据
+  fgets()
+  gets</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">NAME  获取字符或者字符串</span><br><span class="line">       fgetc,  fgets,  getc,  getchar,  gets, ungetc - input of characters and strings</span><br><span class="line"></span><br><span class="line">      SYNOPSIS</span><br><span class="line">       #include &lt;stdio.h&gt;</span><br><span class="line">       </span><br><span class="line">       int fgetc(FILE *stream);</span><br><span class="line">       函数参数：FILE *stream   文件流指针</span><br><span class="line">       char *fgets(char *s, int size, FILE *stream);</span><br><span class="line">       函数参数:char *s      存放数据的位置</span><br><span class="line">	            int size     输入的大小</span><br><span class="line">				FILE *stream 文件流指针</span><br><span class="line">       int getc(FILE *stream);</span><br><span class="line">       函数参数：FILE *stream 文件流指针</span><br><span class="line">       int getchar(void);</span><br><span class="line">      </span><br><span class="line">       char *gets(char *s);</span><br><span class="line">       函数参数：字符串数据</span><br></pre></td></tr></table></figure>
+
+<pre><code>3.读取一块数据
+  fread    </code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">NAME</span><br><span class="line">       fread, fwrite - binary stream input/output</span><br><span class="line"></span><br><span class="line">    SYNOPSIS</span><br><span class="line">       #include &lt;stdio.h&gt;</span><br><span class="line">       函数原型： 以数据块为单位进行读取</span><br><span class="line">       size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);</span><br><span class="line">       函数参数：</span><br><span class="line">	        void *ptr     你要储存数据的位置</span><br><span class="line">			size_t size   每一块数据块的大小 字节</span><br><span class="line">			size_t nmemb  你打算要读多少个数据块</span><br><span class="line">			FILE *stream  读取的文件指针</span><br><span class="line">			最终读取的字节数=size*nmemb</span><br><span class="line">	        read(fd,buf,100);</span><br><span class="line">	        fread(buf,10,10,myfd);</span><br><span class="line">	   </span><br><span class="line">	   函数返回值：</span><br><span class="line">	        成功： 返回读取到完整的数据块的个数</span><br><span class="line">			失败： 0或者其他小于</span><br><span class="line">		使用feof函数来判断数据</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-文件的写入"><a href="#3-文件的写入" class="headerlink" title="3.文件的写入"></a>3.文件的写入</h4><pre><code>1.写入一个字符
+  fputc()
+  putc()      
+  putchar()    
+
+2.写入一行数据
+  fputs()
+  puts()</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">NAME   输出字符和字符串</span><br><span class="line">       fputc, fputs, putc, putchar, puts - output of characters and strings</span><br><span class="line"></span><br><span class="line">    SYNOPSIS</span><br><span class="line">       #include &lt;stdio.h&gt;</span><br><span class="line">        </span><br><span class="line">       int fputc(int c, FILE *stream);</span><br><span class="line">       函数参数：int c           ASCII码值或者是字符</span><br><span class="line">	             FILE *stream    文件流指针</span><br><span class="line">       int fputs(const char *s, FILE *stream);</span><br><span class="line">       函数参数：const char *s   字符串</span><br><span class="line">	             FILE *stream    文件流指针</span><br><span class="line">       int putc(int c, FILE *stream);</span><br><span class="line">       函数参数：int c           ASCII码值或者是字符</span><br><span class="line">         	     FILE *stream    文件流指针</span><br><span class="line">       int putchar(int c);</span><br><span class="line">       函数参数： ASCII码值或者是字符  </span><br><span class="line">       int puts(const char *s);</span><br><span class="line">       函数参数： 字符串</span><br></pre></td></tr></table></figure>
+
+<pre><code>3.写入一块数据</code></pre><blockquote>
+<pre><code>fwrite();</code></pre></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">size_t fwrite(const void *ptr, size_t size, size_t nmemb,</span><br><span class="line">              FILE *stream);</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-文件的偏移"><a href="#4-文件的偏移" class="headerlink" title="4.文件的偏移"></a>4.文件的偏移</h4><pre><code>fseek()
+ftell()
+rewind()</code></pre><p>fseek()  注意：返回值和lseek的返回值意思不一样</p>
+<blockquote>
+<pre><code>ftell()  注意：返回文件当前位置距离文件开头的字节数
+ rewind()</code></pre></blockquote>
+<pre><code>int fseek(FILE *stream, long offset, int whence);
+ 函数参数：FILE *stream   文件指针流
+             long offset    文件偏移的字节数
+           int whence     文件偏移位置</code></pre><blockquote>
+<pre><code> SEEK_SET  开头
+ SEEK_END  结束
+SEEK_CUR  当前位置</code></pre></blockquote>
+<pre><code>long ftell(FILE *stream);
+     lseek(fd,0,SEEK_END);</code></pre><blockquote>
+<p>   void rewind(FILE *stream);//等价于 将文件偏移量设置到起始位置<br>           fseek(myfile,0,SEEK_SET)</p>
+</blockquote>
+<h4 id="5-判断文件的状态"><a href="#5-判断文件的状态" class="headerlink" title="5.判断文件的状态"></a>5.判断文件的状态</h4><pre><code>feof()
+ferror()</code></pre><p>NAME   检查和重置流<br>       clearerr, feof, ferror, fileno - check and reset stream status</p>
+<pre><code>SYNOPSIS
+   #include &lt;stdio.h&gt;
+   函数模型：
+   int feof(FILE *stream);
+   int ferror(FILE *stream);
+   函数参数：
+        FILE *stream  文件指针
+
+ feof
+ int feof(FILE *stream);
+ 返回值：不等于0 ---》文件读取完毕
+         等于0   ---》文件还没读完</code></pre><h4 id="6-标准格式化"><a href="#6-标准格式化" class="headerlink" title="6.标准格式化"></a>6.标准格式化</h4><p>   fprintf()<br>   fscanf()<br>   sprintf()<br>   sscanf()<br>   printf()<br>   scanf()<br>   可变参函数<br>      标准输入  stdin<br>      标准输出  stdout</p>
+<h6 id="fprintf-拼装数据按照一定格式输出到文件或者屏幕"><a href="#fprintf-拼装数据按照一定格式输出到文件或者屏幕" class="headerlink" title="fprintf() 拼装数据按照一定格式输出到文件或者屏幕"></a>fprintf() 拼装数据按照一定格式输出到文件或者屏幕</h6><pre><code>int fprintf(FILE *stream, const char *format, ...);
+函数参数：FILE *stream,        文件流指针
+          const char *format,  标准格式  
+          ...                  参数不确定
+     FILE *file=fopen(&quot;2.txt&quot;,&quot;w+&quot;);
+     if(file == NULL)
+     {
+         perror(&quot;打开文件失败\n&quot;);
+         return -1;
+     }
+     char buf[5]=&quot;world&quot;;
+     int a=5;
+     char c=&apos;a&apos;;
+     fprintf(stdout,&quot;hello %s %d %c\n&quot;,buf,a,c);
+     fprintf(file,&quot;hello %s %d %c\n&quot;,buf,a,c);</code></pre><h6 id="sprintf-拼接数据按照一定格式输出到字符串-strcat"><a href="#sprintf-拼接数据按照一定格式输出到字符串-strcat" class="headerlink" title="sprintf() 拼接数据按照一定格式输出到字符串  strcat"></a>sprintf() 拼接数据按照一定格式输出到字符串  strcat</h6><pre><code>int sprintf(char *str, const char *format, ...);
+ 函数参数：char *str,          字符串
+           const char *format, 标准格式
+           ...                 参数不确定
+      char buf[5]=&quot;world&quot;;
+      int a=5;
+      char c=&apos;a&apos;;
+      char str[50]={0};
+      int year=2019;
+      int month=8;
+      int day=20;
+      sprintf(str,&quot;hello %s %d %c %d-%d-%d\n&quot;,buf,a,c,year,month,day);
+      fprintf(stdout,&quot;%s&quot;,str);  </code></pre><h6 id="fscanf-拼装数据按照一定格式输入到文件或者屏幕"><a href="#fscanf-拼装数据按照一定格式输入到文件或者屏幕" class="headerlink" title="fscanf()拼装数据按照一定格式输入到文件或者屏幕"></a>fscanf()拼装数据按照一定格式输入到文件或者屏幕</h6><pre><code>int fscanf(FILE *stream, const char *format, ...);
+函数参数：FILE *stream,       文件流指针
+         const char *format,  标准格式  
+         ...                  参数不确定
+    char buf[50];
+    int a;
+    char c;
+    char str[50]={0};
+    fscanf(stdin,&quot;%s %d %c&quot;,buf,&amp;a,&amp;c);
+    fprintf(stdout,&quot;%s %d %c\n&quot;,buf,a,c); </code></pre><h6 id="sscanf-拆分数据按照一定格式从字符串输入到空间"><a href="#sscanf-拆分数据按照一定格式从字符串输入到空间" class="headerlink" title="sscanf()拆分数据按照一定格式从字符串输入到空间"></a>sscanf()拆分数据按照一定格式从字符串输入到空间</h6><pre><code>int sscanf(const char *str, const char *format, ...);
+函数参数：char *str,          字符串
+          const char *format, 标准格式
+          ...                 参数不确定
+    char buf[50]=&quot;2019-08-20&quot;;
+    int year,month,day;
+    sscanf(buf,&quot;%d-%d-%d&quot;,&amp;year,&amp;month,&amp;day);
+    printf(&quot;%d\n&quot;,year);
+    printf(&quot;%d\n&quot;,month);
+    printf(&quot;%d\n&quot;,day);</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/10/标准IO/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-文件IO" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/27/文件IO/">文件IO</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/27/文件IO/" class="archive-article-date">
+  	<time datetime="2019-08-27T11:58:20.004Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux文件IO"><a href="#Linux文件IO" class="headerlink" title="Linux文件IO"></a>Linux文件IO</h1><p>=================================<br>1.核心内容：使用Linux中提供的一个系列的接口函数(api),操作文件<br>           新建文件  打开文件 读写文件 关闭文件 文件属性</p>
+<p>  我们之前操作文件使用命令来操作：<br>        vi    touch    gedit   vim<br>    使用函数接口来写代码操作文件</p>
+<p>2.基本概念</p>
+<h3 id="1-在Linux下一切设备皆文件"><a href="#1-在Linux下一切设备皆文件" class="headerlink" title="1.在Linux下一切设备皆文件"></a>1.在Linux下一切设备皆文件</h3><pre><code>对于操作系统来讲，硬件设备----》只需要使用驱动（可执行的二进制文件）</code></pre><h3 id="2-linux下的文件分类"><a href="#2-linux下的文件分类" class="headerlink" title="2.linux下的文件分类"></a>2.linux下的文件分类</h3><pre><code>普通文件       -
+目录文件       d directory
+软链接文件     l link
+管道文件       p pipe    进程间通信
+套接字文件     s socket  网络通信
+字符设备文件   c         驱动
+块设备文件     b         驱动（U盘、硬盘）</code></pre><h3 id="3-相关的接口函数—-》man手册—》按字母‘q’退出"><a href="#3-相关的接口函数—-》man手册—》按字母‘q’退出" class="headerlink" title="3.相关的接口函数—-》man手册—》按字母‘q’退出"></a>3.相关的接口函数—-》man手册—》按字母‘q’退出</h3><pre><code>第一组：系统IO(操作系统提供的函数)</code></pre><h5 id="1-文件的新建和打开-open"><a href="#1-文件的新建和打开-open" class="headerlink" title="1.文件的新建和打开 open()"></a>1.文件的新建和打开 open()</h5><pre><code>NAME   打开和新建一个文件或者驱动
+ open, creat - open and possibly create a file or device
+
+SYNOPSIS
+ 头文件
+ #include &lt;sys/types.h&gt;
+ #include &lt;sys/stat.h&gt;
+ #include &lt;fcntl.h&gt;
+ 函数原型
+ int open(const char *pathname, int flags);
+ 函数参数：
+     const char *pathname  你要打开文件的位置
+     int flags （宏定义）  打开文件需要的权限  
+           O_RDONLY   只读权限
+           O_WRONLY   只写权限
+           O_RDWR     可读可写
+           O_CREAT    新建文件   
+           O_EXCL     跟O_CREAT配合，如果在新建文件创建的时候，
+                      文件存在就退出
+           O_NOCTTY   无权限默认属性
+           O_TRUNC    跟O_CREAT配合，如果在新建文件创建的时候，
+                      文件存在就覆盖
+
+ 函数返回值：
+     成功返回：成功返回一个文件描述符 &gt;=0
+     失败返回：失败返回 -1
+
+
+ int open(const char *pathname, int flags, mode_t mode); 0777
+ 函数参数：
+    mode_t mode 设置文件的权限  
+     权限需要满足一个公式  mode &amp; ~umask
+     设置的权限只有在纯粹的linux环境才能生效
+
+   The following symbolic constants are provided for mode:
+        用户组
+        S_IRWXU  00700 user has  read,  write  and  execute permission
+        S_IRUSR  00400 user has read permission
+        S_IWUSR  00200 user has write permission
+        S_IXUSR  00100 user has execute permission
+        同组用户
+        S_IRWXG  00070 group has read, write and execute permission
+        S_IRGRP  00040 group has read permission
+        S_IWGRP  00020 group has write permission
+        S_IXGRP  00010 group has execute permission
+        其他组
+        S_IRWXO  00007 others have read, write and execute permission
+        S_IROTH  00004 others have read permission
+        S_IWOTH  00002 others have write permission
+        S_IXOTH  00001 others have execute permission</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//定义文件描述符</span><br><span class="line">	int txtfd;</span><br><span class="line">	</span><br><span class="line">	//打开文件          可读       创建       覆盖</span><br><span class="line">	txtfd=open(argv[1],O_RDONLY | O_CREAT | O_TRUNC);</span><br><span class="line">	</span><br><span class="line">	//判断文件是否打开成功</span><br><span class="line">	if(-1 == txtfd)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;打开文件失败！\n&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;文件打开成功\n&quot;);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-错误打印——-gt-perror"><a href="#2-错误打印——-gt-perror" class="headerlink" title="2.错误打印——&gt;perror"></a>2.错误打印——&gt;perror</h5><pre><code> 在linux当中定义了一个int类型全局变量 errno，保存错误信息的编码
+ vi /usr/lib/syslinux/com32/include/errno.h 查看错误码
+ 补充：find / -name errno.h
+在根目录下寻找一个名字叫做errno.h
+NAME   打印系统错误信息
+perror - print a system error message
+
+SYNOPSIS
+#include &lt;stdio.h&gt;
+函数原型：
+void perror(const char *s);
+函数参数：
+     const char *s  提示信息字符串</code></pre><h5 id="3-文件的读取-read"><a href="#3-文件的读取-read" class="headerlink" title="3.文件的读取  read"></a>3.文件的读取  read</h5><pre><code>NAME  读取文件的描述符
+read - read from a file descriptor
+
+SYNOPSIS
+#include &lt;unistd.h&gt;
+函数原型:
+ssize_t read(int fd, void *buf, size_t count);
+函数参数：    
+    int fd        你要读取文件的描述符
+    void *buf     读取的内容的缓冲区
+    size_t count  你打算读取的字节数
+函数返回值：    
+    成功返回： 读取到的字节数
+    失败返回： -1</code></pre><p>//打开文件          可读<br>    txtfd=open(argv[1],O_RDONLY);</p>
+<pre><code>//判断文件是否打开成功
+if(-1 == txtfd)
+{
+    perror(&quot;打开文件失败！\n&quot;);
+    return -1;
+}
+
+//读取文件
+int ret;
+ret=read(txtfd,buf,sizeof(buf));    
+printf(&quot;当前读取到的信息内容是：%s\n&quot;,buf);
+printf(&quot;当前文件buf读取了%d空间\n&quot;,ret);</code></pre><h5 id="4-文件的写入-write"><a href="#4-文件的写入-write" class="headerlink" title="4.文件的写入 write"></a>4.文件的写入 write</h5><p>NAME   写入文件的描述符<br>write - write to a file descriptor</p>
+<p>SYNOPSIS</p>
+<p>#include &lt;unistd.h&gt;<br>函数原型：<br>ssize_t write(int fd, const void *buf, size_t count);<br>函数参数：<br>        int fd            要写入的文件描述符<br>        const void *buf   写入的内容的缓冲区<br>        size_t count      你打算写入的字节数</p>
+<p>函数返回值：<br>    成功返回： 写入的字节数<br>    失败返回： -1 </p>
+<pre><code>int txtfd;//定义文件描述符    
+//打开文件           可读可写      
+txtfd=open(&quot;./1.txt&quot;,O_RDWR);
+//判断文件是否打开成功
+if(-1 == txtfd)
+{
+    perror(&quot;打开文件失败！\n&quot;);
+    return -1;
+}
+
+//写文件
+int ret;
+ret=write(txtfd,&quot;helloworld&quot;,10);
+printf(&quot;当前写入的字节数%d\n&quot;,ret);</code></pre><h6 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h6><pre><code>int ret;
+char buf[128];
+while(1)
+{
+    bzero(buf,128);
+    ret = read(old_fd,buf,128);//返回值为读取到的字节数
+    if(ret == -1)
+    {
+        perror(&quot;read failed&quot;);
+        exit(-1);
+    }
+
+    write(new_fd,buf,ret);//写入读取到的字节数
+
+    if(ret &lt;128)//读取到文件末尾退出
+        break;
+}</code></pre><h5 id="5-文件关闭-close"><a href="#5-文件关闭-close" class="headerlink" title="5.文件关闭 close"></a>5.文件关闭 close</h5><pre><code>NAME   关闭一个文件描述符
+close - close a file descriptor
+
+SYNOPSIS
+#include &lt;unistd.h&gt;
+函数模型：
+int close(int fd);
+参数： 
+    int fd  你要关闭的文件描述符</code></pre><h5 id="6-文件的读写偏移（光标）"><a href="#6-文件的读写偏移（光标）" class="headerlink" title="6.文件的读写偏移（光标）"></a>6.文件的读写偏移（光标）</h5><pre><code> lseek()
+NAME      文件读/写的偏移
+   lseek - reposition read/write file offset
+
+SYNOPSIS
+   #include &lt;sys/types.h&gt;
+   #include &lt;unistd.h&gt;
+   函数模型：
+   off_t lseek(int fd, off_t offset, int whence);
+   参数：
+        int fd        文件描述符
+        off_t offset  你打算偏移的字节数
+        int whence    偏移的位置
+          SEEK_SET    文件的开头
+          The offset is set to offset bytes.
+
+          SEEK_CUR    文件的当前位置
+          The offset is set to its current location plus offset bytes.
+
+          SEEK_END    文件的末尾
+          The offset is set to the size of the file plus offset bytes.
+
+        辨识：
+         lseek(fd,2
+         ,SEEK_SET);//从文件开头偏移2字节
+         lseek(fd,-2,SEEK_SET);//没作用，还是在文件开头
+         lseek(fd,2,SEEK_CUR);//在文件当前位置向后偏移2字节
+         lseek(fd,-2,SEEK_CUR);//在文件当前位置向前偏移2字节
+         lseek(fd,2,SEEK_END);//文件的末尾偏移两个字节
+         lseek(fd,-2,SEEK_END);//文件的末尾向前偏移2字节
+
+        off_t ret=lseek(fd,0,SEEK_END);
+        ret是什么? 返回值就是表示文件的大小</code></pre><p>char buf[50]={0};<br>    //打开文件<br>    int fd1=open(“1.txt”,O_RDWR);<br>    if(fd1 == -1)<br>    {<br>        perror(“文件打开失败！\n”);<br>        return -1;<br>    }<br>    //挪动光标位置<br>    lseek(fd1,10,SEEK_SET);<br>    //读取文件内容<br>    read(fd1,buf,sizeof(buf));<br>    printf(“文件内容是：%s\n”,buf);</p>
+<pre><code>close(fd1);</code></pre><h3 id="文件的属性-文件的指向"><a href="#文件的属性-文件的指向" class="headerlink" title="文件的属性 文件的指向"></a>文件的属性 文件的指向</h3><h5 id="1-获取文件的属性-stat（）"><a href="#1-获取文件的属性-stat（）" class="headerlink" title="1.获取文件的属性   stat（）"></a>1.获取文件的属性   stat（）</h5><pre><code> 文件的属性：文件的类型 大小 所有者 权限等。。
+ NAME   获取文件的属性
+ stat, fstat, lstat - get file status
+
+ SYNOPSIS
+ #include &lt;sys/types.h&gt;
+ #include &lt;sys/stat.h&gt;
+ #include &lt;unistd.h&gt;
+ 函数原型：
+ int stat(const char *path, struct stat *buf); //文件路径
+ 函数参数：
+       const char *path   文件路径所在位置
+       struct stat *buf   属性信息的存放结构体
+返回值：
+       成功：  0
+       失败：  -1
+
+ int fstat(int fd, struct stat *buf);          //文件描述符
+ int lstat(const char *path, struct stat *buf);//获取链接文件的属性
+
+
+  struct stat {
+         dev_t     st_dev;     /* 所在存储器的设备号 */
+         ino_t     st_ino;     /* 索引号 */（文件的身份证号，唯一）
+         mode_t    st_mode;    /* 文件的类型、权限 */
+         nlink_t   st_nlink;   /* 硬链接数 */
+         uid_t     st_uid;     /* 使用者的用户ID号 */
+         gid_t     st_gid;     /* 所在组的用户ID号 */
+         dev_t     st_rdev;    /* 特殊设备的设备号 */ 块设备 字符设备
+         off_t     st_size;    /* 文件的大小*/
+         blksize_t st_blksize; /* 写数据块建议值 */
+         blkcnt_t  st_blocks;  /* 文件所占数据块的数目*/
+         time_t    st_atime;   /* 最后访问的时间 */
+         time_t    st_mtime;   /* 最后修改的时间 */
+         time_t    st_ctime;   /* 最后属性修改的时间 */
+     };
+
+  The following POSIX macros are defined to check the file type using the st_mode field:
+
+     S_ISREG(m)  is it a regular file?  普通文件
+
+     S_ISDIR(m)  directory?             目录文件
+
+     S_ISCHR(m)  character device?      字符设备文件
+
+     S_ISBLK(m)  block device?          块设备文件
+
+     S_ISFIFO(m) FIFO (named pipe)?     管道文件
+
+     S_ISLNK(m)  symbolic link? (Not in POSIX.1-1996.) 链接文件
+
+     S_ISSOCK(m) socket? (Not in POSIX.1-1996.)  套接字文件
+
+  The following flags are defined for the st_mode field:
+
+     S_IFMT     0170000   bit mask for the file type bit fields
+     S_IFSOCK   0140000   socket           套接字文件
+     S_IFLNK    0120000   symbolic link    链接文件
+     S_IFREG    0100000   regular file     普通文件
+     S_IFBLK    0060000   block device     块设备文件 
+     S_IFDIR    0040000   directory        目录文件 
+     S_IFCHR    0020000   character device 字符设备文件
+     S_IFIFO    0010000   FIFO             管道文件
+
+     S_ISUID    0004000   set UID bit
+     S_ISGID    0002000   set-group-ID bit (see below)
+     S_ISVTX    0001000   sticky bit (see below)
+     创建者组
+     S_IRWXU    00700     mask for file owner permissions
+     S_IRUSR    00400     owner has read permission
+     S_IWUSR    00200     owner has write permission
+     S_IXUSR    00100     owner has execute permission
+     同组用户
+     S_IRWXG    00070     mask for group permissions
+     S_IRGRP    00040     group has read permission
+     S_IWGRP    00020     group has write permission
+     S_IXGRP    00010     group has execute permission
+     其他组
+     S_IRWXO    00007     mask for permissions for others 
+     S_IROTH    00004     others have read permission
+     S_IWOTH    00002     others have write permission
+     S_IXOTH    00001     others have execute permission</code></pre><h5 id="2-文件指向-重定向"><a href="#2-文件指向-重定向" class="headerlink" title="2.文件指向 重定向"></a>2.文件指向 重定向</h5><pre><code>  linux当中重定向符号 ls 1&gt; 1.txt
+  将标准输出重定向到1.txt
+  将标准定义为三个宏
+  0   标准输入    键盘输入   stdin
+  1   标准输出    屏幕输出   stdout
+  2     标准错误     屏幕输出   stderr
+
+NAME  重定向一个文件描述符
+dup, dup2, dup3 - duplicate a file descriptor
+
+SYNOPSIS
+#include &lt;unistd.h&gt;
+函数原型：
+int dup(int oldfd);
+函数参数：
+       int oldfd 旧的文件描述符
+
+int dup2(int oldfd, int newfd);
+函数参数：
+       int oldfd 旧的文件描述符
+       int newfd 新的文件描述符
+
+返回值：
+     成功： 返回一个新的文件描述符
+     失败： -1    </code></pre><h6 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">     //打开文件</span><br><span class="line">int txtfd1=open(&quot;3.txt&quot;,O_RDWR);</span><br><span class="line">   //给3.txt的文件描述符分配新的</span><br><span class="line">int newfd=dup(txtfd1);</span><br><span class="line">printf(&quot;当前文件的描述符是：%d\n&quot;,newfd);</span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">   //使用dup2指定新的文件描述符</span><br><span class="line">/* int newfd=dup2(txtfd1,txtfd2);</span><br><span class="line">printf(&quot;当前文件描述符是：%d\n&quot;,newfd);</span><br><span class="line">write(newfd,&quot;ergouzi&quot;,7); */</span><br><span class="line"></span><br><span class="line">   //两个文件描述符写入内容</span><br><span class="line">write(txtfd1,&quot;hello&quot;,5);</span><br><span class="line">   write(newfd,&quot;world&quot;,5);</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/27/文件IO/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-系统编程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/27/系统编程/">系统编程</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/27/系统编程/" class="archive-article-date">
+  	<time datetime="2019-08-27T11:13:44.956Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="系统编程"><a href="#系统编程" class="headerlink" title="系统编程"></a>系统编程</h1><p>学习进程，线程。<br>重点要掌握进程线程的概念和创建，进程和线程之间的通信</p>
+<p>.c后缀名    —-&gt;源代码<br>elf后缀名    —-&gt;可执行程序<br>            readelf +程序名 +a<br>                    .init：初始化程序开始运行申请的资源<br>                    .text: 代码段<br>程序的运行    —-&gt;进程<br>            一个程序内所有数据集合的运行<br>            一个或多个线程同时运行的集合<br>            也是linux操作系统资源分配的最小单位</p>
+<p>struct task_struct 的调度—&gt;线程<br>            同一个进程的所有线程使用同一块虚拟内存</p>
+<p>======================</p>
+<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>每一个进程都有一个编号，被称为进程号</p>
+<p>父进程：某一个进程的上一级进程<br>        结束的时候需要报告并回收资源<br>子进程：被某一个进程生成的下一级进程</p>
+<p>#include &lt;unistd.h&gt;<br>pid_t fork(void);<br>    返回=0—&gt;表示运行的是子进程<br>    返回&gt;0—&gt;表示运行的是父进程<br>    返回-1—&gt;表示运行出错</p>
+<p>terminal终端是一个前台界面，每次只能有1个进程在前台运行<br>剩下的都在后台，当使用fork函数的时候，是父进程在前台，子<br>进程在后台运行</p>
+<p>直接让程序在后台运行的命令：  ./xxx &amp;</p>
+<p>=====================</p>
+<h1 id="进程的状态"><a href="#进程的状态" class="headerlink" title="进程的状态"></a>进程的状态</h1><p>就绪态：就是一个队列(先进先出)<br>运行态：—-时间调度：每一个进程安排固定的时间，时间到以后，必须进入到就绪态<br>        —-优先级调度：每一个进程会有优先级，一定是优先级高的先运行完，再运行<br>                        优先级低的<br>阻塞态：睡眠—-等待软件资源：sleep,scanf,read,fread…<br>        挂起—-等待硬件资源：按键,电压改变（也被称为深睡眠）<br>        暂停—-一定是接收到了SIGSTOP或SIGTSTP信号，等待SIGCONT信号<br>                可中断<br>                不可中断<br>僵尸态：程序结束，但未释放资源<br>死亡态：被父进程回收资源</p>
+<pre><code>如果在子进程结束前，父进程就结束了，那么子进程会统一交给linux下</code></pre><p>的一个孤儿院进程，专门用来回收父进程死亡后的子进程资源</p>
+<p>killall +进程名： 杀死进程<br>kill -9 +进程号</p>
+<h3 id="获取进程号"><a href="#获取进程号" class="headerlink" title="获取进程号"></a>获取进程号</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line">pid_t getpid(void);	//获取当前进程的进程号</span><br><span class="line">pid_t getppid(void);//获取当前进程的父进程进程号</span><br></pre></td></tr></table></figure>
+
+<p>进程号为1的一定是系统初始化进程init</p>
+<h3 id="杀死进程"><a href="#杀死进程" class="headerlink" title="杀死进程"></a>杀死进程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;signal.h&gt;</span><br><span class="line">int kill(pid_t pid, int sig);</span><br><span class="line">		进程号		信号编号(杀死的信号是9)</span><br></pre></td></tr></table></figure>
+
+<p>======================</p>
+<h2 id="进程的进程组和会话组"><a href="#进程的进程组和会话组" class="headerlink" title="进程的进程组和会话组"></a>进程的进程组和会话组</h2><h3 id="获取会话组ID："><a href="#获取会话组ID：" class="headerlink" title="获取会话组ID："></a>获取会话组ID：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">pid_t getsid(pid_t pid);</span><br></pre></td></tr></table></figure>
+
+<p>只要在同一个终端下面，会话ID都是同一个</p>
+<h3 id="创建一个新的会话ID"><a href="#创建一个新的会话ID" class="headerlink" title="创建一个新的会话ID"></a>创建一个新的会话ID</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">pid_t setsid(void);</span><br></pre></td></tr></table></figure>
+
+<h3 id="获取进程组号："><a href="#获取进程组号：" class="headerlink" title="获取进程组号："></a>获取进程组号：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">pid_t getpgrp(void);</span><br></pre></td></tr></table></figure>
+
+<p>设置进程组号</p>
+<p>#include &lt;unistd.h&gt;<br>pid_t setpgrp(void);</p>
+<p>=========================</p>
+<h2 id="精灵进程-守护进程"><a href="#精灵进程-守护进程" class="headerlink" title="精灵进程/守护进程"></a>精灵进程/守护进程</h2><p>专门用来做工作日志的记录，由于进程的作用是要记录所有的<br>运行情况，所以不管是会话出错还是进程组出错，都不能影响、<br>精灵进程的运行。<br>所以精灵进程必须独立创建会话组和进程组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;signal.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	/*******1.取消信号反应******/</span><br><span class="line">	signal(SIGHUP,SIG_IGN);</span><br><span class="line">	</span><br><span class="line">	/*******2.创建父进程，然后退出父进程****/</span><br><span class="line">	int ret=fork();</span><br><span class="line">	if(ret&gt;0)</span><br><span class="line">		exit(0);</span><br><span class="line"></span><br><span class="line">	/*******3.设置新的会话***********/</span><br><span class="line">	setsid();</span><br><span class="line">	</span><br><span class="line">	/*******4.创建父进程，然后退出父进程****/</span><br><span class="line">	ret = fork();</span><br><span class="line">	if(ret&gt;0)</span><br><span class="line">		exit(0);</span><br><span class="line">	</span><br><span class="line">	/********5.新建进程组*************/</span><br><span class="line">	setpgrp();//进程组组长就是自己</span><br><span class="line">	</span><br><span class="line">	/********6.关闭从父进程继承过来的所有文件描述符****/</span><br><span class="line">	int max = sysconf(_SC_OPEN_MAX);</span><br><span class="line">	int i=0;</span><br><span class="line">	for(i=0;i&lt;max;i++)</span><br><span class="line">		close(i);</span><br><span class="line">	</span><br><span class="line">	/********7.取消所有的权限********/</span><br><span class="line">	umask(0);</span><br><span class="line"></span><br><span class="line">	/********8.设置工作目录为根目录，防止目录被删除*****/</span><br><span class="line">	chdir(&quot;/&quot;);</span><br><span class="line">	</span><br><span class="line">	/******记录工作日志，一般是死循环******/</span><br><span class="line">	//fopen</span><br><span class="line">	while(1)</span><br><span class="line">	&#123;</span><br><span class="line">		//fread,fwrite</span><br><span class="line">		sleep(1);</span><br><span class="line">	&#125;</span><br><span class="line">	//close</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>==============================</p>
+<h1 id="进程的结束"><a href="#进程的结束" class="headerlink" title="进程的结束"></a>进程的结束</h1><p>(1)main函数中的return<br>    —&gt;会清空IO缓冲区</p>
+<p>(2)信号，kill<br>    —&gt;不会清空IO缓冲区</p>
+<p>(3)exit函数族<br>退出进程,退出时会清空缓冲区</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">void exit(int status);</span><br><span class="line">		status--&gt;向父进程报告的返回值</span><br></pre></td></tr></table></figure>
+
+<p>注册一个函数，当进程退出时才执行(必须是exit才执行)<br>注册函数是以压栈的形式存放的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">int atexit(void (*function)(void));</span><br></pre></td></tr></table></figure>
+
+<p>不理会atexit的注册函数，而是直接结束</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">void _exit(int status);</span><br><span class="line">void _Exit(int status);</span><br></pre></td></tr></table></figure>
+
+<p>程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line">void func1()</span><br><span class="line">&#123;</span><br><span class="line">	printf(&quot;func 1\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line">void func2()</span><br><span class="line">&#123;</span><br><span class="line">	printf(&quot;func 2\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line">void func3()</span><br><span class="line">&#123;</span><br><span class="line">	printf(&quot;func 3\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	atexit(func1);</span><br><span class="line">	</span><br><span class="line">	int ret;</span><br><span class="line">	ret = fork();</span><br><span class="line">	if(ret &gt; 0)</span><br><span class="line">	&#123;</span><br><span class="line">		atexit(func2);</span><br><span class="line">		</span><br><span class="line">		printf(&quot;father: helloworld&quot;);</span><br><span class="line">		sleep(1);</span><br><span class="line">		//pause();</span><br><span class="line">	&#125;</span><br><span class="line">	else if(ret == 0)</span><br><span class="line">	&#123;</span><br><span class="line">		atexit(func3);</span><br><span class="line">		printf(&quot;child: helloworld\n&quot;);</span><br><span class="line">		sleep(1);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//exit(0);//清空IO缓冲区</span><br><span class="line">	_exit(0);//不清空IO缓冲区</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/27/系统编程/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-makefile" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -315,58 +1544,32 @@ clean:
 .PHONY:clean
 
 gec@ubuntu:/mnt/hgfs/linux/project$ make
-cc src/add.c src/leng.c src/main.c src/max.c -o bin/main -I ./include -L ./lib -lm</code></pre><h1 id="九、库制作"><a href="#九、库制作" class="headerlink" title="九、库制作"></a>九、库制作</h1><p>   1.什么是库？<br>     库在linux下面以二进制形式存储，在编译的时候链接库。</p>
-<p>   2.库的的格式<br>     libxxx.so —》动态库<br>     libxxx.a  —》静态库</p>
-<p>   3.库的种类<br>      1.静态库 libxxx.a<br>      (去图书馆(libxxx.a)把书(库当中的接口函数)借走)<br>      特点：<br>       1.静态库就是在编译程序的时候链接，进行静态编译，编译完了之后，<br>       将库当中的接口函数加入到可执行程序。<br>       2.由于是静态编译，所有在编译之后，可执行文件不需要静态库的存在</p>
-<pre><code>2.动态库 libxxx.so
-  （去图书馆(libxxx.so)看看书(库当中的接口函数)，
-   然后又把书(库当中的接口函数)放回图书馆）
-  1.程序编译的时候，并没有将库的内容编译，只是链接了该库，所以执行文件比较小
-  2.由于是动态编译，所以在编译之后，可执行文件必须要有动态库才能运行
-
-4.制作库的意义
-  1.减少工程中的代码量
+cc src/add.c src/leng.c src/main.c src/max.c -o bin/main -I ./include -L ./lib -lm</code></pre><h1 id="九、库制作"><a href="#九、库制作" class="headerlink" title="九、库制作"></a>九、库制作</h1><h4 id="1-什么是库？"><a href="#1-什么是库？" class="headerlink" title="1.什么是库？"></a>1.什么是库？</h4><pre><code>库在linux下面以二进制形式存储，在编译的时候链接库。</code></pre><h4 id="2-库的的格式"><a href="#2-库的的格式" class="headerlink" title="2.库的的格式"></a>2.库的的格式</h4><pre><code>libxxx.so ---》动态库
+libxxx.a  ---》静态库</code></pre><h4 id="3-库的种类"><a href="#3-库的种类" class="headerlink" title="3.库的种类"></a>3.库的种类</h4><h5 id="1-静态库-libxxx-a"><a href="#1-静态库-libxxx-a" class="headerlink" title="1.静态库 libxxx.a"></a>1.静态库 libxxx.a</h5><pre><code>(去图书馆(libxxx.a)把书(库当中的接口函数)借走)
+特点：
+ 1.静态库就是在编译程序的时候链接，进行静态编译，编译完了之后，
+ 将库当中的接口函数加入到可执行程序。
+ 2.由于是静态编译，所有在编译之后，可执行文件不需要静态库的存在</code></pre><h5 id="2-动态库-libxxx-so"><a href="#2-动态库-libxxx-so" class="headerlink" title="2.动态库 libxxx.so"></a>2.动态库 libxxx.so</h5><pre><code>（去图书馆(libxxx.so)看看书(库当中的接口函数)，
+ 然后又把书(库当中的接口函数)放回图书馆）
+1.程序编译的时候，并没有将库的内容编译，只是链接了该库，所以执行文件比较小
+2.由于是动态编译，所以在编译之后，可执行文件必须要有动态库才能运行</code></pre><h5 id="3-制作库的意义"><a href="#3-制作库的意义" class="headerlink" title="3.制作库的意义"></a>3.制作库的意义</h5><pre><code>  1.减少工程中的代码量
   2.保护工程师权益性，保证函数的接口原创性
 
-静态库
-==================================
+静态库:
 main.c  调用库的函数
 add.c   功能函数
-add.h   头文件
+add.h   头文件</code></pre><h2 id="静态库的制作：只能将不包含主函数的-c文件编译为库"><a href="#静态库的制作：只能将不包含主函数的-c文件编译为库" class="headerlink" title="静态库的制作：只能将不包含主函数的.c文件编译为库"></a>静态库的制作：只能将不包含主函数的.c文件编译为库</h2><h4 id="1-将工程当中的所有不包含主函数-c文件编译成-o文件"><a href="#1-将工程当中的所有不包含主函数-c文件编译成-o文件" class="headerlink" title="1.将工程当中的所有不包含主函数.c文件编译成.o文件"></a>1.将工程当中的所有不包含主函数.c文件编译成.o文件</h4><p><code>gcc add.c -o add.o -c</code></p>
+<h4 id="2-把所有-o文件统统塞进一个-a文件当中，文件名你决定"><a href="#2-把所有-o文件统统塞进一个-a文件当中，文件名你决定" class="headerlink" title="2.把所有.o文件统统塞进一个.a文件当中，文件名你决定"></a>2.把所有.o文件统统塞进一个.a文件当中，文件名你决定</h4><p><code>ar rcs libadd.a add.o</code></p>
+<h4 id="3-链接静态库，编译程序"><a href="#3-链接静态库，编译程序" class="headerlink" title="3.链接静态库，编译程序"></a>3.链接静态库，编译程序</h4><p><code>gcc main.c libadd.a -o add</code></p>
+<p>体积：-rwxrwxrwx 1 root root 7224 Aug  9 02:19 add</p>
+<h4 id="4-直接运行"><a href="#4-直接运行" class="headerlink" title="4.直接运行"></a>4.直接运行</h4><p><code>./add</code></p>
+<h2 id="动态库的制作：只能将不包含主函数的-c文件编译为库"><a href="#动态库的制作：只能将不包含主函数的-c文件编译为库" class="headerlink" title="动态库的制作：只能将不包含主函数的.c文件编译为库"></a>动态库的制作：只能将不包含主函数的.c文件编译为库</h2><h4 id="1-将工程当中的所有不包含主函数-c文件编译成-o文件-1"><a href="#1-将工程当中的所有不包含主函数-c文件编译成-o文件-1" class="headerlink" title="1.将工程当中的所有不包含主函数.c文件编译成.o文件"></a>1.将工程当中的所有不包含主函数.c文件编译成.o文件</h4><p><code>gcc add.c -o add.o -c</code></p>
+<h4 id="2-把所有-o文件统统塞进一个-so文件当中，文件名你决定"><a href="#2-把所有-o文件统统塞进一个-so文件当中，文件名你决定" class="headerlink" title="2.把所有.o文件统统塞进一个.so文件当中，文件名你决定"></a>2.把所有.o文件统统塞进一个.so文件当中，文件名你决定</h4><p><code>gcc -shared -fPIC -o libadd.so add.o</code></p>
+<h4 id="3-链接动态库，编译程序"><a href="#3-链接动态库，编译程序" class="headerlink" title="3.链接动态库，编译程序"></a>3.链接动态库，编译程序</h4><p> <code>gcc main.c -o add1 -L . -ladd</code></p>
+<h4 id="4-直接运行-1"><a href="#4-直接运行-1" class="headerlink" title="4.直接运行"></a>4.直接运行</h4><p><code>./add1</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">   ./add1: error while loading shared libraries: </span><br><span class="line">libadd.so: cannot open shared object file: No such file or directory</span><br><span class="line">     解决方案：直接将动态库libadd.so丢到/lib当中</span><br><span class="line">   gec@ubuntu:/mnt/hgfs/linux/main$ sudo cp libadd.so /lib</span><br><span class="line">      [sudo] password for gec: 123456</span><br><span class="line">      重新运行就ok了</span><br></pre></td></tr></table></figure>
 
-静态库的制作：只能将不包含主函数的.c文件编译为库
-1.将工程当中的所有不包含主函数.c文件编译成.o文件
-   gcc add.c -o add.o -c
 
-2.把所有.o文件统统塞进一个.a文件当中，文件名你决定
-   ar rcs libadd.a add.o
-
-3.链接静态库，编译程序
-   gcc main.c libadd.a -o add
-
-  体积：-rwxrwxrwx 1 root root 7224 Aug  9 02:19 add
-4.直接运行
-    ./add
-
-动态库的制作：只能将不包含主函数的.c文件编译为库        
- 1.将工程当中的所有不包含主函数.c文件编译成.o文件
-    gcc add.c -o add.o -c
-
- 2.把所有.o文件统统塞进一个.so文件当中，文件名你决定
-    gcc -shared -fPIC -o libadd.so add.o
-
- 3.链接动态库，编译程序
-     gcc main.c -o add1 -L . -ladd
-
- 4.直接运行
-   ./add1
-
-./add1: error while loading shared libraries: 
-libadd.so: cannot open shared object file: No such file or directory
-  解决方案：直接将动态库libadd.so丢到/lib当中
-   gec@ubuntu:/mnt/hgfs/linux/main$ sudo cp libadd.so /lib
-   [sudo] password for gec: 123456
-   重新运行就ok了</code></pre>
       
 
       
@@ -1146,448 +2349,10 @@ Segmentation fault (core dumped)
 
 
   
-    <article id="post-gcc编译器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/17/gcc编译器/">gcc编译器/c</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/17/gcc编译器/" class="archive-article-date">
-  	<time datetime="2019-07-17T01:43:46.647Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="gcc编译器的编译过程"><a href="#gcc编译器的编译过程" class="headerlink" title="gcc编译器的编译过程"></a>gcc编译器的编译过程</h1><p>  嵌入式开发四步骤：</p>
-<blockquote>
-<p>编写工程<br>编译工程<br>移植工程<br>测试工程</p>
-</blockquote>
-<h2 id="1-编写工程"><a href="#1-编写工程" class="headerlink" title="1.编写工程"></a>1.编写工程</h2><h3 id="编写软件-vi-gedit-notepad"><a href="#编写软件-vi-gedit-notepad" class="headerlink" title="编写软件 vi gedit notepad++"></a>编写软件 vi gedit notepad++</h3><h3 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h3><pre><code>新建文件
-右击新文件----》另存为------&gt;共享文件
-编写代码
-   #include &lt;stdio.h&gt;
-
-   int main(int argc,char *argv[])
-   {
-       printf(&quot;helloworld!&quot;);
-       return 0;
-   }</code></pre><h2 id="2-编译工程"><a href="#2-编译工程" class="headerlink" title="2.编译工程"></a>2.编译工程</h2><p>  gcc编译器很多的参数<br>  预处理           -E      .c只工作到预处理极端<br>  编译             -S<br>  汇编             -c<br>  指定输出二进制    -o</p>
-<h3 id="源文件：-hello-c-目标文件（二进制）-hello"><a href="#源文件：-hello-c-目标文件（二进制）-hello" class="headerlink" title="源文件：  hello.c  目标文件（二进制） hello"></a>源文件：  hello.c  目标文件（二进制） hello</h3><h4 id="1-预处理—》处理头文件、宏定义展开、屏蔽注释"><a href="#1-预处理—》处理头文件、宏定义展开、屏蔽注释" class="headerlink" title="1.预处理—》处理头文件、宏定义展开、屏蔽注释"></a>1.预处理—》处理头文件、宏定义展开、屏蔽注释</h4><pre><code>gcc  -E hello.c -o hello.i</code></pre><h4 id="2-编译—》程序C语言-c转化为二进制文件-s"><a href="#2-编译—》程序C语言-c转化为二进制文件-s" class="headerlink" title="2.编译—》程序C语言.c转化为二进制文件.s"></a>2.编译—》程序C语言.c转化为二进制文件.s</h4><pre><code>gcc  -S hello.i -o hello.s</code></pre><h4 id="3-汇编—》把地址按照规律重新排列"><a href="#3-汇编—》把地址按照规律重新排列" class="headerlink" title="3.汇编—》把地址按照规律重新排列"></a>3.汇编—》把地址按照规律重新排列</h4><pre><code>gcc  -c hello.s -o hello.o</code></pre><h4 id="4-链接—》链接到我们的库文件"><a href="#4-链接—》链接到我们的库文件" class="headerlink" title="4.链接—》链接到我们的库文件"></a>4.链接—》链接到我们的库文件</h4><pre><code>gcc   hello.o -o hello</code></pre><h4 id="5-本地测试"><a href="#5-本地测试" class="headerlink" title="5.本地测试"></a>5.本地测试</h4><pre><code>&gt; ./hello   .当前目录
-直接将原文件.c编译成目标文件
-&gt; 1.gcc hello.c   生成可执行文件hello
-
-&gt; 2.gcc hello.c -o hello 生成可执行文件 hello
-
-&gt; 3.gcc -o hello hello.c 生成可执行文件 hello</code></pre><hr>
-<h1 id="C语言介绍"><a href="#C语言介绍" class="headerlink" title="C语言介绍"></a>C语言介绍</h1><h1 id="Linux标准c"><a href="#Linux标准c" class="headerlink" title="Linux标准c"></a>Linux标准c</h1><h2 id="1-Linux系统是多任务的操作系统，需要知道各任务执行的返回结果，所以需要返回值！"><a href="#1-Linux系统是多任务的操作系统，需要知道各任务执行的返回结果，所以需要返回值！" class="headerlink" title="1.Linux系统是多任务的操作系统，需要知道各任务执行的返回结果，所以需要返回值！"></a>1.Linux系统是多任务的操作系统，需要知道各任务执行的返回结果，所以需要返回值！</h2><pre><code>#include &lt;stdio.h&gt;
-
-    int main(int argc,char *argv[])---》int返回值的类型
-    {
-        //输出语句helloworld
-        printf(&quot;helloworld!\n&quot;);
-        return 0; ----》返回值 返回结果
-                  ----》成功执行 返回值为0
-                        执行失败 返回值为负数
-    }</code></pre><hr>
-<p> C语言主函数参数，main可以带形参，可以传递参数<br>        main()<br>        main(void)<br>        int main()<br>        int main(void)<br>        int main(int argc,char *<em>argv)<br>        int main(int argc,const char *</em>argv)<br>        int main(int argc,char *argv[])<br>        argc: 指示你当前命令行传入参数的个数  count<br>        argv: 指示你当前命令行传入参数的内容  value<br>              并且argv[0]是你的执行文件对象</p>
-<hr>
-<p>程序中所包含的库函数均要声明或者自己定义—》需要包含对应的头文件</p>
-<pre><code>    printf(&quot;helloworld!\n&quot;);
-    查询printf
-    #include &lt;stdio.h&gt;//标准输入输出头文件
-    函数原型：
-    int printf(const char *format, ...);//变参函数
-    参数：const char *format  输出字符串，提示语句
-            ...               输出对象
-学习任何函数，只要知道其函数原型以及参数还有头文件就可以了</code></pre><h2 id="2-注释-适当的注释有利于之后回来翻看代码"><a href="#2-注释-适当的注释有利于之后回来翻看代码" class="headerlink" title="2.注释 适当的注释有利于之后回来翻看代码"></a>2.注释 适当的注释有利于之后回来翻看代码</h2><pre><code>行注释   //
-
-区域注释 /* ... */</code></pre><h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><hr>
-<p>程序=数据结构+算法</p>
-<p>  数据结构：数据的封装–》数据类型—》量程—》定义数据存储空间<br>  算法    ：数据之间的逻辑关系</p>
-<h2 id="变量在数据里面的存储空间—》内存"><a href="#变量在数据里面的存储空间—》内存" class="headerlink" title="变量在数据里面的存储空间—》内存"></a>变量在数据里面的存储空间—》内存</h2><p>  内存理解：</p>
-<blockquote>
-<p>程序在执行的时候一定是在内存中<br>程序在分配内存时，一定是连续分配<br>程序在分配空间的时候不确定位置</p>
-</blockquote>
-<h2 id="变量的类型"><a href="#变量的类型" class="headerlink" title="变量的类型"></a>变量的类型</h2><table>
-<thead>
-<tr>
-<th align="center">变量类型</th>
-<th align="center">具体类型</th>
-<th align="center">变量表示</th>
-<th align="center">字节大小</th>
-<th align="center">打印格式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">整形</td>
-<td align="center">短整型</td>
-<td align="center">short</td>
-<td align="center">2</td>
-<td align="center">%d</td>
-</tr>
-<tr>
-<td align="center"></td>
-<td align="center">整型</td>
-<td align="center">int</td>
-<td align="center">4</td>
-<td align="center">%d</td>
-</tr>
-<tr>
-<td align="center"></td>
-<td align="center">长整型</td>
-<td align="center">long</td>
-<td align="center">4</td>
-<td align="center">%ld</td>
-</tr>
-<tr>
-<td align="center"></td>
-<td align="center">长长整型</td>
-<td align="center">long long</td>
-<td align="center">8</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">字符型</td>
-<td align="center"></td>
-<td align="center">char</td>
-<td align="center">1</td>
-<td align="center">%c/%s</td>
-</tr>
-<tr>
-<td align="center">浮点型</td>
-<td align="center">单精度</td>
-<td align="center">float</td>
-<td align="center">4</td>
-<td align="center">%f</td>
-</tr>
-<tr>
-<td align="center"></td>
-<td align="center">双精度</td>
-<td align="center">double</td>
-<td align="center">8</td>
-<td align="center">%lf</td>
-</tr>
-</tbody></table>
-<pre><code>使用函数sizeof计算空间大小    </code></pre><h3 id="打印格式："><a href="#打印格式：" class="headerlink" title="打印格式："></a>打印格式：</h3><pre><code>整型     %d
-字符型   %c
-字符串型 %s     
-浮点型   单精度 %f
-         双精度 %lf
-长整型   %ld 
-长长整型 %lld  
-
-无符号类型   %u
-无符号整型   %hu
-无符号短整型 %hd
-
-科学计数法   %e
-地址类型     %p
-八进制       %o
-十六进制     %x
-二进制       %b</code></pre><h2 id="变量的定义"><a href="#变量的定义" class="headerlink" title="变量的定义"></a>变量的定义</h2><p>定义标准：数据类型   变量名   —》申请该类型对应的空间 由当前变量直接访问<br>变量名：  变量名由数字、子母、下划线组成，而且开头由字母和下划线；</p>
-<p>比如：int A；—》申请int类型的数据空间4字节，由当前变量A直接访问该存储空间的数据</p>
-<h2 id="变量的赋值"><a href="#变量的赋值" class="headerlink" title="变量的赋值"></a>变量的赋值</h2><h3 id="1-左值和右值的数据类型一定要匹配"><a href="#1-左值和右值的数据类型一定要匹配" class="headerlink" title="1.左值和右值的数据类型一定要匹配"></a>1.左值和右值的数据类型一定要匹配</h3><h3 id="2-将右值赋值给左值-区分"><a href="#2-将右值赋值给左值-区分" class="headerlink" title="2.将右值赋值给左值 区分 =  =="></a>2.将右值赋值给左值 区分 =  ==</h3><pre><code>int a  = 100;
-   左值  右值
-    a == 100；  a是否等于100？</code></pre><h2 id="变量的生命周期和作用域"><a href="#变量的生命周期和作用域" class="headerlink" title="变量的生命周期和作用域"></a>变量的生命周期和作用域</h2><pre><code>定义位置----》决定了生命周期</code></pre><h3 id="局部变量"><a href="#局部变量" class="headerlink" title="局部变量"></a>局部变量</h3><pre><code>定义    ：在函数内部定义的变量
-生命周期：运行的时候才分配空间
-作用域  ：只能在函数内部使用
-赋值    ：如果局部变量一开未赋值，编译的时候会随机产生一个数赋值---》未知</code></pre><h3 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h3><pre><code>定义    ：在所有函数之外定义的变量
-生命周期：gcc编译的时候就已经分配空间
-作用域  ：所有的函数都可以访问
-赋值    ：如果全局变量一开始为赋值，自动赋值为0；</code></pre><ul>
-<li>关于局部变量和全局变量，你还需要知道？<ul>
-<li>1.如果全局变量和局部变量同名，那么全局变量的作用域无效。</li>
-<li>2.主函数和其他函数之间的平行关系。</li>
-<li>3.在不同的函数中能够使用相同的变量名。</li>
-<li>4.全局变量的作用域是只能往下不能往上，<br>如果你全局变量是先使用在定义,gcc编译就出现错误<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">test.c: In function ‘main’:</span><br><span class="line">      test.c:8:21: error: ‘a’ undeclared (first use in this function)</span><br><span class="line">      test.c:8:21: note: each undeclared identifier is reported only once for each function it appears in</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h1><hr>
-<h2 id="算术运算符-–"><a href="#算术运算符-–" class="headerlink" title="算术运算符  + - * / %  ++ –"></a>算术运算符  + - * / %  ++ –</h2><ul>
-<li><p>双目运算(两个操作数)：+ - * / %<br>比如： a+b </p>
-</li>
-<li><p>单目运算(一个操作数)：++ –<br>比如： a++  ++a</p>
-</li>
-</ul>
-<h2 id="关系运算符-gt-lt-gt-lt"><a href="#关系运算符-gt-lt-gt-lt" class="headerlink" title="关系运算符  &gt; &lt; &gt;= &lt;= == !="></a>关系运算符  &gt; &lt; &gt;= &lt;= == !=</h2><pre><code>主要是和判断语句使用</code></pre><h2 id="逻辑运算符-amp-amp"><a href="#逻辑运算符-amp-amp" class="headerlink" title="逻辑运算符 &amp;&amp; || !"></a>逻辑运算符 &amp;&amp; || !</h2><pre><code>主要是和判断语句使用
-
-&amp;&amp; 逻辑与：两个条件都要成立
-
-|| 逻辑或：其中一个条件成立就可以使用
-
-！ 非     </code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/17/gcc编译器/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-嵌入式Linux环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/16/嵌入式Linux环境/">嵌入式Linux环境</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/16/嵌入式Linux环境/" class="archive-article-date">
-  	<time datetime="2019-07-16T01:17:57.475Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="软件环境"><a href="#软件环境" class="headerlink" title="软件环境"></a>软件环境</h1><h2 id="1-Linux内核（Ubuntu，Redhat）"><a href="#1-Linux内核（Ubuntu，Redhat）" class="headerlink" title="1.Linux内核（Ubuntu，Redhat）"></a>1.Linux内核（Ubuntu，Redhat）</h2><p>Ubuntu特点：开源性、图形比较简陋   —-》开发效率高</p>
-<h2 id="2-Ubuntu与windows之间的差异"><a href="#2-Ubuntu与windows之间的差异" class="headerlink" title="2.Ubuntu与windows之间的差异"></a>2.Ubuntu与windows之间的差异</h2><h3 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h3><p>Windows系统：以图形界面的方式进行交互<br>Ubuntu系统：以命令形式进行交互</p>
-<h3 id="文件目录架构："><a href="#文件目录架构：" class="headerlink" title="文件目录架构："></a>文件目录架构：</h3><p>Windows系统：目录从属分区<br>Ubuntu系统：分区从属目录</p>
-<h2 id="3-Linux的操作基础"><a href="#3-Linux的操作基础" class="headerlink" title="3.Linux的操作基础"></a>3.Linux的操作基础</h2><h3 id="打开命令提示符终端："><a href="#打开命令提示符终端：" class="headerlink" title="打开命令提示符终端："></a>打开命令提示符终端：</h3><p>1双击terminal<br>2.快捷键 CTRL+alt+t</p>
-<h3 id="命令提示符"><a href="#命令提示符" class="headerlink" title="命令提示符"></a>命令提示符</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gec@ubuntu:~$</span><br><span class="line">gec        用户名</span><br><span class="line">@          分隔符</span><br><span class="line">Ubuntu     操作系统</span><br><span class="line">：         分隔符</span><br><span class="line">~          工作路径</span><br><span class="line">$          用户身份(普通用户)  <span class="comment">#   超级用户</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="图形界面切换字符界面"><a href="#图形界面切换字符界面" class="headerlink" title="图形界面切换字符界面"></a>图形界面切换字符界面</h3><p>切换到字符界面</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CTRL+alt+f1</span><br><span class="line">Ubuntu login：gec</span><br><span class="line">password    ：123456  隐性密码</span><br></pre></td></tr></table></figure>
-
-<p>如果鼠标不见了使用CTRL+alt切换图形界面<br>CTRL+alt+f7</p>
-<h2 id="Linux操作命令"><a href="#Linux操作命令" class="headerlink" title="Linux操作命令"></a>Linux操作命令</h2><h3 id="1-查看当前工作路径-pwd"><a href="#1-查看当前工作路径-pwd" class="headerlink" title="1.查看当前工作路径  pwd"></a>1.查看当前工作路径  pwd</h3><p>/  —》  根目录<br>~  —》  /home/gec  家目录</p>
-<h3 id="2-查看文件-ls"><a href="#2-查看文件-ls" class="headerlink" title="2.查看文件  ls"></a>2.查看文件  ls</h3><p>ls    查看文件查看当前工作路径下文件<br>ls -l 查看当前路径文件的详细信息</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">drwxrwxr-x  2 gec gec    4096 Jul  2  2013 Desktop</span><br><span class="line">drwxrwxr-x  4 gec gec    4096 Jul  2  2013 Download</span><br><span class="line">-rw-r--r--  1 gec gec    8445 Jun 27  2013 examples.desktop</span><br><span class="line">drwxr-xr-x  4 gec gec   12288 May 25  2016 jpeg-9a</span><br></pre></td></tr></table></figure>
-
-<p>不带-的为目录<br>带-的为文件<br>Linux目录的大小不会因为里面的文件变大<br>目录中即使没有任何文件，目录的大小也只会是4096的整数倍</p>
-<p>ls -a 查看当前工作路径的所有文件包括隐藏文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.                 .gconf                 .mission-control</span><br><span class="line">..                .gnome2                .mplayer</span><br><span class="line">.bash_history     .goutputstream-A9F1ZW  .profile</span><br></pre></td></tr></table></figure>
-
-<p>.  :当前目录<br>.. :上一层目录<br>.wenjian   :隐藏文件<br>la   查看当前工作工作路径所有文件包括隐藏文件的详细信息</p>
-<h3 id="3-切换路径-cd"><a href="#3-切换路径-cd" class="headerlink" title="3.切换路径  cd"></a>3.切换路径  cd</h3><p>访问方式：<br>cd+绝对路径：以根为开头，一层一层往下写<br>cd+相对路径：以当前目录为基准访问下级目录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">实例</span><br><span class="line"><span class="built_in">cd</span> /  命令与参数之间要有空格  直接切换到根目录</span><br><span class="line"><span class="built_in">cd</span>    直接切换到家目录</span><br><span class="line"><span class="built_in">cd</span> -  返回到刚刚去过的路径</span><br><span class="line"><span class="built_in">cd</span> *  一般在家目录使用最快访问桌面</span><br><span class="line"><span class="built_in">cd</span> .. 返回上一级目录</span><br><span class="line"><span class="built_in">cd</span> ~  直接切换到家目录</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gec@ubuntu:~$ cd /home/gec/  ---》 cd+ 绝对路径</span><br><span class="line">gec@ubuntu:~$</span><br><span class="line">gec@ubuntu:/$ cd bin/  ---》 cd+ 相对路径</span><br><span class="line">gec@ubuntu:/bin$</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-清屏操作-clear"><a href="#4-清屏操作-clear" class="headerlink" title="4.清屏操作 clear"></a>4.清屏操作 clear</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c  ----》     clear</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-创建文件-touch"><a href="#5-创建文件-touch" class="headerlink" title="5.创建文件 touch"></a>5.创建文件 touch</h3><p>实例：touch+文件名  例子：touch 1.txt<br>假如在家目录，拥有一切权力</p>
-<p>在根目录当中创建1.txt</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">gec@ubuntu:/$ touch 1.txt</span><br><span class="line">touch: cannot touch `1.txt&apos;: Permission denied权限不足</span><br><span class="line">```                        </span><br><span class="line"></span><br><span class="line">假如不在家目录，不再拥有权力</span><br><span class="line">如果需要访问系统文件，需要临时切换到超级用户</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">sudo touch 1.txt</span><br><span class="line">gec@ubuntu:~$ sudo touch 1.txt</span><br><span class="line">[sudo] password for gec:</span><br></pre></td></tr></table></figure>
-
-<h3 id="6-创建目录-mkdir"><a href="#6-创建目录-mkdir" class="headerlink" title="6.创建目录  mkdir"></a>6.创建目录  mkdir</h3><p>实例： mkdir+目录名  例子： mkdir abc<br>家目录中： mkdir abc<br>不在家目录中：sudo mkdir abc<br>1.如果文件存在就不能被创建<br>2.同一级目录中，文件和目录不能重名</p>
-<h3 id="7-删除文件-目录-rm"><a href="#7-删除文件-目录-rm" class="headerlink" title="7.删除文件/目录  rm"></a>7.删除文件/目录  rm</h3><p>rm +文件目录名/文件名<br>删除一个文件:      rm   1.txt<br>删除同一类型的文件：rm <em>.txt(</em>通配符)</p>
-<p>删除目录  rm+目录+ -rf   例子: rm abc -rf<br>       -rf    r :递归删除   f :不可忽略文件 隐藏文件<br>删库   sudo  rm  /*  -rf<br>5 6 7命令属于修改系统中的文件资源，执行的时候需要<br>        切换到管理员身份进行操作</p>
-<h3 id="8复制文件-目录-cp"><a href="#8复制文件-目录-cp" class="headerlink" title="8复制文件/目录  cp"></a>8复制文件/目录  cp</h3><p> 实例：cp+拷贝对象+拷贝的目的地址<br> 例子：cp 1.txt /home/gec/abc<br> gec@ubuntu:~$ cp 1.txt cedar/</p>
-<p>拷贝目录：cp+拷贝对象+拷贝的目的地址 -rf<br>例子： cp+123/ +abc/</p>
-<h3 id="9剪切文件-目录-mv"><a href="#9剪切文件-目录-mv" class="headerlink" title="9剪切文件/目录      mv"></a>9剪切文件/目录      mv</h3><p> 剪切文件/目录<br> 实例：mv 需要剪切的对象 移动的目标地址<br> 例子：mv 1.txt 123/</p>
-<p> 重命名<br>  实例:mv 源文件的名称  目标文件的名称<br>  例子：mv 1.txt  2.txt</p>
-<h3 id="10-获取文件的参数属性-file"><a href="#10-获取文件的参数属性-file" class="headerlink" title="10.获取文件的参数属性 file"></a>10.获取文件的参数属性 file</h3><p>  实例： file+文件名<br>  例子： file 1.txt</p>
-<h3 id="11-如何获取可执行工具路径-which"><a href="#11-如何获取可执行工具路径-which" class="headerlink" title="11.如何获取可执行工具路径  which"></a>11.如何获取可执行工具路径  which</h3><p>  实例：which 可执行工具<br>  例子：gec@ubuntu:~$ which mv<br>/bin/mv</p>
-<h3 id="12-切换超级用户-切换普通用户"><a href="#12-切换超级用户-切换普通用户" class="headerlink" title="12.切换超级用户/切换普通用户"></a>12.切换超级用户/切换普通用户</h3><p>实例：sudo su /exit</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gec@ubuntu:~$ sudo su</span><br><span class="line">[sudo] password <span class="keyword">for</span> gec: </span><br><span class="line">root@ubuntu:/home/gec<span class="comment">#</span></span><br></pre></td></tr></table></figure>
-
-<p>root  超级用户用户名</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@ubuntu:/home/gec<span class="comment"># exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">gec@ubuntu:~$</span><br></pre></td></tr></table></figure>
-
-<p>/home/gec 普通用户的家目录<br>/root     超级用户的家目录</p>
-<h3 id="13-文件目录权限的修改-chmod"><a href="#13-文件目录权限的修改-chmod" class="headerlink" title="13.文件目录权限的修改 chmod"></a>13.文件目录权限的修改 chmod</h3><p>实例：chmod 八进制数  修改对象</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">drwx------  3 gec  gec     4096 Jun 27  2013 .mission-control</span><br><span class="line">drwxrwxr-x  2 gec  gec     4096 Mar 29  2016 .mplayer</span><br><span class="line">-rw-r--r--  1 gec  gec      675 Jun 27  2013 .profile</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">文件类型  文件权限     连接数   创建者  创建者的组  文件大小   创建日期     文件名</span><br><span class="line">-         rw-r--r--     1       gec      gec      675    Jun 27  2013  .profile</span><br></pre></td></tr></table></figure>
-
-<p>文件类型：<br>-：使用touch命名创建的文件<br>d：使用mkdir命名创建的目录</p>
-<p>文件权限：<br>创建的组    同组用户  其他人<br>rwx          rwx      r-x<br>权限是：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">r:  <span class="built_in">read</span> only   只读    4</span><br><span class="line">w:  write only  只写    2</span><br><span class="line">x： exe         执行权   1</span><br><span class="line">-： 缺省              0</span><br></pre></td></tr></table></figure>
-
-<p>例子：chomd 777 1.txt<br>-rwxrwxrwx 1 gec gec 675 Jun 27 1.txt</p>
-<h3 id="14-man手册-查看帮助的文档"><a href="#14-man手册-查看帮助的文档" class="headerlink" title="14.man手册  查看帮助的文档"></a>14.man手册  查看帮助的文档</h3><p>实例：man man 寻找9本守则    退出：退出字母 q</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1   Executable programs or shell commands</span><br><span class="line"> //系统命令的帮助 shell</span><br><span class="line">2   System calls (functions provided by the kernel)</span><br><span class="line"> //系统函数帮助  文件IO</span><br><span class="line">3   Library calls (functions within program libraries)</span><br><span class="line"> //库函数的帮助  C语言</span><br><span class="line">4   Special files (usually found in /dev)</span><br><span class="line">5   File formats and conventions eg /etc/passwd</span><br><span class="line">6   Games</span><br><span class="line">7   Miscellaneous  (including  macro  packages  and  conventions), e.g.</span><br><span class="line">    man(7), groff(7)</span><br><span class="line">8   System administration commands (usually only for root)</span><br><span class="line">9   Kernel routines [Non standard]</span><br></pre></td></tr></table></figure>
-
-<pre><code>寻找ls的使用方法  man 1 ls</code></pre><h3 id="15-查看文件中的内容-cat"><a href="#15-查看文件中的内容-cat" class="headerlink" title="15 查看文件中的内容 cat"></a>15 查看文件中的内容 cat</h3><pre><code>实例： cat +文件名
-例子  cat  1.txt </code></pre><h2 id="共享目录"><a href="#共享目录" class="headerlink" title="共享目录"></a>共享目录</h2><p>让windows系统和Linux系统共用一个文件夹</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1.Windows上创建一个文件夹，比如叫Linux。</span><br><span class="line">2.点击VMware上的虚拟机（m）--》设置---》选项</span><br><span class="line">3.选中共享文件夹----》选中总是启用</span><br><span class="line">4.添加----》下一步---》浏览----》选中Linux----》下一步----》完成</span><br><span class="line">5.点击确认</span><br><span class="line">6.检验是否完成   gec@ubuntu:~$ <span class="built_in">cd</span> /mnt/hgfs/linux/</span><br><span class="line">gec@ubuntu:/mnt/hgfs/linux$ ls</span><br><span class="line">gec@ubuntu:/mnt/hgfs/linux$ touch 1.txt</span><br></pre></td></tr></table></figure>
-
-<h2 id="补充知识点"><a href="#补充知识点" class="headerlink" title="补充知识点"></a>补充知识点</h2><p>1.自动补齐  按tab键自动补齐<br>2.上下翻页  寻找之前执行过的命令</p>
-<h2 id="Linux文件系统架构"><a href="#Linux文件系统架构" class="headerlink" title="Linux文件系统架构"></a>Linux文件系统架构</h2><p>Linux文件系统比Windows，规矩要多得多<br>特有的文件就要放到特定的目录中才会生效</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">bin         可执行文件，Linux命令的存放目录</span><br><span class="line">            大部分文件是绿色，绿色是可执行文件</span><br><span class="line">cdrom       光驱存放目录</span><br><span class="line">etc         修改系统文件的配置文件（类似于Windows控制面板）</span><br><span class="line">mnt         挂载目录  比如说共享文件</span><br><span class="line">proc        有关系统进程的信息存放位置</span><br><span class="line">run         系统运行日志</span><br><span class="line">sys         系统运行目录</span><br><span class="line">var         系统日志目录</span><br><span class="line">usr         一般存放工具链/用户使用头文件/库文件/安装软件</span><br><span class="line">boot        系统的镜像目录  内核  文件系统</span><br><span class="line">dev         设备文件 驱动</span><br><span class="line">home        普通用户的家目录</span><br><span class="line">lib         库文件     库文件的后缀.so	</span><br><span class="line">srv         系统服务</span><br><span class="line">media      多媒体</span><br><span class="line">opt        映射镜像 映射内存空间</span><br><span class="line">root       超级用户的家目录</span><br><span class="line">sbin       超级用户的可执行文件区</span><br><span class="line">tmp        存放临时文件</span><br></pre></td></tr></table></figure>
-
-<h2 id="linux编程"><a href="#linux编程" class="headerlink" title="linux编程"></a>linux编程</h2><p>   编程语言 C语言 c++  C#  java  python<br>   低级语言 机器语言<br>    （01010101000001111）<br>      特点：语法少 结构少 没有封装性 可移植性差</p>
-<pre><code>*.s----》*.o-----》*.exe bin elf-----》镜像文件 
-
-解决逻辑/算法/分析问题
-
-编译器
-
-x86平台编译器   gcc  ------》这个编译文件之后只能在x86镜像平台使用
-
-arm平台编译器 arm-linux-gcc ---》开发板的使用平台
-
-vi编辑器   gedit编辑器</code></pre><h3 id="vi编辑器"><a href="#vi编辑器" class="headerlink" title="vi编辑器"></a>vi编辑器</h3><pre><code>1.创建并打开文件
-  vi  test.c
-
-2.vi编辑器三种模式
-  2.0编辑模式（写东西）
-     默认的是命令模式，按下字母 i
-     底行就会出现insert，代表能够输入内容
-
-  2.1底行模式（搜索/退出）
-     按下Esc菜单键，进入命令模式
-     保存退出： 2.1.1 shift+；
-                2.1.2 wq  w保存 q退出
-
-  2.2命令模式（控制文本）
-     按下Esc菜单键，进入命令模式</code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/16/嵌入式Linux环境/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-我的第一篇博客文章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/05/我的第一篇博客文章/">爱京京</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/05/我的第一篇博客文章/" class="archive-article-date">
-  	<time datetime="2019-07-05T10:09:22.624Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="爱你"><a href="#爱你" class="headerlink" title="爱你"></a>爱你</h2><p>你最棒了</p>
-<h1 id="超级棒"><a href="#超级棒" class="headerlink" title="超级棒"></a>超级棒</h1><p>肯定可以的</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">加油噢</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/05/我的第一篇博客文章/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 
 

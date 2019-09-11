@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019/8 | 爱京京</title>
+  <title>系统编程-进程通信 | 爱京京</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="爱京京">
-<meta property="og:url" content="http://yoursite.com/archives/2019/08/index.html">
+  <meta name="description" content="进程间通信管道，共享内存，消息队列，信号集，信号量 无名管道：主要是用在父子进程间的通信12345#include &amp;lt;unistd.h&amp;gt;int pipe(int fildes[2]);	打开一个无名管道，并且讲文件描述符放入到fildes[2]里面	fildes[0]一定是读端	fildes[1]一定是写端  程序： 1234567891011121314151617181920212">
+<meta property="og:type" content="article">
+<meta property="og:title" content="系统编程-进程通信">
+<meta property="og:url" content="http://yoursite.com/2019/09/10/系统编程-进程通信/index.html">
 <meta property="og:site_name" content="爱京京">
+<meta property="og:description" content="进程间通信管道，共享内存，消息队列，信号集，信号量 无名管道：主要是用在父子进程间的通信12345#include &amp;lt;unistd.h&amp;gt;int pipe(int fildes[2]);	打开一个无名管道，并且讲文件描述符放入到fildes[2]里面	fildes[0]一定是读端	fildes[1]一定是写端  程序： 1234567891011121314151617181920212">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-09-10T09:31:40.899Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="爱京京">
+<meta name="twitter:title" content="系统编程-进程通信">
+<meta name="twitter:description" content="进程间通信管道，共享内存，消息队列，信号集，信号量 无名管道：主要是用在父子进程间的通信12345#include &amp;lt;unistd.h&amp;gt;int pipe(int fildes[2]);	打开一个无名管道，并且讲文件描述符放入到fildes[2]里面	fildes[0]一定是读端	fildes[1]一定是写端  程序： 1234567891011121314151617181920212">
   
     <link rel="alternative" href="/atom.xml" title="爱京京" type="application/atom+xml">
   
@@ -150,130 +154,217 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-系统编程-进程通信" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      系统编程-进程通信
+    </h1>
+  
+
+        
+        <a href="/2019/09/10/系统编程-进程通信/" class="archive-article-date">
+  	<time datetime="2019-09-10T08:01:54.857Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-10</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="进程间通信"><a href="#进程间通信" class="headerlink" title="进程间通信"></a>进程间通信</h1><p>管道，共享内存，消息队列，信号集，信号量</p>
+<h3 id="无名管道："><a href="#无名管道：" class="headerlink" title="无名管道："></a>无名管道：</h3><pre><code>主要是用在父子进程间的通信</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">int pipe(int fildes[2]);</span><br><span class="line">	打开一个无名管道，并且讲文件描述符放入到fildes[2]里面</span><br><span class="line">	fildes[0]一定是读端</span><br><span class="line">	fildes[1]一定是写端</span><br></pre></td></tr></table></figure>
+
+<p>程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	int fd[2];</span><br><span class="line">	int ret = pipe(fd);</span><br><span class="line">	if(ret == -1)</span><br><span class="line">	&#123;</span><br><span class="line">		perror(&quot;pipe failed&quot;);</span><br><span class="line">		exit(-1);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	ret = fork();</span><br><span class="line">	if(ret &gt; 0)</span><br><span class="line">	&#123;</span><br><span class="line">		sleep(1);</span><br><span class="line">		write(fd[1],&quot;hello&quot;,6);</span><br><span class="line">		printf(&quot;father write ok\n&quot;);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	else if(ret == 0)</span><br><span class="line">	&#123;</span><br><span class="line">		char buf[10];</span><br><span class="line">		read(fd[0],buf,6);</span><br><span class="line">		printf(&quot;child buf=%s\n&quot;,buf);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	close(fd[0]);</span><br><span class="line">	close(fd[1]);</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="有名管道"><a href="#有名管道" class="headerlink" title="有名管道"></a>有名管道</h3><p>无名管道没有实体，只能放在父子进程中</p>
+<p>有名管道存在实体，是可以ls查看到的文件，一般用于不相干<br>的两个进程之间通信</p>
+<p>#include &lt;sys/types.h&gt;</p>
+<p>#include &lt;sys/stat.h&gt;</p>
+<p>int mkfifo(const char *pathname, mode_t mode);<br>            所创建的管道文件位置和名称    管道文件权限</p>
+<p>正确返回0，出错返回-1，而且将错误码存储到errno变量<br>        EEXIST：表示文件已存在</p>
+<p>有名管道被创建后，仍然需要open函数打开，但是与普通不同文件<br>不一样的：<br>    1.写入的文件是被读取直接清除的<br>    2.读写端的进程可以不止一个<br>    3.如果写端没有打开，只打开了读端，则阻塞在open的位置</p>
+<p>判断文件是否存在：</p>
+<p>#include &lt;unistd.h&gt;<br>int access(const char *path, int amode);</p>
+<p>jack.c /rose.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/stat.h&gt;</span><br><span class="line">#include &lt;fcntl.h&gt;</span><br><span class="line">#include &lt;errno.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"></span><br><span class="line">#define FIFO_NAME	&quot;/home/gec/myfifo&quot;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	int ret = mkfifo(FIFO_NAME,0777);</span><br><span class="line">	if(ret == -1)</span><br><span class="line">	&#123;</span><br><span class="line">		if(errno != EEXIST)//防止文件是已存在的情况下推出</span><br><span class="line">		&#123;</span><br><span class="line">			perror(&quot;mkfifo failed&quot;);</span><br><span class="line">			return -1;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	int fd = open(FIFO_NAME,O_RDWR);</span><br><span class="line">	if(fd == -1)</span><br><span class="line">	&#123;</span><br><span class="line">		perror(&quot;open failed&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	char buf[10];</span><br><span class="line">    //in jack.c</span><br><span class="line">	/*while(1)</span><br><span class="line">	&#123;</span><br><span class="line">		scanf(&quot;%s&quot;,buf);</span><br><span class="line">		</span><br><span class="line">		write(fd,buf,strlen(buf));</span><br><span class="line">		</span><br><span class="line">	&#125;*/</span><br><span class="line">    //in rose.c</span><br><span class="line">    /*while(1)</span><br><span class="line">	&#123;</span><br><span class="line">		bzero(buf,10);</span><br><span class="line">		</span><br><span class="line">		read(fd,buf,10);</span><br><span class="line">		</span><br><span class="line">		printf(&quot;buf=%s\n&quot;,buf);</span><br><span class="line">		</span><br><span class="line">	&#125;*/</span><br><span class="line">	close(fd);</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br></pre></td></tr></table></figure>
+
+<h3 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h3><p>由linux系统支持的，经过linux内核来完成的不<br>同进程之间的通信。</p>
+<p>（1）执行默认设置，当没有注册信号时，也是执行默认设置<br>（2）执行指定函数<br>（3）忽略该信号</p>
+<p>查看linux系统支持哪些信号    kill -l    </p>
+<p>一般主流支持62个信号，编号1<del>31,34</del>64<br>1~31：不可靠信号，非实时信号<br>    容易发生嵌套，而且运行时再接收多个相同信号时，只会执行一次</p>
+<p>34~64：可靠信号，实时信号<br>    不会发生嵌套，而且运行时接收到N个相同信号，就会执行N次</p>
+<p>信号默认动作：<br>    1) SIGHUP    —-&gt;结束掉当前终端<br>    9) SIGKILL    —-&gt;杀死进程(无法被忽略)<br>    19) SIGSTOP    —-&gt;从系统发送的停止信号(无法被忽略)<br>    20) SIGTSTP    —-&gt;从终端发送的停止信号</p>
+<blockquote>
+<p>//注册信号</p>
+</blockquote>
+<p>#include &lt;signal.h&gt;<br>typedef void (*sighandler_t)(int);<br>sighandler_t signal(int signum, sighandler_t handler);<br>        int signum        ——&gt;注册的是哪一个信号<br>        sighandler_t handler–&gt;该信号执行的动作<br>                                自定义函数：执行自定义动作<br>                                SIG_IGN：忽略该信号<br>                                SIG_DFL：执行该信号的缺省动作</p>
+<blockquote>
+<p>//发送信号给某一个进程</p>
+</blockquote>
+<p>#include &lt;sys/types.h&gt;</p>
+<p>#include &lt;signal.h&gt;<br>int kill(pid_t pid, int sig);<br>        pid_t pid        ——&gt;接收信号的进程号<br>        int sig            ——&gt;被发送的信号</p>
+<p>信号可以单个忽略，使用singal函数，也可以设置一个集合，直接忽略集合<br>内的所有信号</p>
+<blockquote>
+<p>//对整个信号集合进行操作    </p>
+</blockquote>
+<p>#include &lt;signal.h&gt;<br>int sigprocmask(int how, const sigset_t *set, sigset_t *oldset);<br>        int how            ——&gt;对信号集做哪种操作<br>                                SIG_BLOCK    阻塞信号，将新信号集和旧信号集一起阻塞<br>                                SIG_UNBLOCK    解除阻塞<br>                                SIG_SETMASK    阻塞信号，只阻塞新的信号集<br>        sigset_t *set    ——&gt;新的信号集<br>        sigset_t *oldset——&gt;旧的信号集，可以设置为NULL</p>
+<p>#include &lt;signal.h&gt;<br>int sigemptyset(sigset_t *set);<br>    —-&gt;清空信号集<br>int sigfillset(sigset_t *set);<br>    —-&gt;把所有的信号全部添加到信号集中<br>int sigaddset(sigset_t *set, int signum);<br>    —-&gt;添加一个信号到信号集中<br>int sigdelset(sigset_t *set, int signum);<br>    —-&gt;从信号集中删除一个信号<br>int sigismember(const sigset_t *set, int signum);<br>    —-&gt;判断信号是否在信号集中<br>        返回1，信号在信号集中<br>        返回0，信号不在信号集中</p>
+<p>在不可靠信号里面，信号的数值越大，它的优先级是越高的:可以被嵌套<br>sig_recv.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;signal.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line">void func1(int arg)</span><br><span class="line">&#123;</span><br><span class="line">	printf(&quot;func1 is go  %d\n&quot;,arg);</span><br><span class="line">&#125;</span><br><span class="line">void func2(int arg)</span><br><span class="line">&#123;</span><br><span class="line">	printf(&quot;func2 is go  %d\n&quot;,arg);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	//signal(SIGTSTP,SIG_IGN);//忽略掉SIGTSTP信号</span><br><span class="line">	//signal(SIGINT,SIG_IGN);//忽略掉SIGINT信号</span><br><span class="line">	</span><br><span class="line">	signal(SIGUSR1,func1);//自定义信号SIGUSR1执行函数func</span><br><span class="line">	signal(SIGUSR2,func2);</span><br><span class="line">	</span><br><span class="line">	sigset_t act;//设置一个信号集</span><br><span class="line">	sigemptyset(&amp;act);//清空信号集</span><br><span class="line">	sigaddset(&amp;act,SIGTSTP);//向信号集中添加SIGTSTP信号</span><br><span class="line">	sigaddset(&amp;act,SIGUSR1);</span><br><span class="line">	sigaddset(&amp;act,SIGUSR2);</span><br><span class="line">	sigprocmask(SIG_BLOCK,&amp;act,NULL);//设置act信号集中信号全部阻塞</span><br><span class="line">	</span><br><span class="line">	int i=0;</span><br><span class="line">	while(i&lt;5)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;%u :i=%d\n&quot;,getpid(),i++);</span><br><span class="line">		sleep(1);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	sigprocmask(SIG_UNBLOCK,&amp;act,NULL);</span><br><span class="line">	//在解除阻塞的时候，会检查信号阻塞队列，如果有信号存在，则直接执行</span><br><span class="line">	while(1)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;%u ::i=%d\n&quot;,getpid(),i++);</span><br><span class="line">		sleep(1);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>sig_send.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;signal.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line">int main(int argc, char *argv[])</span><br><span class="line">&#123;</span><br><span class="line">	kill(atoi(argv[1]),SIGUSR2);</span><br><span class="line">	kill(atoi(argv[1]),SIGUSR1);</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>===============信号的安全使用===============<br>1.如果父进程存在挂起的信号，则子进程不继承<br>2.如果父进程存在阻塞的信号，子进程会继承阻塞，将获取的信号挂起<br>3.信号是可以被嵌套的，但如果同时有多个信号被挂起，<br>    可靠信号一定是响应优先级高的先响应<br>    不可靠信号可能会被嵌套响应</p>
+<pre><code>不可靠信号最多挂起一个
+可靠信号发送多少次，就挂起多少次</code></pre><p>例子：假设信号挂起队列中存在10,12,35,36四个信号，按优先级<br>响应时36,35,12,10，当36响应的时候，10,12,35都还在队列中，<br>    —&gt;若此时发送信号10，由于不可靠信号最多挂起一个，所以36不会被嵌套<br>    —&gt;若此时发送信号35，由于可靠信号可以挂起多次，所以35运行多次</p>
+<p>例子：假设信号挂起队列中存在10,35,36四个信号，按优先级<br>响应时36,35,10，当36响应的时候，10,35都还在队列中，<br>    —&gt;若此时发送信号12，信号12会嵌套在36响应过程中，但只能挂起一次</p>
+<p>4.可以设置信号不被指定的信号嵌套，需要通过sigaction注册信号执行函数，<br>signal函数此时无效，同时要注意不能嵌套的信号不是被忽略，而是被阻塞，<br>当当前信号执行完毕时，仍然会再一次执行</p>
+<p>5.信号是异步通信，信号响应的位置可能是程序的任意位置，那么如果<br>信号操作了全局变量，则很可能发生数值出错。<br>    信号不可操作全局变量<br>库函数函数中也存在许多函数操作了全局变量，这些函数都是不安全函数<br>使用 man 7 signal可以查看安全函数</p>
+<p>6.信号可以结束sleep和pause函数<br>    信号可以结束进程的睡眠状态，所以也被称为软中断</p>
+<p>信号挂起：<br>    （1）进程在信号阻塞的情况下接到该信号<br>    （2）进程在执行信号响应的情况下，再次接到该信号<br>信号阻塞：<br>        进程接到信号不立即执行，要等待解除阻塞才执行<br>信号忽略：<br>        进程屏蔽信号，不接受<br>信号响应：<br>        进程接到信号后执行函数或缺省动作<br>信号嵌套：<br>        进程在响应A信号的过程中，接收到B信号，会先执行B信号，再执行A信号<br>        信号嵌套可以多次相互嵌套，但已响应的信号不能被再次嵌套，会被挂起<br>信号缺省动作：<br>        执行linux系统指定的信号默认动作</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/27/文件IO/" class="archive-article-date">
-  	<time datetime="2019-08-27T11:58:20.004Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/27/文件IO/">文件IO</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/09/10/系统编程-进程通信/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/27/系统编程/" class="archive-article-date">
-  	<time datetime="2019-08-27T11:13:44.956Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-27</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2019/09/11/网络编程/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          网络编程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/09/10/Linux基础/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux基础</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/27/系统编程/">系统编程</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/11/makefile/" class="archive-article-date">
-  	<time datetime="2019-08-11T13:41:12.908Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/11/makefile/">makefile</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/07/shell/" class="archive-article-date">
-  	<time datetime="2019-08-07T01:39:06.811Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/07/shell/">shell</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -296,8 +387,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019/8 | 爱京京</title>
+  <title>网络编程 | 爱京京</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="爱京京">
-<meta property="og:url" content="http://yoursite.com/archives/2019/08/index.html">
+  <meta name="description" content="网络编程DHCP 自动设置IP地址IPv4 32的点分制  192168012002—&amp;gt;192.168.12.2 TCP/IP:    TCP: 网络通信传输协议    IP：不同主机之间通信设置地址协议 OSI模型：                            TCP/IP模型：    应用层                                应用层">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络编程">
+<meta property="og:url" content="http://yoursite.com/2019/09/11/网络编程/index.html">
 <meta property="og:site_name" content="爱京京">
+<meta property="og:description" content="网络编程DHCP 自动设置IP地址IPv4 32的点分制  192168012002—&amp;gt;192.168.12.2 TCP/IP:    TCP: 网络通信传输协议    IP：不同主机之间通信设置地址协议 OSI模型：                            TCP/IP模型：    应用层                                应用层">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-09-11T05:01:18.872Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="爱京京">
+<meta name="twitter:title" content="网络编程">
+<meta name="twitter:description" content="网络编程DHCP 自动设置IP地址IPv4 32的点分制  192168012002—&amp;gt;192.168.12.2 TCP/IP:    TCP: 网络通信传输协议    IP：不同主机之间通信设置地址协议 OSI模型：                            TCP/IP模型：    应用层                                应用层">
   
     <link rel="alternative" href="/atom.xml" title="爱京京" type="application/atom+xml">
   
@@ -150,130 +154,184 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-网络编程" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      网络编程
+    </h1>
+  
+
+        
+        <a href="/2019/09/11/网络编程/" class="archive-article-date">
+  	<time datetime="2019-09-11T03:11:52.493Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-11</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="网络编程"><a href="#网络编程" class="headerlink" title="网络编程"></a>网络编程</h2><p>DHCP 自动设置IP地址<br>IPv4 32的点分制  192168012002—&gt;192.168.12.2</p>
+<p>TCP/IP:<br>    TCP: 网络通信传输协议<br>    IP：不同主机之间通信设置地址协议</p>
+<p>OSI模型：                            TCP/IP模型：<br>    应用层                                应用层            tftp,ftp,telent<br>    表示层<br>    会话层<br>    传输层                                传输层<br>    网络层                                网络层<br>    数据链路层                            物理链路层<br>    物理层<br>    OSI模型当前并没有实现                当前最广泛，也是一直在用的模型</p>
+<p>TCP/IP模型：<br>应用层—&gt;端口号<br>        0~65535<br>        tfp：21<br>        飞秋：2425<br>        0~255——–&gt;unix协议专用端口<br>        255~1023—–&gt;大部分是window系统部分进程的专用端口<br>        1023~40031—&gt;部分常用软件使用的端口(大约只有一百多个)</p>
+<p>传输层：<br>        tcp:<br>            一定存在一个服务器，而且所有的客户端都需要通过服务器才能连接<br>            tcp对网络稳定性要求高<br>            网状结构<br>            一般用于账户登录，密码登录，部分视频网站内容传输<br>            三次握手四次挥手<br>            一定要服务器存在，客户端才能运行<br>        udp:<br>            不存在服务器，所有客户端可以自行连接<br>            udp对网络要求不高<br>            星状模型<br>            一般用于视频数据的传输(监控录像，高速拍照)<br>            对运行的先后顺序没有严格要求<br>            可以进行组播和广播<br>                组播：将需要接收消息的客户端加在同一个组播地址中<br>                      发送端只需要向组播地址发消息，加入组的客户端都会接收到<br>                广播：向当前网络类的所有电脑发送信息，固定主机地址位是255<br>        原始套接字:ping</p>
+<p>网络层：<br>    IP地址</p>
+<p>物理链路层：<br>    网卡，交换机，网线</p>
+<h2 id="编程准备知识"><a href="#编程准备知识" class="headerlink" title="编程准备知识"></a>编程准备知识</h2><h5 id="（1）网络结构体"><a href="#（1）网络结构体" class="headerlink" title="（1）网络结构体"></a>（1）网络结构体</h5><p>//编程使用的网络结构体</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">struct sockaddr_in &#123;</span><br><span class="line">  __kernel_sa_family_t	sin_family;			//使用的协议族</span><br><span class="line">  __be16		sin_port;					//端口号</span><br><span class="line">  struct in_addr	sin_addr;				//IP地址</span><br><span class="line"></span><br><span class="line">  // 为了保证新的网络结构体兼容以前的网络参数，添加一个差值</span><br><span class="line">  // 差值 = sockaddr结构体大小 - sockaddr_in前三个成员的总大小</span><br><span class="line">  unsigned char		__pad[__SOCK_SIZE__ - sizeof(short int) -</span><br><span class="line">			sizeof(unsigned short int) - sizeof(struct in_addr)];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>//网络实际收发时使用的结构体</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct sockaddr</span><br><span class="line">&#123;</span><br><span class="line">	__SOCKADDR_COMMON (sa_);	/* Common data: address family and length.  */</span><br><span class="line">	char sa_data[14];			/* Address data.  */</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>//ipv4协议下点分制的IP地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">struct in_addr &#123;</span><br><span class="line">	__be32	s_addr;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-字节序"><a href="#2-字节序" class="headerlink" title="(2)字节序"></a>(2)字节序</h5><pre><code>小端存储：低位低字节
+大端存储：低位高字节</code></pre><p>linux系统，X86系统，windows系统大部分都是小端存储<br>但是网络数据传输有部分是大端存储的，所以需要转换字节序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;arpa/inet.h&gt;</span><br><span class="line"></span><br><span class="line">主机字节序转网络字节序(长整型转换)</span><br><span class="line">	uint32_t htonl(uint32_t hostlong);</span><br><span class="line"></span><br><span class="line">主机字节序转网络字节序(短整型转换)</span><br><span class="line">	uint16_t htons(uint16_t hostshort);</span><br><span class="line"></span><br><span class="line">网络字节序转主机字节序(长整型转换)</span><br><span class="line">	uint32_t ntohl(uint32_t netlong);</span><br><span class="line"></span><br><span class="line">网络字节序转主机字节序(短整型转换)</span><br><span class="line">	uint16_t ntohs(uint16_t netshort);</span><br><span class="line"></span><br><span class="line">h---&gt;host  主机</span><br><span class="line">to--&gt;      转换</span><br><span class="line">n---&gt;net   网络</span><br><span class="line">l---&gt;long  长整型转换</span><br><span class="line">s---&gt;short 短整型转换</span><br></pre></td></tr></table></figure>
+
+<h5 id="（3）32位点分制IP地址"><a href="#（3）32位点分制IP地址" class="headerlink" title="（3）32位点分制IP地址"></a>（3）32位点分制IP地址</h5><p>#include &lt;sys/socket.h&gt;</p>
+<p>#include &lt;netinet/in.h&gt;</p>
+<p>#include &lt;arpa/inet.h&gt;</p>
+<p>//将字符串转换成IP地址<br>in_addr_t inet_addr(const char *cp);<br><code>举例：inet_addr(&quot;192.168.12.2&quot;)---&gt;结果就是in_addr_t类型的192.168.12.2</code></p>
+<p>int inet_aton(const char *cp, struct in_addr *inp);</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">举例：</span><br><span class="line">struct sockaddr_in myaddr;</span><br><span class="line">inet_aton(&quot;192.168.12.2&quot;,&amp;myaddr.sin_addr)---&gt;将转换后的IP地址直接存放在结构体in中</span><br></pre></td></tr></table></figure>
+
+<p>//IP地址转换成字符串<br>char *inet_ntoa(struct in_addr in);<br><code>举例：inet_ntoa(srcaddr.sin_addr)----&gt;返回得到的字符串</code></p>
+<p>=====================</p>
+<h2 id="UDP通信"><a href="#UDP通信" class="headerlink" title="UDP通信"></a>UDP通信</h2>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/27/文件IO/" class="archive-article-date">
-  	<time datetime="2019-08-27T11:58:20.004Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/27/文件IO/">文件IO</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/09/11/网络编程/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/27/系统编程/" class="archive-article-date">
-  	<time datetime="2019-08-27T11:13:44.956Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-27</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/09/10/系统编程-进程通信/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">系统编程-进程通信</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/27/系统编程/">系统编程</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/11/makefile/" class="archive-article-date">
-  	<time datetime="2019-08-11T13:41:12.908Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/11/makefile/">makefile</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/07/shell/" class="archive-article-date">
-  	<time datetime="2019-08-07T01:39:06.811Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/07/shell/">shell</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -296,8 +354,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

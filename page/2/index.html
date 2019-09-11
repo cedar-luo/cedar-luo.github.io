@@ -6,11 +6,11 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019/8 | 爱京京</title>
+  <title>爱京京</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="爱京京">
-<meta property="og:url" content="http://yoursite.com/archives/2019/08/index.html">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="爱京京">
 <meta property="og:locale" content="default">
 <meta name="twitter:card" content="summary">
@@ -152,128 +152,453 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-gcc编译器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/17/gcc编译器/">gcc编译器/c</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/17/gcc编译器/" class="archive-article-date">
+  	<time datetime="2019-07-17T01:43:46.647Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-17</time>
+</a>
+        
+      </header>
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="gcc编译器的编译过程"><a href="#gcc编译器的编译过程" class="headerlink" title="gcc编译器的编译过程"></a>gcc编译器的编译过程</h1><p>  嵌入式开发四步骤：</p>
+<blockquote>
+<p>编写工程<br>编译工程<br>移植工程<br>测试工程</p>
+</blockquote>
+<h2 id="1-编写工程"><a href="#1-编写工程" class="headerlink" title="1.编写工程"></a>1.编写工程</h2><h3 id="编写软件-vi-gedit-notepad"><a href="#编写软件-vi-gedit-notepad" class="headerlink" title="编写软件 vi gedit notepad++"></a>编写软件 vi gedit notepad++</h3><h3 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h3><pre><code>新建文件
+右击新文件----》另存为------&gt;共享文件
+编写代码
+   #include &lt;stdio.h&gt;
+
+   int main(int argc,char *argv[])
+   {
+       printf(&quot;helloworld!&quot;);
+       return 0;
+   }</code></pre><h2 id="2-编译工程"><a href="#2-编译工程" class="headerlink" title="2.编译工程"></a>2.编译工程</h2><p>  gcc编译器很多的参数<br>  预处理           -E      .c只工作到预处理极端<br>  编译             -S<br>  汇编             -c<br>  指定输出二进制    -o</p>
+<h3 id="源文件：-hello-c-目标文件（二进制）-hello"><a href="#源文件：-hello-c-目标文件（二进制）-hello" class="headerlink" title="源文件：  hello.c  目标文件（二进制） hello"></a>源文件：  hello.c  目标文件（二进制） hello</h3><h4 id="1-预处理—》处理头文件、宏定义展开、屏蔽注释"><a href="#1-预处理—》处理头文件、宏定义展开、屏蔽注释" class="headerlink" title="1.预处理—》处理头文件、宏定义展开、屏蔽注释"></a>1.预处理—》处理头文件、宏定义展开、屏蔽注释</h4><pre><code>gcc  -E hello.c -o hello.i</code></pre><h4 id="2-编译—》程序C语言-c转化为二进制文件-s"><a href="#2-编译—》程序C语言-c转化为二进制文件-s" class="headerlink" title="2.编译—》程序C语言.c转化为二进制文件.s"></a>2.编译—》程序C语言.c转化为二进制文件.s</h4><pre><code>gcc  -S hello.i -o hello.s</code></pre><h4 id="3-汇编—》把地址按照规律重新排列"><a href="#3-汇编—》把地址按照规律重新排列" class="headerlink" title="3.汇编—》把地址按照规律重新排列"></a>3.汇编—》把地址按照规律重新排列</h4><pre><code>gcc  -c hello.s -o hello.o</code></pre><h4 id="4-链接—》链接到我们的库文件"><a href="#4-链接—》链接到我们的库文件" class="headerlink" title="4.链接—》链接到我们的库文件"></a>4.链接—》链接到我们的库文件</h4><pre><code>gcc   hello.o -o hello</code></pre><h4 id="5-本地测试"><a href="#5-本地测试" class="headerlink" title="5.本地测试"></a>5.本地测试</h4><pre><code>&gt; ./hello   .当前目录
+直接将原文件.c编译成目标文件
+&gt; 1.gcc hello.c   生成可执行文件hello
+
+&gt; 2.gcc hello.c -o hello 生成可执行文件 hello
+
+&gt; 3.gcc -o hello hello.c 生成可执行文件 hello</code></pre><hr>
+<h1 id="C语言介绍"><a href="#C语言介绍" class="headerlink" title="C语言介绍"></a>C语言介绍</h1><h1 id="Linux标准c"><a href="#Linux标准c" class="headerlink" title="Linux标准c"></a>Linux标准c</h1><h2 id="1-Linux系统是多任务的操作系统，需要知道各任务执行的返回结果，所以需要返回值！"><a href="#1-Linux系统是多任务的操作系统，需要知道各任务执行的返回结果，所以需要返回值！" class="headerlink" title="1.Linux系统是多任务的操作系统，需要知道各任务执行的返回结果，所以需要返回值！"></a>1.Linux系统是多任务的操作系统，需要知道各任务执行的返回结果，所以需要返回值！</h2><pre><code>#include &lt;stdio.h&gt;
+
+    int main(int argc,char *argv[])---》int返回值的类型
+    {
+        //输出语句helloworld
+        printf(&quot;helloworld!\n&quot;);
+        return 0; ----》返回值 返回结果
+                  ----》成功执行 返回值为0
+                        执行失败 返回值为负数
+    }</code></pre><hr>
+<p> C语言主函数参数，main可以带形参，可以传递参数<br>        main()<br>        main(void)<br>        int main()<br>        int main(void)<br>        int main(int argc,char *<em>argv)<br>        int main(int argc,const char *</em>argv)<br>        int main(int argc,char *argv[])<br>        argc: 指示你当前命令行传入参数的个数  count<br>        argv: 指示你当前命令行传入参数的内容  value<br>              并且argv[0]是你的执行文件对象</p>
+<hr>
+<p>程序中所包含的库函数均要声明或者自己定义—》需要包含对应的头文件</p>
+<pre><code>    printf(&quot;helloworld!\n&quot;);
+    查询printf
+    #include &lt;stdio.h&gt;//标准输入输出头文件
+    函数原型：
+    int printf(const char *format, ...);//变参函数
+    参数：const char *format  输出字符串，提示语句
+            ...               输出对象
+学习任何函数，只要知道其函数原型以及参数还有头文件就可以了</code></pre><h2 id="2-注释-适当的注释有利于之后回来翻看代码"><a href="#2-注释-适当的注释有利于之后回来翻看代码" class="headerlink" title="2.注释 适当的注释有利于之后回来翻看代码"></a>2.注释 适当的注释有利于之后回来翻看代码</h2><pre><code>行注释   //
+
+区域注释 /* ... */</code></pre><h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><hr>
+<p>程序=数据结构+算法</p>
+<p>  数据结构：数据的封装–》数据类型—》量程—》定义数据存储空间<br>  算法    ：数据之间的逻辑关系</p>
+<h2 id="变量在数据里面的存储空间—》内存"><a href="#变量在数据里面的存储空间—》内存" class="headerlink" title="变量在数据里面的存储空间—》内存"></a>变量在数据里面的存储空间—》内存</h2><p>  内存理解：</p>
+<blockquote>
+<p>程序在执行的时候一定是在内存中<br>程序在分配内存时，一定是连续分配<br>程序在分配空间的时候不确定位置</p>
+</blockquote>
+<h2 id="变量的类型"><a href="#变量的类型" class="headerlink" title="变量的类型"></a>变量的类型</h2><table>
+<thead>
+<tr>
+<th align="center">变量类型</th>
+<th align="center">具体类型</th>
+<th align="center">变量表示</th>
+<th align="center">字节大小</th>
+<th align="center">打印格式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">整形</td>
+<td align="center">短整型</td>
+<td align="center">short</td>
+<td align="center">2</td>
+<td align="center">%d</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">整型</td>
+<td align="center">int</td>
+<td align="center">4</td>
+<td align="center">%d</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">长整型</td>
+<td align="center">long</td>
+<td align="center">4</td>
+<td align="center">%ld</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">长长整型</td>
+<td align="center">long long</td>
+<td align="center">8</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">字符型</td>
+<td align="center"></td>
+<td align="center">char</td>
+<td align="center">1</td>
+<td align="center">%c/%s</td>
+</tr>
+<tr>
+<td align="center">浮点型</td>
+<td align="center">单精度</td>
+<td align="center">float</td>
+<td align="center">4</td>
+<td align="center">%f</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">双精度</td>
+<td align="center">double</td>
+<td align="center">8</td>
+<td align="center">%lf</td>
+</tr>
+</tbody></table>
+<pre><code>使用函数sizeof计算空间大小    </code></pre><h3 id="打印格式："><a href="#打印格式：" class="headerlink" title="打印格式："></a>打印格式：</h3><pre><code>整型     %d
+字符型   %c
+字符串型 %s     
+浮点型   单精度 %f
+         双精度 %lf
+长整型   %ld 
+长长整型 %lld  
+
+无符号类型   %u
+无符号整型   %hu
+无符号短整型 %hd
+
+科学计数法   %e
+地址类型     %p
+八进制       %o
+十六进制     %x
+二进制       %b</code></pre><h2 id="变量的定义"><a href="#变量的定义" class="headerlink" title="变量的定义"></a>变量的定义</h2><p>定义标准：数据类型   变量名   —》申请该类型对应的空间 由当前变量直接访问<br>变量名：  变量名由数字、子母、下划线组成，而且开头由字母和下划线；</p>
+<p>比如：int A；—》申请int类型的数据空间4字节，由当前变量A直接访问该存储空间的数据</p>
+<h2 id="变量的赋值"><a href="#变量的赋值" class="headerlink" title="变量的赋值"></a>变量的赋值</h2><h3 id="1-左值和右值的数据类型一定要匹配"><a href="#1-左值和右值的数据类型一定要匹配" class="headerlink" title="1.左值和右值的数据类型一定要匹配"></a>1.左值和右值的数据类型一定要匹配</h3><h3 id="2-将右值赋值给左值-区分"><a href="#2-将右值赋值给左值-区分" class="headerlink" title="2.将右值赋值给左值 区分 =  =="></a>2.将右值赋值给左值 区分 =  ==</h3><pre><code>int a  = 100;
+   左值  右值
+    a == 100；  a是否等于100？</code></pre><h2 id="变量的生命周期和作用域"><a href="#变量的生命周期和作用域" class="headerlink" title="变量的生命周期和作用域"></a>变量的生命周期和作用域</h2><pre><code>定义位置----》决定了生命周期</code></pre><h3 id="局部变量"><a href="#局部变量" class="headerlink" title="局部变量"></a>局部变量</h3><pre><code>定义    ：在函数内部定义的变量
+生命周期：运行的时候才分配空间
+作用域  ：只能在函数内部使用
+赋值    ：如果局部变量一开未赋值，编译的时候会随机产生一个数赋值---》未知</code></pre><h3 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h3><pre><code>定义    ：在所有函数之外定义的变量
+生命周期：gcc编译的时候就已经分配空间
+作用域  ：所有的函数都可以访问
+赋值    ：如果全局变量一开始为赋值，自动赋值为0；</code></pre><ul>
+<li>关于局部变量和全局变量，你还需要知道？<ul>
+<li>1.如果全局变量和局部变量同名，那么全局变量的作用域无效。</li>
+<li>2.主函数和其他函数之间的平行关系。</li>
+<li>3.在不同的函数中能够使用相同的变量名。</li>
+<li>4.全局变量的作用域是只能往下不能往上，<br>如果你全局变量是先使用在定义,gcc编译就出现错误<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">test.c: In function ‘main’:</span><br><span class="line">      test.c:8:21: error: ‘a’ undeclared (first use in this function)</span><br><span class="line">      test.c:8:21: note: each undeclared identifier is reported only once for each function it appears in</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h1><hr>
+<h2 id="算术运算符-–"><a href="#算术运算符-–" class="headerlink" title="算术运算符  + - * / %  ++ –"></a>算术运算符  + - * / %  ++ –</h2><ul>
+<li><p>双目运算(两个操作数)：+ - * / %<br>比如： a+b </p>
+</li>
+<li><p>单目运算(一个操作数)：++ –<br>比如： a++  ++a</p>
+</li>
+</ul>
+<h2 id="关系运算符-gt-lt-gt-lt"><a href="#关系运算符-gt-lt-gt-lt" class="headerlink" title="关系运算符  &gt; &lt; &gt;= &lt;= == !="></a>关系运算符  &gt; &lt; &gt;= &lt;= == !=</h2><pre><code>主要是和判断语句使用</code></pre><h2 id="逻辑运算符-amp-amp"><a href="#逻辑运算符-amp-amp" class="headerlink" title="逻辑运算符 &amp;&amp; || !"></a>逻辑运算符 &amp;&amp; || !</h2><pre><code>主要是和判断语句使用
+
+&amp;&amp; 逻辑与：两个条件都要成立
+
+|| 逻辑或：其中一个条件成立就可以使用
+
+！ 非     </code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/17/gcc编译器/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="archives">
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-嵌入式Linux环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/27/文件IO/" class="archive-article-date">
-  	<time datetime="2019-08-27T11:58:20.004Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-27</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
     <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/27/文件IO/">文件IO</a>
+      <a class="article-title" href="/2019/07/16/嵌入式Linux环境/">嵌入式Linux环境</a>
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+        
+        <a href="/2019/07/16/嵌入式Linux环境/" class="archive-article-date">
+  	<time datetime="2019-07-16T01:17:57.475Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="软件环境"><a href="#软件环境" class="headerlink" title="软件环境"></a>软件环境</h1><h2 id="1-Linux内核（Ubuntu，Redhat）"><a href="#1-Linux内核（Ubuntu，Redhat）" class="headerlink" title="1.Linux内核（Ubuntu，Redhat）"></a>1.Linux内核（Ubuntu，Redhat）</h2><p>Ubuntu特点：开源性、图形比较简陋   —-》开发效率高</p>
+<h2 id="2-Ubuntu与windows之间的差异"><a href="#2-Ubuntu与windows之间的差异" class="headerlink" title="2.Ubuntu与windows之间的差异"></a>2.Ubuntu与windows之间的差异</h2><h3 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h3><p>Windows系统：以图形界面的方式进行交互<br>Ubuntu系统：以命令形式进行交互</p>
+<h3 id="文件目录架构："><a href="#文件目录架构：" class="headerlink" title="文件目录架构："></a>文件目录架构：</h3><p>Windows系统：目录从属分区<br>Ubuntu系统：分区从属目录</p>
+<h2 id="3-Linux的操作基础"><a href="#3-Linux的操作基础" class="headerlink" title="3.Linux的操作基础"></a>3.Linux的操作基础</h2><h3 id="打开命令提示符终端："><a href="#打开命令提示符终端：" class="headerlink" title="打开命令提示符终端："></a>打开命令提示符终端：</h3><p>1双击terminal<br>2.快捷键 CTRL+alt+t</p>
+<h3 id="命令提示符"><a href="#命令提示符" class="headerlink" title="命令提示符"></a>命令提示符</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gec@ubuntu:~$</span><br><span class="line">gec        用户名</span><br><span class="line">@          分隔符</span><br><span class="line">Ubuntu     操作系统</span><br><span class="line">：         分隔符</span><br><span class="line">~          工作路径</span><br><span class="line">$          用户身份(普通用户)  <span class="comment">#   超级用户</span></span><br></pre></td></tr></table></figure>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+<h3 id="图形界面切换字符界面"><a href="#图形界面切换字符界面" class="headerlink" title="图形界面切换字符界面"></a>图形界面切换字符界面</h3><p>切换到字符界面</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CTRL+alt+f1</span><br><span class="line">Ubuntu login：gec</span><br><span class="line">password    ：123456  隐性密码</span><br></pre></td></tr></table></figure>
+
+<p>如果鼠标不见了使用CTRL+alt切换图形界面<br>CTRL+alt+f7</p>
+<h2 id="Linux操作命令"><a href="#Linux操作命令" class="headerlink" title="Linux操作命令"></a>Linux操作命令</h2><h3 id="1-查看当前工作路径-pwd"><a href="#1-查看当前工作路径-pwd" class="headerlink" title="1.查看当前工作路径  pwd"></a>1.查看当前工作路径  pwd</h3><p>/  —》  根目录<br>~  —》  /home/gec  家目录</p>
+<h3 id="2-查看文件-ls"><a href="#2-查看文件-ls" class="headerlink" title="2.查看文件  ls"></a>2.查看文件  ls</h3><p>ls    查看文件查看当前工作路径下文件<br>ls -l 查看当前路径文件的详细信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">drwxrwxr-x  2 gec gec    4096 Jul  2  2013 Desktop</span><br><span class="line">drwxrwxr-x  4 gec gec    4096 Jul  2  2013 Download</span><br><span class="line">-rw-r--r--  1 gec gec    8445 Jun 27  2013 examples.desktop</span><br><span class="line">drwxr-xr-x  4 gec gec   12288 May 25  2016 jpeg-9a</span><br></pre></td></tr></table></figure>
+
+<p>不带-的为目录<br>带-的为文件<br>Linux目录的大小不会因为里面的文件变大<br>目录中即使没有任何文件，目录的大小也只会是4096的整数倍</p>
+<p>ls -a 查看当前工作路径的所有文件包括隐藏文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.                 .gconf                 .mission-control</span><br><span class="line">..                .gnome2                .mplayer</span><br><span class="line">.bash_history     .goutputstream-A9F1ZW  .profile</span><br></pre></td></tr></table></figure>
+
+<p>.  :当前目录<br>.. :上一层目录<br>.wenjian   :隐藏文件<br>la   查看当前工作工作路径所有文件包括隐藏文件的详细信息</p>
+<h3 id="3-切换路径-cd"><a href="#3-切换路径-cd" class="headerlink" title="3.切换路径  cd"></a>3.切换路径  cd</h3><p>访问方式：<br>cd+绝对路径：以根为开头，一层一层往下写<br>cd+相对路径：以当前目录为基准访问下级目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">实例</span><br><span class="line"><span class="built_in">cd</span> /  命令与参数之间要有空格  直接切换到根目录</span><br><span class="line"><span class="built_in">cd</span>    直接切换到家目录</span><br><span class="line"><span class="built_in">cd</span> -  返回到刚刚去过的路径</span><br><span class="line"><span class="built_in">cd</span> *  一般在家目录使用最快访问桌面</span><br><span class="line"><span class="built_in">cd</span> .. 返回上一级目录</span><br><span class="line"><span class="built_in">cd</span> ~  直接切换到家目录</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gec@ubuntu:~$ cd /home/gec/  ---》 cd+ 绝对路径</span><br><span class="line">gec@ubuntu:~$</span><br><span class="line">gec@ubuntu:/$ cd bin/  ---》 cd+ 相对路径</span><br><span class="line">gec@ubuntu:/bin$</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-清屏操作-clear"><a href="#4-清屏操作-clear" class="headerlink" title="4.清屏操作 clear"></a>4.清屏操作 clear</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c  ----》     clear</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-创建文件-touch"><a href="#5-创建文件-touch" class="headerlink" title="5.创建文件 touch"></a>5.创建文件 touch</h3><p>实例：touch+文件名  例子：touch 1.txt<br>假如在家目录，拥有一切权力</p>
+<p>在根目录当中创建1.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">gec@ubuntu:/$ touch 1.txt</span><br><span class="line">touch: cannot touch `1.txt&apos;: Permission denied权限不足</span><br><span class="line">```                        </span><br><span class="line"></span><br><span class="line">假如不在家目录，不再拥有权力</span><br><span class="line">如果需要访问系统文件，需要临时切换到超级用户</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">sudo touch 1.txt</span><br><span class="line">gec@ubuntu:~$ sudo touch 1.txt</span><br><span class="line">[sudo] password for gec:</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-创建目录-mkdir"><a href="#6-创建目录-mkdir" class="headerlink" title="6.创建目录  mkdir"></a>6.创建目录  mkdir</h3><p>实例： mkdir+目录名  例子： mkdir abc<br>家目录中： mkdir abc<br>不在家目录中：sudo mkdir abc<br>1.如果文件存在就不能被创建<br>2.同一级目录中，文件和目录不能重名</p>
+<h3 id="7-删除文件-目录-rm"><a href="#7-删除文件-目录-rm" class="headerlink" title="7.删除文件/目录  rm"></a>7.删除文件/目录  rm</h3><p>rm +文件目录名/文件名<br>删除一个文件:      rm   1.txt<br>删除同一类型的文件：rm <em>.txt(</em>通配符)</p>
+<p>删除目录  rm+目录+ -rf   例子: rm abc -rf<br>       -rf    r :递归删除   f :不可忽略文件 隐藏文件<br>删库   sudo  rm  /*  -rf<br>5 6 7命令属于修改系统中的文件资源，执行的时候需要<br>        切换到管理员身份进行操作</p>
+<h3 id="8复制文件-目录-cp"><a href="#8复制文件-目录-cp" class="headerlink" title="8复制文件/目录  cp"></a>8复制文件/目录  cp</h3><p> 实例：cp+拷贝对象+拷贝的目的地址<br> 例子：cp 1.txt /home/gec/abc<br> gec@ubuntu:~$ cp 1.txt cedar/</p>
+<p>拷贝目录：cp+拷贝对象+拷贝的目的地址 -rf<br>例子： cp+123/ +abc/</p>
+<h3 id="9剪切文件-目录-mv"><a href="#9剪切文件-目录-mv" class="headerlink" title="9剪切文件/目录      mv"></a>9剪切文件/目录      mv</h3><p> 剪切文件/目录<br> 实例：mv 需要剪切的对象 移动的目标地址<br> 例子：mv 1.txt 123/</p>
+<p> 重命名<br>  实例:mv 源文件的名称  目标文件的名称<br>  例子：mv 1.txt  2.txt</p>
+<h3 id="10-获取文件的参数属性-file"><a href="#10-获取文件的参数属性-file" class="headerlink" title="10.获取文件的参数属性 file"></a>10.获取文件的参数属性 file</h3><p>  实例： file+文件名<br>  例子： file 1.txt</p>
+<h3 id="11-如何获取可执行工具路径-which"><a href="#11-如何获取可执行工具路径-which" class="headerlink" title="11.如何获取可执行工具路径  which"></a>11.如何获取可执行工具路径  which</h3><p>  实例：which 可执行工具<br>  例子：gec@ubuntu:~$ which mv<br>/bin/mv</p>
+<h3 id="12-切换超级用户-切换普通用户"><a href="#12-切换超级用户-切换普通用户" class="headerlink" title="12.切换超级用户/切换普通用户"></a>12.切换超级用户/切换普通用户</h3><p>实例：sudo su /exit</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gec@ubuntu:~$ sudo su</span><br><span class="line">[sudo] password <span class="keyword">for</span> gec: </span><br><span class="line">root@ubuntu:/home/gec<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p>root  超级用户用户名</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@ubuntu:/home/gec<span class="comment"># exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">gec@ubuntu:~$</span><br></pre></td></tr></table></figure>
+
+<p>/home/gec 普通用户的家目录<br>/root     超级用户的家目录</p>
+<h3 id="13-文件目录权限的修改-chmod"><a href="#13-文件目录权限的修改-chmod" class="headerlink" title="13.文件目录权限的修改 chmod"></a>13.文件目录权限的修改 chmod</h3><p>实例：chmod 八进制数  修改对象</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">drwx------  3 gec  gec     4096 Jun 27  2013 .mission-control</span><br><span class="line">drwxrwxr-x  2 gec  gec     4096 Mar 29  2016 .mplayer</span><br><span class="line">-rw-r--r--  1 gec  gec      675 Jun 27  2013 .profile</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">文件类型  文件权限     连接数   创建者  创建者的组  文件大小   创建日期     文件名</span><br><span class="line">-         rw-r--r--     1       gec      gec      675    Jun 27  2013  .profile</span><br></pre></td></tr></table></figure>
+
+<p>文件类型：<br>-：使用touch命名创建的文件<br>d：使用mkdir命名创建的目录</p>
+<p>文件权限：<br>创建的组    同组用户  其他人<br>rwx          rwx      r-x<br>权限是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">r:  <span class="built_in">read</span> only   只读    4</span><br><span class="line">w:  write only  只写    2</span><br><span class="line">x： exe         执行权   1</span><br><span class="line">-： 缺省              0</span><br></pre></td></tr></table></figure>
+
+<p>例子：chomd 777 1.txt<br>-rwxrwxrwx 1 gec gec 675 Jun 27 1.txt</p>
+<h3 id="14-man手册-查看帮助的文档"><a href="#14-man手册-查看帮助的文档" class="headerlink" title="14.man手册  查看帮助的文档"></a>14.man手册  查看帮助的文档</h3><p>实例：man man 寻找9本守则    退出：退出字母 q</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1   Executable programs or shell commands</span><br><span class="line"> //系统命令的帮助 shell</span><br><span class="line">2   System calls (functions provided by the kernel)</span><br><span class="line"> //系统函数帮助  文件IO</span><br><span class="line">3   Library calls (functions within program libraries)</span><br><span class="line"> //库函数的帮助  C语言</span><br><span class="line">4   Special files (usually found in /dev)</span><br><span class="line">5   File formats and conventions eg /etc/passwd</span><br><span class="line">6   Games</span><br><span class="line">7   Miscellaneous  (including  macro  packages  and  conventions), e.g.</span><br><span class="line">    man(7), groff(7)</span><br><span class="line">8   System administration commands (usually only for root)</span><br><span class="line">9   Kernel routines [Non standard]</span><br></pre></td></tr></table></figure>
+
+<pre><code>寻找ls的使用方法  man 1 ls</code></pre><h3 id="15-查看文件中的内容-cat"><a href="#15-查看文件中的内容-cat" class="headerlink" title="15 查看文件中的内容 cat"></a>15 查看文件中的内容 cat</h3><pre><code>实例： cat +文件名
+例子  cat  1.txt </code></pre><h2 id="共享目录"><a href="#共享目录" class="headerlink" title="共享目录"></a>共享目录</h2><p>让windows系统和Linux系统共用一个文件夹</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1.Windows上创建一个文件夹，比如叫Linux。</span><br><span class="line">2.点击VMware上的虚拟机（m）--》设置---》选项</span><br><span class="line">3.选中共享文件夹----》选中总是启用</span><br><span class="line">4.添加----》下一步---》浏览----》选中Linux----》下一步----》完成</span><br><span class="line">5.点击确认</span><br><span class="line">6.检验是否完成   gec@ubuntu:~$ <span class="built_in">cd</span> /mnt/hgfs/linux/</span><br><span class="line">gec@ubuntu:/mnt/hgfs/linux$ ls</span><br><span class="line">gec@ubuntu:/mnt/hgfs/linux$ touch 1.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="补充知识点"><a href="#补充知识点" class="headerlink" title="补充知识点"></a>补充知识点</h2><p>1.自动补齐  按tab键自动补齐<br>2.上下翻页  寻找之前执行过的命令</p>
+<h2 id="Linux文件系统架构"><a href="#Linux文件系统架构" class="headerlink" title="Linux文件系统架构"></a>Linux文件系统架构</h2><p>Linux文件系统比Windows，规矩要多得多<br>特有的文件就要放到特定的目录中才会生效</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">bin         可执行文件，Linux命令的存放目录</span><br><span class="line">            大部分文件是绿色，绿色是可执行文件</span><br><span class="line">cdrom       光驱存放目录</span><br><span class="line">etc         修改系统文件的配置文件（类似于Windows控制面板）</span><br><span class="line">mnt         挂载目录  比如说共享文件</span><br><span class="line">proc        有关系统进程的信息存放位置</span><br><span class="line">run         系统运行日志</span><br><span class="line">sys         系统运行目录</span><br><span class="line">var         系统日志目录</span><br><span class="line">usr         一般存放工具链/用户使用头文件/库文件/安装软件</span><br><span class="line">boot        系统的镜像目录  内核  文件系统</span><br><span class="line">dev         设备文件 驱动</span><br><span class="line">home        普通用户的家目录</span><br><span class="line">lib         库文件     库文件的后缀.so	</span><br><span class="line">srv         系统服务</span><br><span class="line">media      多媒体</span><br><span class="line">opt        映射镜像 映射内存空间</span><br><span class="line">root       超级用户的家目录</span><br><span class="line">sbin       超级用户的可执行文件区</span><br><span class="line">tmp        存放临时文件</span><br></pre></td></tr></table></figure>
+
+<h2 id="linux编程"><a href="#linux编程" class="headerlink" title="linux编程"></a>linux编程</h2><p>   编程语言 C语言 c++  C#  java  python<br>   低级语言 机器语言<br>    （01010101000001111）<br>      特点：语法少 结构少 没有封装性 可移植性差</p>
+<pre><code>*.s----》*.o-----》*.exe bin elf-----》镜像文件 
+
+解决逻辑/算法/分析问题
+
+编译器
+
+x86平台编译器   gcc  ------》这个编译文件之后只能在x86镜像平台使用
+
+arm平台编译器 arm-linux-gcc ---》开发板的使用平台
+
+vi编辑器   gedit编辑器</code></pre><h3 id="vi编辑器"><a href="#vi编辑器" class="headerlink" title="vi编辑器"></a>vi编辑器</h3><pre><code>1.创建并打开文件
+  vi  test.c
+
+2.vi编辑器三种模式
+  2.0编辑模式（写东西）
+     默认的是命令模式，按下字母 i
+     底行就会出现insert，代表能够输入内容
+
+  2.1底行模式（搜索/退出）
+     按下Esc菜单键，进入命令模式
+     保存退出： 2.1.1 shift+；
+                2.1.2 wq  w保存 q退出
+
+  2.2命令模式（控制文本）
+     按下Esc菜单键，进入命令模式</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/16/嵌入式Linux环境/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/27/系统编程/" class="archive-article-date">
-  	<time datetime="2019-08-27T11:13:44.956Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-27</time>
-</a>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-我的第一篇博客文章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
     <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/27/系统编程/">系统编程</a>
+      <a class="article-title" href="/2019/07/05/我的第一篇博客文章/">爱京京</a>
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/11/makefile/" class="archive-article-date">
-  	<time datetime="2019-08-11T13:41:12.908Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-11</time>
+        
+        <a href="/2019/07/05/我的第一篇博客文章/" class="archive-article-date">
+  	<time datetime="2019-07-05T10:09:22.624Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-05</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/11/makefile/">makefile</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="爱你"><a href="#爱你" class="headerlink" title="爱你"></a>爱你</h2><p>你最棒了</p>
+<h1 id="超级棒"><a href="#超级棒" class="headerlink" title="超级棒"></a>超级棒</h1><p>肯定可以的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">加油噢</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/05/我的第一篇博客文章/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/07/shell/" class="archive-article-date">
-  	<time datetime="2019-08-07T01:39:06.811Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-07</time>
-</a>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/07/shell/">shell</a>
-    </h1>
-  
+        
+        
+    </div>
+</aside>
 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    </nav>
+  
 
 
           </div>
@@ -295,9 +620,9 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: false,
+		isHome: true,
 		isPost: false,
-		isArchive: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

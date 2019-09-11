@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="爱京京">
 <meta property="og:description" content="一、Makefile初步了解1.Makefile意义Makefile被称为工程管理文件，makefile中有一套特定逻辑规则， 就像shell脚本，Makefile根据用户所规规定的规则，依次执行2.什么时候用Makefile？Makefile必须写吗？当工程文件编译的内容比较多，编译命令很复杂，就会使用makefile 使得用户不需要重复输入命令，提高效率 makefile不是一定写的，想写就写">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-11T15:46:28.401Z">
+<meta property="og:updated_time" content="2019-09-11T05:12:36.004Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="makefile">
 <meta name="twitter:description" content="一、Makefile初步了解1.Makefile意义Makefile被称为工程管理文件，makefile中有一套特定逻辑规则， 就像shell脚本，Makefile根据用户所规规定的规则，依次执行2.什么时候用Makefile？Makefile必须写吗？当工程文件编译的内容比较多，编译命令很复杂，就会使用makefile 使得用户不需要重复输入命令，提高效率 makefile不是一定写的，想写就写">
@@ -317,58 +317,32 @@ clean:
 .PHONY:clean
 
 gec@ubuntu:/mnt/hgfs/linux/project$ make
-cc src/add.c src/leng.c src/main.c src/max.c -o bin/main -I ./include -L ./lib -lm</code></pre><h1 id="九、库制作"><a href="#九、库制作" class="headerlink" title="九、库制作"></a>九、库制作</h1><p>   1.什么是库？<br>     库在linux下面以二进制形式存储，在编译的时候链接库。</p>
-<p>   2.库的的格式<br>     libxxx.so —》动态库<br>     libxxx.a  —》静态库</p>
-<p>   3.库的种类<br>      1.静态库 libxxx.a<br>      (去图书馆(libxxx.a)把书(库当中的接口函数)借走)<br>      特点：<br>       1.静态库就是在编译程序的时候链接，进行静态编译，编译完了之后，<br>       将库当中的接口函数加入到可执行程序。<br>       2.由于是静态编译，所有在编译之后，可执行文件不需要静态库的存在</p>
-<pre><code>2.动态库 libxxx.so
-  （去图书馆(libxxx.so)看看书(库当中的接口函数)，
-   然后又把书(库当中的接口函数)放回图书馆）
-  1.程序编译的时候，并没有将库的内容编译，只是链接了该库，所以执行文件比较小
-  2.由于是动态编译，所以在编译之后，可执行文件必须要有动态库才能运行
-
-4.制作库的意义
-  1.减少工程中的代码量
+cc src/add.c src/leng.c src/main.c src/max.c -o bin/main -I ./include -L ./lib -lm</code></pre><h1 id="九、库制作"><a href="#九、库制作" class="headerlink" title="九、库制作"></a>九、库制作</h1><h4 id="1-什么是库？"><a href="#1-什么是库？" class="headerlink" title="1.什么是库？"></a>1.什么是库？</h4><pre><code>库在linux下面以二进制形式存储，在编译的时候链接库。</code></pre><h4 id="2-库的的格式"><a href="#2-库的的格式" class="headerlink" title="2.库的的格式"></a>2.库的的格式</h4><pre><code>libxxx.so ---》动态库
+libxxx.a  ---》静态库</code></pre><h4 id="3-库的种类"><a href="#3-库的种类" class="headerlink" title="3.库的种类"></a>3.库的种类</h4><h5 id="1-静态库-libxxx-a"><a href="#1-静态库-libxxx-a" class="headerlink" title="1.静态库 libxxx.a"></a>1.静态库 libxxx.a</h5><pre><code>(去图书馆(libxxx.a)把书(库当中的接口函数)借走)
+特点：
+ 1.静态库就是在编译程序的时候链接，进行静态编译，编译完了之后，
+ 将库当中的接口函数加入到可执行程序。
+ 2.由于是静态编译，所有在编译之后，可执行文件不需要静态库的存在</code></pre><h5 id="2-动态库-libxxx-so"><a href="#2-动态库-libxxx-so" class="headerlink" title="2.动态库 libxxx.so"></a>2.动态库 libxxx.so</h5><pre><code>（去图书馆(libxxx.so)看看书(库当中的接口函数)，
+ 然后又把书(库当中的接口函数)放回图书馆）
+1.程序编译的时候，并没有将库的内容编译，只是链接了该库，所以执行文件比较小
+2.由于是动态编译，所以在编译之后，可执行文件必须要有动态库才能运行</code></pre><h5 id="3-制作库的意义"><a href="#3-制作库的意义" class="headerlink" title="3.制作库的意义"></a>3.制作库的意义</h5><pre><code>  1.减少工程中的代码量
   2.保护工程师权益性，保证函数的接口原创性
 
-静态库
-==================================
+静态库:
 main.c  调用库的函数
 add.c   功能函数
-add.h   头文件
+add.h   头文件</code></pre><h2 id="静态库的制作：只能将不包含主函数的-c文件编译为库"><a href="#静态库的制作：只能将不包含主函数的-c文件编译为库" class="headerlink" title="静态库的制作：只能将不包含主函数的.c文件编译为库"></a>静态库的制作：只能将不包含主函数的.c文件编译为库</h2><h4 id="1-将工程当中的所有不包含主函数-c文件编译成-o文件"><a href="#1-将工程当中的所有不包含主函数-c文件编译成-o文件" class="headerlink" title="1.将工程当中的所有不包含主函数.c文件编译成.o文件"></a>1.将工程当中的所有不包含主函数.c文件编译成.o文件</h4><p><code>gcc add.c -o add.o -c</code></p>
+<h4 id="2-把所有-o文件统统塞进一个-a文件当中，文件名你决定"><a href="#2-把所有-o文件统统塞进一个-a文件当中，文件名你决定" class="headerlink" title="2.把所有.o文件统统塞进一个.a文件当中，文件名你决定"></a>2.把所有.o文件统统塞进一个.a文件当中，文件名你决定</h4><p><code>ar rcs libadd.a add.o</code></p>
+<h4 id="3-链接静态库，编译程序"><a href="#3-链接静态库，编译程序" class="headerlink" title="3.链接静态库，编译程序"></a>3.链接静态库，编译程序</h4><p><code>gcc main.c libadd.a -o add</code></p>
+<p>体积：-rwxrwxrwx 1 root root 7224 Aug  9 02:19 add</p>
+<h4 id="4-直接运行"><a href="#4-直接运行" class="headerlink" title="4.直接运行"></a>4.直接运行</h4><p><code>./add</code></p>
+<h2 id="动态库的制作：只能将不包含主函数的-c文件编译为库"><a href="#动态库的制作：只能将不包含主函数的-c文件编译为库" class="headerlink" title="动态库的制作：只能将不包含主函数的.c文件编译为库"></a>动态库的制作：只能将不包含主函数的.c文件编译为库</h2><h4 id="1-将工程当中的所有不包含主函数-c文件编译成-o文件-1"><a href="#1-将工程当中的所有不包含主函数-c文件编译成-o文件-1" class="headerlink" title="1.将工程当中的所有不包含主函数.c文件编译成.o文件"></a>1.将工程当中的所有不包含主函数.c文件编译成.o文件</h4><p><code>gcc add.c -o add.o -c</code></p>
+<h4 id="2-把所有-o文件统统塞进一个-so文件当中，文件名你决定"><a href="#2-把所有-o文件统统塞进一个-so文件当中，文件名你决定" class="headerlink" title="2.把所有.o文件统统塞进一个.so文件当中，文件名你决定"></a>2.把所有.o文件统统塞进一个.so文件当中，文件名你决定</h4><p><code>gcc -shared -fPIC -o libadd.so add.o</code></p>
+<h4 id="3-链接动态库，编译程序"><a href="#3-链接动态库，编译程序" class="headerlink" title="3.链接动态库，编译程序"></a>3.链接动态库，编译程序</h4><p> <code>gcc main.c -o add1 -L . -ladd</code></p>
+<h4 id="4-直接运行-1"><a href="#4-直接运行-1" class="headerlink" title="4.直接运行"></a>4.直接运行</h4><p><code>./add1</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">   ./add1: error while loading shared libraries: </span><br><span class="line">libadd.so: cannot open shared object file: No such file or directory</span><br><span class="line">     解决方案：直接将动态库libadd.so丢到/lib当中</span><br><span class="line">   gec@ubuntu:/mnt/hgfs/linux/main$ sudo cp libadd.so /lib</span><br><span class="line">      [sudo] password for gec: 123456</span><br><span class="line">      重新运行就ok了</span><br></pre></td></tr></table></figure>
 
-静态库的制作：只能将不包含主函数的.c文件编译为库
-1.将工程当中的所有不包含主函数.c文件编译成.o文件
-   gcc add.c -o add.o -c
 
-2.把所有.o文件统统塞进一个.a文件当中，文件名你决定
-   ar rcs libadd.a add.o
-
-3.链接静态库，编译程序
-   gcc main.c libadd.a -o add
-
-  体积：-rwxrwxrwx 1 root root 7224 Aug  9 02:19 add
-4.直接运行
-    ./add
-
-动态库的制作：只能将不包含主函数的.c文件编译为库        
- 1.将工程当中的所有不包含主函数.c文件编译成.o文件
-    gcc add.c -o add.o -c
-
- 2.把所有.o文件统统塞进一个.so文件当中，文件名你决定
-    gcc -shared -fPIC -o libadd.so add.o
-
- 3.链接动态库，编译程序
-     gcc main.c -o add1 -L . -ladd
-
- 4.直接运行
-   ./add1
-
-./add1: error while loading shared libraries: 
-libadd.so: cannot open shared object file: No such file or directory
-  解决方案：直接将动态库libadd.so丢到/lib当中
-   gec@ubuntu:/mnt/hgfs/linux/main$ sudo cp libadd.so /lib
-   [sudo] password for gec: 123456
-   重新运行就ok了</code></pre>
       
 
       
@@ -460,6 +434,15 @@ libadd.so: cannot open shared object file: No such file or directory
 
   
 <nav id="article-nav">
+  
+    <a href="/2019/08/27/系统编程/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          系统编程
+        
+      </div>
+    </a>
   
   
     <a href="/2019/08/07/shell/" id="article-nav-older" class="article-nav-link-wrap">
