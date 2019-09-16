@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | 爱京京</title>
+  <title>系统编程-通信方式 | 爱京京</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="爱京京">
-<meta property="og:url" content="http://yoursite.com/archives/page/2/index.html">
+  <meta name="description" content="线程进程间通信需要系统支持，如果一个进程内部就可以同时进行多个动作，把同时进行多个动作的行为称为线程    线程—&amp;gt;资源调度的最小单位 如果虚拟空间有足够的开销，可以同时启用多个线程，那么就使用线程如果不足，那么就使用进程。 创建线程#include &amp;lt;pthread.h&amp;gt;int pthread_create(pthread_t thread, const pthread_att">
+<meta property="og:type" content="article">
+<meta property="og:title" content="系统编程-通信方式">
+<meta property="og:url" content="http://yoursite.com/2019/09/16/系统编程-线程/index.html">
 <meta property="og:site_name" content="爱京京">
+<meta property="og:description" content="线程进程间通信需要系统支持，如果一个进程内部就可以同时进行多个动作，把同时进行多个动作的行为称为线程    线程—&amp;gt;资源调度的最小单位 如果虚拟空间有足够的开销，可以同时启用多个线程，那么就使用线程如果不足，那么就使用进程。 创建线程#include &amp;lt;pthread.h&amp;gt;int pthread_create(pthread_t thread, const pthread_att">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-09-16T11:16:09.415Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="爱京京">
+<meta name="twitter:title" content="系统编程-通信方式">
+<meta name="twitter:description" content="线程进程间通信需要系统支持，如果一个进程内部就可以同时进行多个动作，把同时进行多个动作的行为称为线程    线程—&amp;gt;资源调度的最小单位 如果虚拟空间有足够的开销，可以同时启用多个线程，那么就使用线程如果不足，那么就使用进程。 创建线程#include &amp;lt;pthread.h&amp;gt;int pthread_create(pthread_t thread, const pthread_att">
   
     <link rel="alternative" href="/atom.xml" title="爱京京" type="application/atom+xml">
   
@@ -150,187 +154,216 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-系统编程-线程" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      系统编程-通信方式
+    </h1>
+  
+
+        
+        <a href="/2019/09/16/系统编程-线程/" class="archive-article-date">
+  	<time datetime="2019-09-16T11:07:22.731Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-16</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><p>进程间通信需要系统支持，如果一个进程内部就可以同时进行多个动作，<br>把同时进行多个动作的行为称为线程<br>    线程—&gt;资源调度的最小单位</p>
+<p>如果虚拟空间有足够的开销，可以同时启用多个线程，那么就使用线程<br>如果不足，那么就使用进程。</p>
+<h3 id="创建线程"><a href="#创建线程" class="headerlink" title="创建线程"></a>创建线程</h3><p>#include &lt;pthread.h&gt;<br>int pthread_create(pthread_t <em>thread, const pthread_attr_t *attr,<br>                  void *(</em>start_routine) (void <em>), void *arg);<br>    pthread_t *thread                —&gt;线程号<br>    const pthread_attr_t *attr        —&gt;线程属性：默认设置为NULL<br>    void *(</em>start_routine) (void *)    —&gt;线程需要执行的代码所在的函数<br>    void *arg                        —&gt;线程函数的参数</p>
+<p>特别注意：线程库不是标准C函数库，而且也不是ubuntu的默认系统函数库<br>    所以在使用线程时，需要链接线程库文件，加 -lpthread</p>
+<pre><code>gcc pid.c -o pid -lpthread</code></pre><h3 id="等待线程结束"><a href="#等待线程结束" class="headerlink" title="等待线程结束"></a>等待线程结束</h3><p>#include &lt;pthread.h&gt;<br>int pthread_join(pthread_t thread, void *<em>retval);<br>    pthread_t thread                —&gt;需要等待的线程号<br>    void *</em>retval                    —&gt;线程遗言，从pthread_exit()函数中获取<br>                                        不需要遗言，设置为NULL</p>
+<h3 id="结束线程"><a href="#结束线程" class="headerlink" title="结束线程"></a>结束线程</h3><p>#include &lt;pthread.h&gt;<br>void pthread_exit(void *retval);<br>    retval                            —&gt;线程的遗言，也就是给等待该线程结束的另一个<br>                                    线程发送数据<br>                                        不需要遗言，设置为NULL</p>
+<p>笔试题：<br>    main函数结束掉，线程一定结束掉，对吗？            对，return或exit()会直接结束整个进程<br>    主线程结束掉，线程一定结束掉，对吗？            不对，主线程结束时使用pthread_exit()<br>                                                    子线程照旧进行<br>    进程结束掉，线程一定结束掉，对吗？                对</p>
+<h2 id="线程属性及传参"><a href="#线程属性及传参" class="headerlink" title="线程属性及传参"></a>线程属性及传参</h2><h3 id="线程属性初始化"><a href="#线程属性初始化" class="headerlink" title="线程属性初始化"></a>线程属性初始化</h3><p>#include &lt;pthread.h&gt;<br>int pthread_attr_init(pthread_attr_t *attr);<br>//摧毁线程属性<br>int pthread_attr_destroy(pthread_attr_t *attr);<br>    pthread_attr_t *attr        —-&gt;线程属性的变量</p>
+<h3 id="设置线程属性是否分离"><a href="#设置线程属性是否分离" class="headerlink" title="设置线程属性是否分离"></a>设置线程属性是否分离</h3><p>#include &lt;pthread.h&gt;<br>int pthread_attr_setdetachstate(pthread_attr_t *attr, int detachstate);<br>    pthread_attr_t *attr        —-&gt;线程属性的变量<br>    int detachstate                —-&gt;PTHREAD_CREATE_DETACHED:分离属性<br>                                     PTHREAD_CREATE_JOINABLE:非分离属性</p>
+<p>pthread_attr_setXXXX    —&gt;设置线程属性<br>pthread_attr_getXXXX    —&gt;获取线程属性</p>
+<h3 id="线程传参"><a href="#线程传参" class="headerlink" title="线程传参"></a>线程传参</h3><pre><code>int num=12;
+pthread_create(&amp;tid,&amp;attr,func,(void*)&amp;num);
+
+如果要传2个或2个以上的参数，必须使用结构体或数组或链表头节点传参</code></pre><p>举例：<br>    使用线程实现两个进程间的任意时刻的通信(消息队列)</p>
+<h3 id="取消线程"><a href="#取消线程" class="headerlink" title="取消线程"></a>取消线程</h3><p>#include &lt;pthread.h&gt;<br>int pthread_cancel(pthread_t thread);<br>    pthread_t thread            —–&gt;被取消的线程号</p>
+<h2 id="线程的同步与互斥"><a href="#线程的同步与互斥" class="headerlink" title="线程的同步与互斥"></a>线程的同步与互斥</h2><h3 id="线程互斥锁："><a href="#线程互斥锁：" class="headerlink" title="线程互斥锁："></a>线程互斥锁：</h3><pre><code>在多个线程中使用互斥锁，同一时间只有一个线程</code></pre><p>能够得到锁，其他线程会阻塞在加锁的位置，直到线程<br>解锁，其他线程中有一个可以开始运行</p>
+<p>线程锁的man手册需要额外下载：<br>    sudo apt-get install manpages manpages-dev manpages-posix-dev</p>
+<p>#include &lt;pthread.h&gt;</p>
+<h6 id="创建并初始化互斥锁"><a href="#创建并初始化互斥锁" class="headerlink" title="创建并初始化互斥锁"></a>创建并初始化互斥锁</h6><p>int pthread_mutex_init(pthread_mutex_t *restrict mutex,<br>              const pthread_mutexattr_t *restrict attr);<br>    pthread_mutex_t *restrict mutex                —-&gt;互斥锁的变量名<br>    const pthread_mutexattr_t *restrict attr    —-&gt;互斥锁属性，默认为NULL          </p>
+<h6 id="销毁互斥锁"><a href="#销毁互斥锁" class="headerlink" title="销毁互斥锁"></a>销毁互斥锁</h6><p>int pthread_mutex_destroy(pthread_mutex_t *mutex);<br>    pthread_mutex_t *mutex                        —-&gt;互斥锁的变量名</p>
+<p>#include &lt;pthread.h&gt;</p>
+<h6 id="加互斥锁—阻塞线程运行"><a href="#加互斥锁—阻塞线程运行" class="headerlink" title="加互斥锁—阻塞线程运行"></a>加互斥锁—阻塞线程运行</h6><p>int pthread_mutex_lock(pthread_mutex_t *mutex);</p>
+<h6 id="加互斥锁—检查互斥锁状态，返回0表示已经加锁，不会发生阻塞"><a href="#加互斥锁—检查互斥锁状态，返回0表示已经加锁，不会发生阻塞" class="headerlink" title="加互斥锁—检查互斥锁状态，返回0表示已经加锁，不会发生阻塞"></a>加互斥锁—检查互斥锁状态，返回0表示已经加锁，不会发生阻塞</h6><p>int pthread_mutex_trylock(pthread_mutex_t *mutex);</p>
+<h6 id="解除互斥锁"><a href="#解除互斥锁" class="headerlink" title="解除互斥锁"></a>解除互斥锁</h6><p>int pthread_mutex_unlock(pthread_mutex_t *mutex);<br>    pthread_mutex_t *mutex                        —-&gt;锁的名称</p>
+<h3 id="读写锁："><a href="#读写锁：" class="headerlink" title="读写锁："></a>读写锁：</h3><p>#include &lt;pthread.h&gt;</p>
+<h6 id="创建并初始化读写锁"><a href="#创建并初始化读写锁" class="headerlink" title="创建并初始化读写锁"></a>创建并初始化读写锁</h6><p>int pthread_rwlock_init(pthread_rwlock_t *restrict rwlock,<br>      const pthread_rwlockattr_t *restrict attr);<br>    pthread_rwlock_t *restrict rwlock            —-&gt;读写锁的变量名<br>    const pthread_rwlockattr_t *restrict attr    —-&gt;读写锁属性，默认设置为NULL</p>
+<h6 id="销毁读写锁"><a href="#销毁读写锁" class="headerlink" title="销毁读写锁"></a>销毁读写锁</h6><p>int pthread_rwlock_destroy(pthread_rwlock_t *rwlock);<br>    pthread_rwlock_t *rwlock                    —-&gt;读写锁的变量名</p>
+<h6 id="加写锁"><a href="#加写锁" class="headerlink" title="加写锁"></a>加写锁</h6><p>int pthread_rwlock_wrlock(pthread_rwlock_t *rwlock);</p>
+<h6 id="解锁"><a href="#解锁" class="headerlink" title="解锁"></a>解锁</h6><p>int pthread_rwlock_unlock(pthread_rwlock_t *rwlock);</p>
+<h6 id="加读锁"><a href="#加读锁" class="headerlink" title="加读锁"></a>加读锁</h6><p>int pthread_rwlock_rdlock(pthread_rwlock_t *rwlock);<br>    pthread_rwlock_t *rwlock                    —-&gt;读写锁的变量名</p>
+<h3 id="自旋锁：和互斥锁相同，但不会让线程进入睡眠状态，而是while-1-死循环不断调用CPU，"><a href="#自旋锁：和互斥锁相同，但不会让线程进入睡眠状态，而是while-1-死循环不断调用CPU，" class="headerlink" title="自旋锁：和互斥锁相同，但不会让线程进入睡眠状态，而是while(1)死循环不断调用CPU，"></a>自旋锁：和互斥锁相同，但不会让线程进入睡眠状态，而是while(1)死循环不断调用CPU，</h3><h3 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h3><p>如果对加锁的程序进行了取消？<br>如果一个线程在加锁后的运行中，被取消线程，那么这个锁会一直<br>处于加锁的状态，影响后续程序的运行——&gt;线程死锁</p>
+<p>在任意一个加锁的线程中，都需要做死锁处理</p>
+<p>#include &lt;pthread.h&gt;<br>//注册一个函数，当线程被取消的时候，执行该函数<br>void pthread_cleanup_push(void (<em>routine)(void *),void *arg);<br>    void (</em>routine)(void *)            —&gt;被注册的函数<br>    void *arg                        —&gt;被注册的函数传入的参数</p>
+<p>//写0，则表示删除注册的函数<br>void pthread_cleanup_pop(int execute);<br>    int execute                        —&gt;写0，则表示删除注册的函数</p>
+<p>这两个函数一定是成对出现</p>
+<p>当读锁有至少一个存在的时候，写锁是加不上去的<br>当写锁存在的时候，读锁和写锁都加不上去    </p>
+<h2 id="posix匿名信号量"><a href="#posix匿名信号量" class="headerlink" title="posix匿名信号量"></a>posix匿名信号量</h2><p>匿名信号量存在于栈里面</p>
+<p>当信号量的值大于1的时候，可以进行P操作，也就是不会阻塞<br>当信号量的值等于0的时候，不可以进行P操作，也就是会阻塞</p>
+<p>特别注意，当信号量的值&lt;0时，P操作不可以进行，而且该线程/进程会被挂起到一个队列中<br>当进行多次V操作，使信号量大于0时，才会从第一个被等待的线程/进程开始运行</p>
+<p>//创建匿名信号量并且赋初值</p>
+<p>#include &lt;semaphore.h&gt;<br>int sem_init(sem_t *sem, int pshared, unsigned int value);<br>    sem_t *sem                —&gt;匿名信号量变量名<br>    int pshared                —&gt;写0表示该信号量是在线程间运行使用<br>    unsigned int value        —&gt;该信号量的初值</p>
+<p>信号量P操作—&gt;申请资源，执行-1</p>
+<p>#include &lt;semaphore.h&gt;<br>int sem_wait(sem_t *sem);<br>    sem_t *sem            —&gt;信号量的指针</p>
+<p>信号量V操作—&gt;释放资源，执行+1</p>
+<p>#include &lt;semaphore.h&gt;<br>int sem_post(sem_t *sem);<br>    sem_t *sem            —&gt;信号量的指针</p>
+<p>信号量运用在需要确定线程的运行先后顺序，并且交互使用的情况<br>互斥锁运用在线程资源不能同时使用的情况<br>读写锁运行在线程资源部分线程不能同时使用，部分线程需要同时使用的情况</p>
+<h2 id="条件变量"><a href="#条件变量" class="headerlink" title="条件变量"></a>条件变量</h2><p>当多个线程同时等待互斥锁的情况下，为了保证其他需要加锁的线程可以正常运行，就<br>使用条件变量</p>
+<p>#include &lt;pthread.h&gt;</p>
+<p>//创建条件变量并初始化<br>int pthread_cond_init(pthread_cond_t *restrict cond,<br>              const pthread_condattr_t *restrict attr);<br>    pthread_cond_t *restrict cond                —&gt;条件变量变量名<br>    const pthread_condattr_t *restrict attr        —&gt;条件变量属性</p>
+<p>//销毁条件变量<br>int pthread_cond_destroy(pthread_cond_t *cond);</p>
+<p>//等待条件变量，释放锁<br>int pthread_cond_wait(pthread_cond_t *restrict cond,<br>              pthread_mutex_t *restrict mutex);</p>
+<pre><code>pthread_cond_t *restrict cond</code></pre><p>//向所有等待该条件变量的线程发送信号，但结果仍然只有一个人能拿到<br>int pthread_cond_broadcast(pthread_cond_t *cond);</p>
+<p>//向等待该条件变量时间最长的线程发送信号，只让它拿到<br>int pthread_cond_signal(pthread_cond_t *cond);</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/11/makefile/" class="archive-article-date">
-  	<time datetime="2019-08-11T13:41:12.908Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/11/makefile/">makefile</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/09/16/系统编程-线程/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/07/shell/" class="archive-article-date">
-  	<time datetime="2019-08-07T01:39:06.811Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-07</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2019/09/16/Linux下四种IO模型/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          linux下四种IO模型
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/09/16/系统编程-通信方式/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">系统编程-通信方式</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/07/shell/">shell</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/18/c语言/" class="archive-article-date">
-  	<time datetime="2019-07-18T11:06:27.445Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/18/c语言/">c</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/17/gcc编译器/" class="archive-article-date">
-  	<time datetime="2019-07-17T01:43:46.647Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/17/gcc编译器/">gcc编译器/c</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/16/嵌入式Linux环境/" class="archive-article-date">
-  	<time datetime="2019-07-16T01:17:57.475Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/16/嵌入式Linux环境/">嵌入式Linux环境</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/05/我的第一篇博客文章/" class="archive-article-date">
-  	<time datetime="2019-07-05T10:09:22.624Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/05/我的第一篇博客文章/">爱京京</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-    </nav>
   
 
 
@@ -354,8 +387,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

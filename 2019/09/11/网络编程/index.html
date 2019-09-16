@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="爱京京">
 <meta property="og:description" content="网络编程DHCP 自动设置IP地址IPv4 32的点分制  192168012002—&amp;gt;192.168.12.2 TCP/IP:    TCP: 网络通信传输协议    IP：不同主机之间通信设置地址协议 OSI模型：                            TCP/IP模型：    应用层                                应用层">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-09-11T05:01:18.872Z">
+<meta property="og:updated_time" content="2019-09-16T11:26:21.299Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网络编程">
 <meta name="twitter:description" content="网络编程DHCP 自动设置IP地址IPv4 32的点分制  192168012002—&amp;gt;192.168.12.2 TCP/IP:    TCP: 网络通信传输协议    IP：不同主机之间通信设置地址协议 OSI模型：                            TCP/IP模型：    应用层                                应用层">
@@ -202,8 +202,34 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">举例：</span><br><span class="line">struct sockaddr_in myaddr;</span><br><span class="line">inet_aton(&quot;192.168.12.2&quot;,&amp;myaddr.sin_addr)---&gt;将转换后的IP地址直接存放在结构体in中</span><br></pre></td></tr></table></figure>
 
 <p>//IP地址转换成字符串<br>char *inet_ntoa(struct in_addr in);<br><code>举例：inet_ntoa(srcaddr.sin_addr)----&gt;返回得到的字符串</code></p>
-<p>=====================</p>
-<h2 id="UDP通信"><a href="#UDP通信" class="headerlink" title="UDP通信"></a>UDP通信</h2>
+<h2 id="UDP通信"><a href="#UDP通信" class="headerlink" title="UDP通信"></a>UDP通信</h2><ul>
+<li>open<br>d   opendir<br>c   open,fopen<br>b   open<br>l   link<br>p   open<br>s   socket</li>
+</ul>
+<h5 id="创建网络套接字"><a href="#创建网络套接字" class="headerlink" title="创建网络套接字"></a>创建网络套接字</h5><p>#include &lt;sys/types.h&gt;</p>
+<p>#include &lt;sys/socket.h&gt;<br>int socket(int domain, int type, int protocol);<br>        domain            —-&gt;确定协议族<br>                            AF_INET ：IPv4协议族<br>        type            —-&gt;确定数据报模式<br>                            SOCK_STREAM    ：tcp<br>                            SOCK_DGRAM     : UDP<br>        protocol        —-&gt;一般设置为0，是阻塞模式<br>                            SOCK_NONBLOCK表示非阻塞模式</p>
+<h5 id="绑定套接字"><a href="#绑定套接字" class="headerlink" title="绑定套接字"></a>绑定套接字</h5><p>#include &lt;sys/socket.h&gt;<br>int bind(int socket, const struct sockaddr *address,<br>              socklen_t address_len);<br>        socket            —-&gt;网络的套接字<br>        address            —-&gt;需要绑定的结构体<br>        address_len        —-&gt;结构体大小</p>
+<h5 id="UDP接收消息"><a href="#UDP接收消息" class="headerlink" title="UDP接收消息"></a>UDP接收消息</h5><p>ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags,<br>                        struct sockaddr *src_addr, socklen_t *addrlen);<br>        sockfd            —-&gt;网络的套接字<br>        buf                —-&gt;接到的数据的缓冲区<br>        len             —-&gt;需要接收数据的长度<br>        flags            —-&gt;标志，一般设置为0<br>        src_addr        —-&gt;接到数据时，发送方的结构体<br>        addrlen            —-&gt;接收发送方结构体的大小</p>
+<h5 id="UDP发送消息"><a href="#UDP发送消息" class="headerlink" title="UDP发送消息"></a>UDP发送消息</h5><p> ssize_t  sendto(int  socket,  const  void  *message, size_t length,<br>              int flags, const struct sockaddr *dest_addr,<br>              socklen_t dest_len);<br>        socket            —-&gt;网络的套接字<br>        message            —-&gt;需要发送的消息<br>        length            —-&gt;需要发送的长度<br>        flags            —-&gt;标志，一般设置为0<br>        dest_addr        —-&gt;接收方的结构体参数<br>        dest_len        —-&gt;结构体大小</p>
+<h2 id="TCP通信"><a href="#TCP通信" class="headerlink" title="TCP通信"></a>TCP通信</h2><h5 id="监听"><a href="#监听" class="headerlink" title="监听"></a>监听</h5><p>#include &lt;sys/types.h&gt;          /* See NOTES */</p>
+<p>#include &lt;sys/socket.h&gt;</p>
+<p>int listen(int sockfd, int backlog);<br>        sockfd            —-&gt;TCP套接字(socket的返回值)<br>        backlog            —-&gt;同时监听的最大数目</p>
+<h5 id="接收客户端链接"><a href="#接收客户端链接" class="headerlink" title="接收客户端链接"></a>接收客户端链接</h5><p>#include &lt;sys/types.h&gt;          /* See NOTES */</p>
+<p>#include &lt;sys/socket.h&gt;</p>
+<p>int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);<br>        sockfd                    —-&gt;TCP套接字(socket的返回值)<br>        struct sockaddr *addr    —-&gt;客户端的信息<br>        addrlen                    —-&gt;结构体大小</p>
+<h5 id="返回值：新的套接字"><a href="#返回值：新的套接字" class="headerlink" title="返回值：新的套接字"></a>返回值：新的套接字</h5><h5 id="tcp接收数据"><a href="#tcp接收数据" class="headerlink" title="tcp接收数据"></a>tcp接收数据</h5><p>#include &lt;sys/types.h&gt;</p>
+<p>#include &lt;sys/socket.h&gt;</p>
+<p>ssize_t recv(int sockfd, void *buf, size_t len, int flags);<br>        sockfd                    —-&gt;TCP套接字(accept的返回值)<br>        buf                        —-&gt;接收数据的缓冲<br>        len                        —-&gt;接收数据的大小<br>        flags                    —-&gt;默认模式设置为0</p>
+<h5 id="tcp客户端发送连接请求"><a href="#tcp客户端发送连接请求" class="headerlink" title="tcp客户端发送连接请求"></a>tcp客户端发送连接请求</h5><p>#include &lt;sys/types.h&gt;          /* See NOTES */</p>
+<p>#include &lt;sys/socket.h&gt;</p>
+<p>int connect(int sockfd, const struct sockaddr *addr,<br>           socklen_t addrlen);<br>        sockfd                    —-&gt;TCP套接字(socket的返回值)<br>        struct sockaddr *addr    —-&gt;要连接的服务器的结构体</p>
+<h5 id="tcp发送数据"><a href="#tcp发送数据" class="headerlink" title="tcp发送数据"></a>tcp发送数据</h5><p>#include &lt;sys/types.h&gt;</p>
+<p>#include &lt;sys/socket.h&gt;</p>
+<p>ssize_t send(int sockfd, const void *buf, size_t len, int flags);<br>        sockfd                    —-&gt;TCP套接字(socket的返回值)<br>        buf                        —-&gt;发送数据的缓冲<br>        len                        —-&gt;发送数据的大小<br>        flags                    —-&gt;默认模式设置为0</p>
+<h3 id="设置套接字属性"><a href="#设置套接字属性" class="headerlink" title="设置套接字属性"></a>设置套接字属性</h3><h5 id="设置套接字属性-1"><a href="#设置套接字属性-1" class="headerlink" title="设置套接字属性"></a>设置套接字属性</h5><p>int setsockopt(int sockfd, int level, int optname,<br>                  const void *optval, socklen_t optlen);<br>        sockfd            —&gt;需要设置属性的套接字<br>        level            —&gt;属性的级别<br>                            SOL_SOCKET （只修改应用模型）<br>                            IPPROTO_IP (只修改与IPv4相关的模型)<br>        optname            —&gt;需要设置的是级别中哪一个<br>                            SOL_SOCKET：<br>                                        SO_BROADCAST(设置广播)<br>                                        SO_REUSEADDR(设置可被重用)<br>                            IPPROTO_IP：<br>                                        IP_ADD_MEMBERSHIP（设置组播）<br>        optval            —-&gt;具体设置的数值：<br>                            （1）bool变量<br>                            （2）需要设置的数值<br>        optlen            —-&gt;第四个参数的占用内存的大小，使用sizeof()</p>
+<h5 id="设置端口和IP地址在绑定过程中可以被重用"><a href="#设置端口和IP地址在绑定过程中可以被重用" class="headerlink" title="设置端口和IP地址在绑定过程中可以被重用"></a>设置端口和IP地址在绑定过程中可以被重用</h5><p>//bool on = true;<br>int on = 1;//表示为真<br>setsockopt(tcp_fd,SOL_SOCKET,SO_REUSEADDR,&amp;on,sizeof(on));</p>
+<h5 id="把UDP套接字设置为广播"><a href="#把UDP套接字设置为广播" class="headerlink" title="把UDP套接字设置为广播"></a>把UDP套接字设置为广播</h5><p>int on = 1;//表示为真<br>setsockopt(sockfd,SOL_SOCKET,SO_BROADCAST,&amp;on,sizeof(on));</p>
+<h5 id="加入组播"><a href="#加入组播" class="headerlink" title="加入组播"></a>加入组播</h5><p>struct ip_mreqn {<br>  struct in_addr imr_multiaddr;//需要加入的组播的IP地址<br>  struct in_addr imr_address;  //本地IP地址<br>  int            imr_ifindex;  //索引<br>};</p>
+
       
 
       
@@ -295,6 +321,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2019/09/16/系统编程-通信方式/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          系统编程-通信方式
+        
+      </div>
+    </a>
   
   
     <a href="/2019/09/10/系统编程-进程通信/" id="article-nav-older" class="article-nav-link-wrap">

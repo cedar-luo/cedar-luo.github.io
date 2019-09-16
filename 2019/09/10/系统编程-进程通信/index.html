@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="爱京京">
 <meta property="og:description" content="进程间通信管道，共享内存，消息队列，信号集，信号量 无名管道：主要是用在父子进程间的通信12345#include &amp;lt;unistd.h&amp;gt;int pipe(int fildes[2]);	打开一个无名管道，并且讲文件描述符放入到fildes[2]里面	fildes[0]一定是读端	fildes[1]一定是写端  程序： 1234567891011121314151617181920212">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-09-10T09:31:40.899Z">
+<meta property="og:updated_time" content="2019-09-16T10:47:53.802Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="系统编程-进程通信">
 <meta name="twitter:description" content="进程间通信管道，共享内存，消息队列，信号集，信号量 无名管道：主要是用在父子进程间的通信12345#include &amp;lt;unistd.h&amp;gt;int pipe(int fildes[2]);	打开一个无名管道，并且讲文件描述符放入到fildes[2]里面	fildes[0]一定是读端	fildes[1]一定是写端  程序： 1234567891011121314151617181920212">
@@ -219,7 +219,7 @@
 <p>sig_send.c</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;signal.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line">int main(int argc, char *argv[])</span><br><span class="line">&#123;</span><br><span class="line">	kill(atoi(argv[1]),SIGUSR2);</span><br><span class="line">	kill(atoi(argv[1]),SIGUSR1);</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>===============信号的安全使用===============<br>1.如果父进程存在挂起的信号，则子进程不继承<br>2.如果父进程存在阻塞的信号，子进程会继承阻塞，将获取的信号挂起<br>3.信号是可以被嵌套的，但如果同时有多个信号被挂起，<br>    可靠信号一定是响应优先级高的先响应<br>    不可靠信号可能会被嵌套响应</p>
+<h4 id="信号的安全使用"><a href="#信号的安全使用" class="headerlink" title="信号的安全使用"></a>信号的安全使用</h4><p>1.如果父进程存在挂起的信号，则子进程不继承<br>2.如果父进程存在阻塞的信号，子进程会继承阻塞，将获取的信号挂起<br>3.信号是可以被嵌套的，但如果同时有多个信号被挂起，<br>    可靠信号一定是响应优先级高的先响应<br>    不可靠信号可能会被嵌套响应</p>
 <pre><code>不可靠信号最多挂起一个
 可靠信号发送多少次，就挂起多少次</code></pre><p>例子：假设信号挂起队列中存在10,12,35,36四个信号，按优先级<br>响应时36,35,12,10，当36响应的时候，10,12,35都还在队列中，<br>    —&gt;若此时发送信号10，由于不可靠信号最多挂起一个，所以36不会被嵌套<br>    —&gt;若此时发送信号35，由于可靠信号可以挂起多次，所以35运行多次</p>
 <p>例子：假设信号挂起队列中存在10,35,36四个信号，按优先级<br>响应时36,35,10，当36响应的时候，10,35都还在队列中，<br>    —&gt;若此时发送信号12，信号12会嵌套在36响应过程中，但只能挂起一次</p>

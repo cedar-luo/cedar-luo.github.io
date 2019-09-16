@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | 爱京京</title>
+  <title>linux下四种IO模型 | 爱京京</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="爱京京">
-<meta property="og:url" content="http://yoursite.com/archives/page/2/index.html">
+  <meta name="description" content="（1）阻塞模型默认情况下，所有IO在进行“read”,“recv”操作时，都会是阻塞模式：没有下一步数据的情况下，进程会进入浅睡眠状态，不能继续运行 （2）非阻塞模型将“read”,”recv”操作设置为不等待，如果有数据，就接收如果没有数据，继续往下执行，进程不会进入到睡眠状态 设置文件属性—&amp;gt;在文件操作过程中修改文件属性#include &amp;lt;unistd.h&amp;gt; #include">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux下四种IO模型">
+<meta property="og:url" content="http://yoursite.com/2019/09/16/Linux下四种IO模型/index.html">
 <meta property="og:site_name" content="爱京京">
+<meta property="og:description" content="（1）阻塞模型默认情况下，所有IO在进行“read”,“recv”操作时，都会是阻塞模式：没有下一步数据的情况下，进程会进入浅睡眠状态，不能继续运行 （2）非阻塞模型将“read”,”recv”操作设置为不等待，如果有数据，就接收如果没有数据，继续往下执行，进程不会进入到睡眠状态 设置文件属性—&amp;gt;在文件操作过程中修改文件属性#include &amp;lt;unistd.h&amp;gt; #include">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-09-16T11:30:18.849Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="爱京京">
+<meta name="twitter:title" content="linux下四种IO模型">
+<meta name="twitter:description" content="（1）阻塞模型默认情况下，所有IO在进行“read”,“recv”操作时，都会是阻塞模式：没有下一步数据的情况下，进程会进入浅睡眠状态，不能继续运行 （2）非阻塞模型将“read”,”recv”操作设置为不等待，如果有数据，就接收如果没有数据，继续往下执行，进程不会进入到睡眠状态 设置文件属性—&amp;gt;在文件操作过程中修改文件属性#include &amp;lt;unistd.h&amp;gt; #include">
   
     <link rel="alternative" href="/atom.xml" title="爱京京" type="application/atom+xml">
   
@@ -150,187 +154,173 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Linux下四种IO模型" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      linux下四种IO模型
+    </h1>
+  
+
+        
+        <a href="/2019/09/16/Linux下四种IO模型/" class="archive-article-date">
+  	<time datetime="2019-09-16T11:28:07.413Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-16</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="（1）阻塞模型"><a href="#（1）阻塞模型" class="headerlink" title="（1）阻塞模型"></a>（1）阻塞模型</h1><p>默认情况下，所有IO在进行“read”,“recv”操作时，都<br>会是阻塞模式：没有下一步数据的情况下，进程会进入<br>浅睡眠状态，不能继续运行</p>
+<h1 id="（2）非阻塞模型"><a href="#（2）非阻塞模型" class="headerlink" title="（2）非阻塞模型"></a>（2）非阻塞模型</h1><p>将“read”,”recv”操作设置为不等待，如果有数据，就接收<br>如果没有数据，继续往下执行，进程不会进入到睡眠状态</p>
+<h5 id="设置文件属性—-gt-在文件操作过程中修改文件属性"><a href="#设置文件属性—-gt-在文件操作过程中修改文件属性" class="headerlink" title="设置文件属性—&gt;在文件操作过程中修改文件属性"></a>设置文件属性—&gt;在文件操作过程中修改文件属性</h5><p>#include &lt;unistd.h&gt;</p>
+<p>#include &lt;fcntl.h&gt;<br>int fcntl(int fildes, int cmd, …);<br>    fildes            —-&gt;被操作的文件描述符<br>    cmd                —-&gt;操作命令<br>                            F_GETFL ：获取文件属性<br>                            F_SETFL ：设置文件属性<br>     …            —-&gt;具体的命令方式，根据cmd的参数而改变</p>
+<pre><code>O_NONBLOCK  ：文件IO为非阻塞</code></pre><h5 id="获取当前文件属性"><a href="#获取当前文件属性" class="headerlink" title="获取当前文件属性"></a>获取当前文件属性</h5><p>long statu = fcntl(fd,F_GETFL);</p>
+<h5 id="添加非阻塞属性"><a href="#添加非阻塞属性" class="headerlink" title="添加非阻塞属性"></a>添加非阻塞属性</h5><p>statu |= O_NONBLOCK;</p>
+<h5 id="将修改后的非阻塞属性放入文件描述符中"><a href="#将修改后的非阻塞属性放入文件描述符中" class="headerlink" title="将修改后的非阻塞属性放入文件描述符中"></a>将修改后的非阻塞属性放入文件描述符中</h5><p>fcntl(fd,F_SETFL,statu);</p>
+<h5 id="删除非阻塞模型"><a href="#删除非阻塞模型" class="headerlink" title="删除非阻塞模型"></a>删除非阻塞模型</h5><p>statu &amp;= ~O_NONBLOCK;</p>
+<h1 id="（3）信号异步模型"><a href="#（3）信号异步模型" class="headerlink" title="（3）信号异步模型"></a>（3）信号异步模型</h1><p>使用信号去驱动函数</p>
+<p>将文件IO（网络套接字）与IO信号绑定在一起</p>
+<h5 id="设置文件属性—-gt-在文件操作过程中修改文件属性-1"><a href="#设置文件属性—-gt-在文件操作过程中修改文件属性-1" class="headerlink" title="设置文件属性—&gt;在文件操作过程中修改文件属性"></a>设置文件属性—&gt;在文件操作过程中修改文件属性</h5><p>#include &lt;unistd.h&gt;</p>
+<p>#include &lt;fcntl.h&gt;<br>int fcntl(int fildes, int cmd, …);<br>    fildes            —-&gt;被操作的文件描述符<br>    cmd                —-&gt;操作命令<br>                            F_GETOWN ：获取当前进程所在的进程组<br>                            F_SETOWN ：设置当前进程所在的进程组<br>     …            —-&gt;具体的命令方式，根据cmd的参数而改变<br>                            getpid() :获取自己的进程号</p>
+<h5 id="设置IO信号响应—-gt-只要接收到SIGIO，就会执行func函数"><a href="#设置IO信号响应—-gt-只要接收到SIGIO，就会执行func函数" class="headerlink" title="设置IO信号响应—&gt;只要接收到SIGIO，就会执行func函数"></a>设置IO信号响应—&gt;只要接收到SIGIO，就会执行func函数</h5><p>signal(SIGIO,func);</p>
+<h5 id="设置当前进程的进程组为自己—-gt-SIGIO会影响到当前进程组的所有进程文件SIGIO"><a href="#设置当前进程的进程组为自己—-gt-SIGIO会影响到当前进程组的所有进程文件SIGIO" class="headerlink" title="设置当前进程的进程组为自己—&gt;SIGIO会影响到当前进程组的所有进程文件SIGIO"></a>设置当前进程的进程组为自己—&gt;SIGIO会影响到当前进程组的所有进程文件SIGIO</h5><pre><code>设置进程组为自己，保证当前进程组只有自己一个人</code></pre><p>fcntl(sockfd,F_SETOWN,getpid());</p>
+<h5 id="设置文件IO为信号异步驱动模式—-gt-设置sockfd产生变化，就相当于接收到了一个SIGIO的信号"><a href="#设置文件IO为信号异步驱动模式—-gt-设置sockfd产生变化，就相当于接收到了一个SIGIO的信号" class="headerlink" title="设置文件IO为信号异步驱动模式—&gt;设置sockfd产生变化，就相当于接收到了一个SIGIO的信号"></a>设置文件IO为信号异步驱动模式—&gt;设置sockfd产生变化，就相当于接收到了一个SIGIO的信号</h5><pre><code>注意的是，不会变成其他信号</code></pre><p>fcntl(sockfd,F_SETFL,O_ASYNC);</p>
+<h1 id="（4）select模型"><a href="#（4）select模型" class="headerlink" title="（4）select模型"></a>（4）select模型</h1><p>将文件描述符统一放在一个文件集合中，并设置超时时间。<br>如果超时时间未到达，那么等待并阻塞<br>如果超时时间到达，直接结束函数，继续运行<br>如果接到数据(可读，可写，可执行，出错)，不管超时时间是否到达，都立即往下运行</p>
+<p> int select(int nfds, fd_set *restrict readfds,<br>            fd_set *restrict writefds, fd_set *restrict errorfds,<br>              struct timeval *restrict timeout);<br>            nfds            —-&gt;文件描述符的个数，从0开始计数<br>                                所以需要赋值为当前检测的文件描述符最大的数值+1<br>            readfds            —-&gt;读操作文件集合<br>            writefds        —-&gt;写操作文件集合<br>            errorfds        —-&gt;出错文件集合<br>            timeout            —-&gt;超时时间</p>
+<p>   void FD_CLR(int fd, fd_set *fdset);//从文件集合中删除某一个文件描述符<br>   int FD_ISSET(int fd, fd_set *fdset);//判断某一个文件描述符是否还在文件集合中<br>   void FD_SET(int fd, fd_set *fdset);//向文件集合中添加某一个文件描述符<br>   void FD_ZERO(fd_set *fdset);//清空文件集合<br>            fd                —–&gt;被操作的文件描述符<br>            fdset            —–&gt;被操作的文件集合</p>
+<h5 id="超时时间结构体"><a href="#超时时间结构体" class="headerlink" title="超时时间结构体"></a>超时时间结构体</h5><p>struct timeval {<br>       long    tv_sec;         单位：秒<br>       long    tv_usec;        单位：微秒<br>   };</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/11/makefile/" class="archive-article-date">
-  	<time datetime="2019-08-11T13:41:12.908Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/11/makefile/">makefile</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/09/16/Linux下四种IO模型/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/07/shell/" class="archive-article-date">
-  	<time datetime="2019-08-07T01:39:06.811Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-07</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/09/16/系统编程-线程/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">系统编程-通信方式</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/07/shell/">shell</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/18/c语言/" class="archive-article-date">
-  	<time datetime="2019-07-18T11:06:27.445Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/18/c语言/">c</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/17/gcc编译器/" class="archive-article-date">
-  	<time datetime="2019-07-17T01:43:46.647Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/17/gcc编译器/">gcc编译器/c</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/16/嵌入式Linux环境/" class="archive-article-date">
-  	<time datetime="2019-07-16T01:17:57.475Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/16/嵌入式Linux环境/">嵌入式Linux环境</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/05/我的第一篇博客文章/" class="archive-article-date">
-  	<time datetime="2019-07-05T10:09:22.624Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/05/我的第一篇博客文章/">爱京京</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-    </nav>
   
 
 
@@ -354,8 +344,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
