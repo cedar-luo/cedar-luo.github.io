@@ -40,8 +40,8 @@
 </head>
 <script>
   (function(){
-      if(1){
-          if (prompt('请输入查看密码') !== '0827'){
+      if('{{ page.password }}'){
+          if (prompt('请输入查看密码') !== '{{ page.password }}'){
               alert('密码不正确,请询问主编大大');
               history.back();
           }
