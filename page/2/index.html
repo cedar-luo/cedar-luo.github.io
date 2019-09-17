@@ -152,6 +152,115 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-系统编程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/27/系统编程/">系统编程</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/27/系统编程/" class="archive-article-date">
+  	<time datetime="2019-08-27T11:13:44.956Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="系统编程"><a href="#系统编程" class="headerlink" title="系统编程"></a>系统编程</h1><p>学习进程，线程。<br>重点要掌握进程线程的概念和创建，进程和线程之间的通信</p>
+<p>.c后缀名    —-&gt;源代码<br>elf后缀名    —-&gt;可执行程序<br>            readelf +程序名 +a<br>                    .init：初始化程序开始运行申请的资源<br>                    .text: 代码段<br>程序的运行    —-&gt;进程<br>            一个程序内所有数据集合的运行<br>            一个或多个线程同时运行的集合<br>            也是linux操作系统资源分配的最小单位</p>
+<p>struct task_struct 的调度—&gt;线程<br>            同一个进程的所有线程使用同一块虚拟内存</p>
+<p>======================</p>
+<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>每一个进程都有一个编号，被称为进程号</p>
+<p>父进程：某一个进程的上一级进程<br>        结束的时候需要报告并回收资源<br>子进程：被某一个进程生成的下一级进程</p>
+<p>#include &lt;unistd.h&gt;<br>pid_t fork(void);<br>    返回=0—&gt;表示运行的是子进程<br>    返回&gt;0—&gt;表示运行的是父进程<br>    返回-1—&gt;表示运行出错</p>
+<p>terminal终端是一个前台界面，每次只能有1个进程在前台运行<br>剩下的都在后台，当使用fork函数的时候，是父进程在前台，子<br>进程在后台运行</p>
+<p>直接让程序在后台运行的命令：  ./xxx &amp;</p>
+<p>=====================</p>
+<h1 id="进程的状态"><a href="#进程的状态" class="headerlink" title="进程的状态"></a>进程的状态</h1><p>就绪态：就是一个队列(先进先出)<br>运行态：—-时间调度：每一个进程安排固定的时间，时间到以后，必须进入到就绪态<br>        —-优先级调度：每一个进程会有优先级，一定是优先级高的先运行完，再运行<br>                        优先级低的<br>阻塞态：睡眠—-等待软件资源：sleep,scanf,read,fread…<br>        挂起—-等待硬件资源：按键,电压改变（也被称为深睡眠）<br>        暂停—-一定是接收到了SIGSTOP或SIGTSTP信号，等待SIGCONT信号<br>                可中断<br>                不可中断<br>僵尸态：程序结束，但未释放资源<br>死亡态：被父进程回收资源</p>
+<pre><code>如果在子进程结束前，父进程就结束了，那么子进程会统一交给linux下</code></pre><p>的一个孤儿院进程，专门用来回收父进程死亡后的子进程资源</p>
+<p>killall +进程名： 杀死进程<br>kill -9 +进程号</p>
+<h3 id="获取进程号"><a href="#获取进程号" class="headerlink" title="获取进程号"></a>获取进程号</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line">pid_t getpid(void);	//获取当前进程的进程号</span><br><span class="line">pid_t getppid(void);//获取当前进程的父进程进程号</span><br></pre></td></tr></table></figure>
+
+<p>进程号为1的一定是系统初始化进程init</p>
+<h3 id="杀死进程"><a href="#杀死进程" class="headerlink" title="杀死进程"></a>杀死进程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;signal.h&gt;</span><br><span class="line">int kill(pid_t pid, int sig);</span><br><span class="line">		进程号		信号编号(杀死的信号是9)</span><br></pre></td></tr></table></figure>
+
+<p>======================</p>
+<h2 id="进程的进程组和会话组"><a href="#进程的进程组和会话组" class="headerlink" title="进程的进程组和会话组"></a>进程的进程组和会话组</h2><h3 id="获取会话组ID："><a href="#获取会话组ID：" class="headerlink" title="获取会话组ID："></a>获取会话组ID：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">pid_t getsid(pid_t pid);</span><br></pre></td></tr></table></figure>
+
+<p>只要在同一个终端下面，会话ID都是同一个</p>
+<h3 id="创建一个新的会话ID"><a href="#创建一个新的会话ID" class="headerlink" title="创建一个新的会话ID"></a>创建一个新的会话ID</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">pid_t setsid(void);</span><br></pre></td></tr></table></figure>
+
+<h3 id="获取进程组号："><a href="#获取进程组号：" class="headerlink" title="获取进程组号："></a>获取进程组号：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">pid_t getpgrp(void);</span><br></pre></td></tr></table></figure>
+
+<p>设置进程组号</p>
+<p>#include &lt;unistd.h&gt;<br>pid_t setpgrp(void);</p>
+<p>=========================</p>
+<h2 id="精灵进程-守护进程"><a href="#精灵进程-守护进程" class="headerlink" title="精灵进程/守护进程"></a>精灵进程/守护进程</h2><p>专门用来做工作日志的记录，由于进程的作用是要记录所有的<br>运行情况，所以不管是会话出错还是进程组出错，都不能影响、<br>精灵进程的运行。<br>所以精灵进程必须独立创建会话组和进程组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;signal.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	/*******1.取消信号反应******/</span><br><span class="line">	signal(SIGHUP,SIG_IGN);</span><br><span class="line">	</span><br><span class="line">	/*******2.创建父进程，然后退出父进程****/</span><br><span class="line">	int ret=fork();</span><br><span class="line">	if(ret&gt;0)</span><br><span class="line">		exit(0);</span><br><span class="line"></span><br><span class="line">	/*******3.设置新的会话***********/</span><br><span class="line">	setsid();</span><br><span class="line">	</span><br><span class="line">	/*******4.创建父进程，然后退出父进程****/</span><br><span class="line">	ret = fork();</span><br><span class="line">	if(ret&gt;0)</span><br><span class="line">		exit(0);</span><br><span class="line">	</span><br><span class="line">	/********5.新建进程组*************/</span><br><span class="line">	setpgrp();//进程组组长就是自己</span><br><span class="line">	</span><br><span class="line">	/********6.关闭从父进程继承过来的所有文件描述符****/</span><br><span class="line">	int max = sysconf(_SC_OPEN_MAX);</span><br><span class="line">	int i=0;</span><br><span class="line">	for(i=0;i&lt;max;i++)</span><br><span class="line">		close(i);</span><br><span class="line">	</span><br><span class="line">	/********7.取消所有的权限********/</span><br><span class="line">	umask(0);</span><br><span class="line"></span><br><span class="line">	/********8.设置工作目录为根目录，防止目录被删除*****/</span><br><span class="line">	chdir(&quot;/&quot;);</span><br><span class="line">	</span><br><span class="line">	/******记录工作日志，一般是死循环******/</span><br><span class="line">	//fopen</span><br><span class="line">	while(1)</span><br><span class="line">	&#123;</span><br><span class="line">		//fread,fwrite</span><br><span class="line">		sleep(1);</span><br><span class="line">	&#125;</span><br><span class="line">	//close</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>==============================</p>
+<h1 id="进程的结束"><a href="#进程的结束" class="headerlink" title="进程的结束"></a>进程的结束</h1><p>(1)main函数中的return<br>    —&gt;会清空IO缓冲区</p>
+<p>(2)信号，kill<br>    —&gt;不会清空IO缓冲区</p>
+<p>(3)exit函数族<br>退出进程,退出时会清空缓冲区</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">void exit(int status);</span><br><span class="line">		status--&gt;向父进程报告的返回值</span><br></pre></td></tr></table></figure>
+
+<p>注册一个函数，当进程退出时才执行(必须是exit才执行)<br>注册函数是以压栈的形式存放的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">int atexit(void (*function)(void));</span><br></pre></td></tr></table></figure>
+
+<p>不理会atexit的注册函数，而是直接结束</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">void _exit(int status);</span><br><span class="line">void _Exit(int status);</span><br></pre></td></tr></table></figure>
+
+<p>程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line">void func1()</span><br><span class="line">&#123;</span><br><span class="line">	printf(&quot;func 1\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line">void func2()</span><br><span class="line">&#123;</span><br><span class="line">	printf(&quot;func 2\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line">void func3()</span><br><span class="line">&#123;</span><br><span class="line">	printf(&quot;func 3\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	atexit(func1);</span><br><span class="line">	</span><br><span class="line">	int ret;</span><br><span class="line">	ret = fork();</span><br><span class="line">	if(ret &gt; 0)</span><br><span class="line">	&#123;</span><br><span class="line">		atexit(func2);</span><br><span class="line">		</span><br><span class="line">		printf(&quot;father: helloworld&quot;);</span><br><span class="line">		sleep(1);</span><br><span class="line">		//pause();</span><br><span class="line">	&#125;</span><br><span class="line">	else if(ret == 0)</span><br><span class="line">	&#123;</span><br><span class="line">		atexit(func3);</span><br><span class="line">		printf(&quot;child: helloworld\n&quot;);</span><br><span class="line">		sleep(1);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//exit(0);//清空IO缓冲区</span><br><span class="line">	_exit(0);//不清空IO缓冲区</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/27/系统编程/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-makefile" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
