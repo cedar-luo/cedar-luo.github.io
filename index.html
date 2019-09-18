@@ -154,6 +154,71 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-今天超级想京京" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/18/今天超级想京京/">今天超级想京京</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/18/今天超级想京京/" class="archive-article-date">
+  	<time datetime="2019-09-18T11:39:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天京京真的超级撩哎,我的小心心都受不了了啊,,,<br>上课都没状态的,被京京撩一下,,,哇哇哇简直和打兴奋剂似的<br>今天真的好想你啊<br>早上起来我好怕你还在生气啊<br>心好慌啊<br>上午发现你好像没生气了诶,,</p>
+<p>你说那个溶血症我真的好担心你啊<br>反正以后我只准你要一个宝宝<br>我的京京才最重要</p>
+<p>晚上视频好不好嘛<br>今天你猜有没有卡呀</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/18/今天超级想京京/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-给我京京小仙女的" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1344,346 +1409,6 @@ ferror()</code></pre><p>NAME   检查和重置流<br>       clearerr, feof, ferr
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/09/10/标准IO/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-文件IO" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/27/文件IO/">文件IO</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/27/文件IO/" class="archive-article-date">
-  	<time datetime="2019-08-27T11:58:20.004Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Linux文件IO"><a href="#Linux文件IO" class="headerlink" title="Linux文件IO"></a>Linux文件IO</h1><p>=================================<br>1.核心内容：使用Linux中提供的一个系列的接口函数(api),操作文件<br>           新建文件  打开文件 读写文件 关闭文件 文件属性</p>
-<p>  我们之前操作文件使用命令来操作：<br>        vi    touch    gedit   vim<br>    使用函数接口来写代码操作文件</p>
-<p>2.基本概念</p>
-<h3 id="1-在Linux下一切设备皆文件"><a href="#1-在Linux下一切设备皆文件" class="headerlink" title="1.在Linux下一切设备皆文件"></a>1.在Linux下一切设备皆文件</h3><pre><code>对于操作系统来讲，硬件设备----》只需要使用驱动（可执行的二进制文件）</code></pre><h3 id="2-linux下的文件分类"><a href="#2-linux下的文件分类" class="headerlink" title="2.linux下的文件分类"></a>2.linux下的文件分类</h3><pre><code>普通文件       -
-目录文件       d directory
-软链接文件     l link
-管道文件       p pipe    进程间通信
-套接字文件     s socket  网络通信
-字符设备文件   c         驱动
-块设备文件     b         驱动（U盘、硬盘）</code></pre><h3 id="3-相关的接口函数—-》man手册—》按字母‘q’退出"><a href="#3-相关的接口函数—-》man手册—》按字母‘q’退出" class="headerlink" title="3.相关的接口函数—-》man手册—》按字母‘q’退出"></a>3.相关的接口函数—-》man手册—》按字母‘q’退出</h3><pre><code>第一组：系统IO(操作系统提供的函数)</code></pre><h5 id="1-文件的新建和打开-open"><a href="#1-文件的新建和打开-open" class="headerlink" title="1.文件的新建和打开 open()"></a>1.文件的新建和打开 open()</h5><pre><code>NAME   打开和新建一个文件或者驱动
- open, creat - open and possibly create a file or device
-
-SYNOPSIS
- 头文件
- #include &lt;sys/types.h&gt;
- #include &lt;sys/stat.h&gt;
- #include &lt;fcntl.h&gt;
- 函数原型
- int open(const char *pathname, int flags);
- 函数参数：
-     const char *pathname  你要打开文件的位置
-     int flags （宏定义）  打开文件需要的权限  
-           O_RDONLY   只读权限
-           O_WRONLY   只写权限
-           O_RDWR     可读可写
-           O_CREAT    新建文件   
-           O_EXCL     跟O_CREAT配合，如果在新建文件创建的时候，
-                      文件存在就退出
-           O_NOCTTY   无权限默认属性
-           O_TRUNC    跟O_CREAT配合，如果在新建文件创建的时候，
-                      文件存在就覆盖
-
- 函数返回值：
-     成功返回：成功返回一个文件描述符 &gt;=0
-     失败返回：失败返回 -1
-
-
- int open(const char *pathname, int flags, mode_t mode); 0777
- 函数参数：
-    mode_t mode 设置文件的权限  
-     权限需要满足一个公式  mode &amp; ~umask
-     设置的权限只有在纯粹的linux环境才能生效
-
-   The following symbolic constants are provided for mode:
-        用户组
-        S_IRWXU  00700 user has  read,  write  and  execute permission
-        S_IRUSR  00400 user has read permission
-        S_IWUSR  00200 user has write permission
-        S_IXUSR  00100 user has execute permission
-        同组用户
-        S_IRWXG  00070 group has read, write and execute permission
-        S_IRGRP  00040 group has read permission
-        S_IWGRP  00020 group has write permission
-        S_IXGRP  00010 group has execute permission
-        其他组
-        S_IRWXO  00007 others have read, write and execute permission
-        S_IROTH  00004 others have read permission
-        S_IWOTH  00002 others have write permission
-        S_IXOTH  00001 others have execute permission</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//定义文件描述符</span><br><span class="line">	int txtfd;</span><br><span class="line">	</span><br><span class="line">	//打开文件          可读       创建       覆盖</span><br><span class="line">	txtfd=open(argv[1],O_RDONLY | O_CREAT | O_TRUNC);</span><br><span class="line">	</span><br><span class="line">	//判断文件是否打开成功</span><br><span class="line">	if(-1 == txtfd)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;打开文件失败！\n&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;文件打开成功\n&quot;);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="2-错误打印——-gt-perror"><a href="#2-错误打印——-gt-perror" class="headerlink" title="2.错误打印——&gt;perror"></a>2.错误打印——&gt;perror</h5><pre><code> 在linux当中定义了一个int类型全局变量 errno，保存错误信息的编码
- vi /usr/lib/syslinux/com32/include/errno.h 查看错误码
- 补充：find / -name errno.h
-在根目录下寻找一个名字叫做errno.h
-NAME   打印系统错误信息
-perror - print a system error message
-
-SYNOPSIS
-#include &lt;stdio.h&gt;
-函数原型：
-void perror(const char *s);
-函数参数：
-     const char *s  提示信息字符串</code></pre><h5 id="3-文件的读取-read"><a href="#3-文件的读取-read" class="headerlink" title="3.文件的读取  read"></a>3.文件的读取  read</h5><pre><code>NAME  读取文件的描述符
-read - read from a file descriptor
-
-SYNOPSIS
-#include &lt;unistd.h&gt;
-函数原型:
-ssize_t read(int fd, void *buf, size_t count);
-函数参数：    
-    int fd        你要读取文件的描述符
-    void *buf     读取的内容的缓冲区
-    size_t count  你打算读取的字节数
-函数返回值：    
-    成功返回： 读取到的字节数
-    失败返回： -1</code></pre><p>//打开文件          可读<br>    txtfd=open(argv[1],O_RDONLY);</p>
-<pre><code>//判断文件是否打开成功
-if(-1 == txtfd)
-{
-    perror(&quot;打开文件失败！\n&quot;);
-    return -1;
-}
-
-//读取文件
-int ret;
-ret=read(txtfd,buf,sizeof(buf));    
-printf(&quot;当前读取到的信息内容是：%s\n&quot;,buf);
-printf(&quot;当前文件buf读取了%d空间\n&quot;,ret);</code></pre><h5 id="4-文件的写入-write"><a href="#4-文件的写入-write" class="headerlink" title="4.文件的写入 write"></a>4.文件的写入 write</h5><p>NAME   写入文件的描述符<br>write - write to a file descriptor</p>
-<p>SYNOPSIS</p>
-<p>#include &lt;unistd.h&gt;<br>函数原型：<br>ssize_t write(int fd, const void *buf, size_t count);<br>函数参数：<br>        int fd            要写入的文件描述符<br>        const void *buf   写入的内容的缓冲区<br>        size_t count      你打算写入的字节数</p>
-<p>函数返回值：<br>    成功返回： 写入的字节数<br>    失败返回： -1 </p>
-<pre><code>int txtfd;//定义文件描述符    
-//打开文件           可读可写      
-txtfd=open(&quot;./1.txt&quot;,O_RDWR);
-//判断文件是否打开成功
-if(-1 == txtfd)
-{
-    perror(&quot;打开文件失败！\n&quot;);
-    return -1;
-}
-
-//写文件
-int ret;
-ret=write(txtfd,&quot;helloworld&quot;,10);
-printf(&quot;当前写入的字节数%d\n&quot;,ret);</code></pre><h6 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h6><pre><code>int ret;
-char buf[128];
-while(1)
-{
-    bzero(buf,128);
-    ret = read(old_fd,buf,128);//返回值为读取到的字节数
-    if(ret == -1)
-    {
-        perror(&quot;read failed&quot;);
-        exit(-1);
-    }
-
-    write(new_fd,buf,ret);//写入读取到的字节数
-
-    if(ret &lt;128)//读取到文件末尾退出
-        break;
-}</code></pre><h5 id="5-文件关闭-close"><a href="#5-文件关闭-close" class="headerlink" title="5.文件关闭 close"></a>5.文件关闭 close</h5><pre><code>NAME   关闭一个文件描述符
-close - close a file descriptor
-
-SYNOPSIS
-#include &lt;unistd.h&gt;
-函数模型：
-int close(int fd);
-参数： 
-    int fd  你要关闭的文件描述符</code></pre><h5 id="6-文件的读写偏移（光标）"><a href="#6-文件的读写偏移（光标）" class="headerlink" title="6.文件的读写偏移（光标）"></a>6.文件的读写偏移（光标）</h5><pre><code> lseek()
-NAME      文件读/写的偏移
-   lseek - reposition read/write file offset
-
-SYNOPSIS
-   #include &lt;sys/types.h&gt;
-   #include &lt;unistd.h&gt;
-   函数模型：
-   off_t lseek(int fd, off_t offset, int whence);
-   参数：
-        int fd        文件描述符
-        off_t offset  你打算偏移的字节数
-        int whence    偏移的位置
-          SEEK_SET    文件的开头
-          The offset is set to offset bytes.
-
-          SEEK_CUR    文件的当前位置
-          The offset is set to its current location plus offset bytes.
-
-          SEEK_END    文件的末尾
-          The offset is set to the size of the file plus offset bytes.
-
-        辨识：
-         lseek(fd,2
-         ,SEEK_SET);//从文件开头偏移2字节
-         lseek(fd,-2,SEEK_SET);//没作用，还是在文件开头
-         lseek(fd,2,SEEK_CUR);//在文件当前位置向后偏移2字节
-         lseek(fd,-2,SEEK_CUR);//在文件当前位置向前偏移2字节
-         lseek(fd,2,SEEK_END);//文件的末尾偏移两个字节
-         lseek(fd,-2,SEEK_END);//文件的末尾向前偏移2字节
-
-        off_t ret=lseek(fd,0,SEEK_END);
-        ret是什么? 返回值就是表示文件的大小</code></pre><p>char buf[50]={0};<br>    //打开文件<br>    int fd1=open(“1.txt”,O_RDWR);<br>    if(fd1 == -1)<br>    {<br>        perror(“文件打开失败！\n”);<br>        return -1;<br>    }<br>    //挪动光标位置<br>    lseek(fd1,10,SEEK_SET);<br>    //读取文件内容<br>    read(fd1,buf,sizeof(buf));<br>    printf(“文件内容是：%s\n”,buf);</p>
-<pre><code>close(fd1);</code></pre><h3 id="文件的属性-文件的指向"><a href="#文件的属性-文件的指向" class="headerlink" title="文件的属性 文件的指向"></a>文件的属性 文件的指向</h3><h5 id="1-获取文件的属性-stat（）"><a href="#1-获取文件的属性-stat（）" class="headerlink" title="1.获取文件的属性   stat（）"></a>1.获取文件的属性   stat（）</h5><pre><code> 文件的属性：文件的类型 大小 所有者 权限等。。
- NAME   获取文件的属性
- stat, fstat, lstat - get file status
-
- SYNOPSIS
- #include &lt;sys/types.h&gt;
- #include &lt;sys/stat.h&gt;
- #include &lt;unistd.h&gt;
- 函数原型：
- int stat(const char *path, struct stat *buf); //文件路径
- 函数参数：
-       const char *path   文件路径所在位置
-       struct stat *buf   属性信息的存放结构体
-返回值：
-       成功：  0
-       失败：  -1
-
- int fstat(int fd, struct stat *buf);          //文件描述符
- int lstat(const char *path, struct stat *buf);//获取链接文件的属性
-
-
-  struct stat {
-         dev_t     st_dev;     /* 所在存储器的设备号 */
-         ino_t     st_ino;     /* 索引号 */（文件的身份证号，唯一）
-         mode_t    st_mode;    /* 文件的类型、权限 */
-         nlink_t   st_nlink;   /* 硬链接数 */
-         uid_t     st_uid;     /* 使用者的用户ID号 */
-         gid_t     st_gid;     /* 所在组的用户ID号 */
-         dev_t     st_rdev;    /* 特殊设备的设备号 */ 块设备 字符设备
-         off_t     st_size;    /* 文件的大小*/
-         blksize_t st_blksize; /* 写数据块建议值 */
-         blkcnt_t  st_blocks;  /* 文件所占数据块的数目*/
-         time_t    st_atime;   /* 最后访问的时间 */
-         time_t    st_mtime;   /* 最后修改的时间 */
-         time_t    st_ctime;   /* 最后属性修改的时间 */
-     };
-
-  The following POSIX macros are defined to check the file type using the st_mode field:
-
-     S_ISREG(m)  is it a regular file?  普通文件
-
-     S_ISDIR(m)  directory?             目录文件
-
-     S_ISCHR(m)  character device?      字符设备文件
-
-     S_ISBLK(m)  block device?          块设备文件
-
-     S_ISFIFO(m) FIFO (named pipe)?     管道文件
-
-     S_ISLNK(m)  symbolic link? (Not in POSIX.1-1996.) 链接文件
-
-     S_ISSOCK(m) socket? (Not in POSIX.1-1996.)  套接字文件
-
-  The following flags are defined for the st_mode field:
-
-     S_IFMT     0170000   bit mask for the file type bit fields
-     S_IFSOCK   0140000   socket           套接字文件
-     S_IFLNK    0120000   symbolic link    链接文件
-     S_IFREG    0100000   regular file     普通文件
-     S_IFBLK    0060000   block device     块设备文件 
-     S_IFDIR    0040000   directory        目录文件 
-     S_IFCHR    0020000   character device 字符设备文件
-     S_IFIFO    0010000   FIFO             管道文件
-
-     S_ISUID    0004000   set UID bit
-     S_ISGID    0002000   set-group-ID bit (see below)
-     S_ISVTX    0001000   sticky bit (see below)
-     创建者组
-     S_IRWXU    00700     mask for file owner permissions
-     S_IRUSR    00400     owner has read permission
-     S_IWUSR    00200     owner has write permission
-     S_IXUSR    00100     owner has execute permission
-     同组用户
-     S_IRWXG    00070     mask for group permissions
-     S_IRGRP    00040     group has read permission
-     S_IWGRP    00020     group has write permission
-     S_IXGRP    00010     group has execute permission
-     其他组
-     S_IRWXO    00007     mask for permissions for others 
-     S_IROTH    00004     others have read permission
-     S_IWOTH    00002     others have write permission
-     S_IXOTH    00001     others have execute permission</code></pre><h5 id="2-文件指向-重定向"><a href="#2-文件指向-重定向" class="headerlink" title="2.文件指向 重定向"></a>2.文件指向 重定向</h5><pre><code>  linux当中重定向符号 ls 1&gt; 1.txt
-  将标准输出重定向到1.txt
-  将标准定义为三个宏
-  0   标准输入    键盘输入   stdin
-  1   标准输出    屏幕输出   stdout
-  2     标准错误     屏幕输出   stderr
-
-NAME  重定向一个文件描述符
-dup, dup2, dup3 - duplicate a file descriptor
-
-SYNOPSIS
-#include &lt;unistd.h&gt;
-函数原型：
-int dup(int oldfd);
-函数参数：
-       int oldfd 旧的文件描述符
-
-int dup2(int oldfd, int newfd);
-函数参数：
-       int oldfd 旧的文件描述符
-       int newfd 新的文件描述符
-
-返回值：
-     成功： 返回一个新的文件描述符
-     失败： -1    </code></pre><h6 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">     //打开文件</span><br><span class="line">int txtfd1=open(&quot;3.txt&quot;,O_RDWR);</span><br><span class="line">   //给3.txt的文件描述符分配新的</span><br><span class="line">int newfd=dup(txtfd1);</span><br><span class="line">printf(&quot;当前文件的描述符是：%d\n&quot;,newfd);</span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">   //使用dup2指定新的文件描述符</span><br><span class="line">/* int newfd=dup2(txtfd1,txtfd2);</span><br><span class="line">printf(&quot;当前文件描述符是：%d\n&quot;,newfd);</span><br><span class="line">write(newfd,&quot;ergouzi&quot;,7); */</span><br><span class="line"></span><br><span class="line">   //两个文件描述符写入内容</span><br><span class="line">write(txtfd1,&quot;hello&quot;,5);</span><br><span class="line">   write(newfd,&quot;world&quot;,5);</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/27/文件IO/">展开全文 >></a>
         </p>
       
 
